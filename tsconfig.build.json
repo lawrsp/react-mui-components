@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["es6", "dom", "dom.iterable", "esnext"],
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "jsx": "react-jsx",
+    "baseUrl": "src",
+    "module": "commonjs",
+    "noUnusedLocals": false,
+    "pretty": true,
+    "sourceMap": false,
+    "outDir": "lib",
+    "declaration": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["src/setupTests.ts", "**/*/*.test.*"],
+  "compileOnSave": false
+}
