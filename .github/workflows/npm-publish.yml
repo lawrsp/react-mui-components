@@ -4,9 +4,9 @@
 name: Node.js Package
 
 on:
-  label:
-    types: [created]
-
+ push:
+    branches:
+      - release/**
 jobs:
   build:
     runs-on: ubuntu-latest
