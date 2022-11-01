@@ -32,4 +32,4 @@ jobs:
       - run: cd ./lib
       - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_publish_token}}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
