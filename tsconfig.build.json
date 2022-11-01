@@ -25,6 +25,6 @@
     "declaration": true
   },
   "include": ["src/**/*"],
-  "exclude": ["src/setupTests.ts", "**/*/*.test.*"],
+  "exclude": ["src/setupTests.ts", "**/*/*.test.*", "**/*/*.stroies.*"],
   "compileOnSave": false
 }
