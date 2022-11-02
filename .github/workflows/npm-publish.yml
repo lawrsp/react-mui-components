@@ -6,9 +6,11 @@ name: Node.js Package
 on:
  push:
     branches:
-      - release
+      - main
+    paths:
+      - package.json
 jobs:
-  build:
+  npm-publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -16,20 +18,22 @@ jobs:
         with:
           node-version: 16
       - run: yarn version
-      - run: yarn install
-      #- run: yarn test
-      - run: yarn build
-
-  publish-npm:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Install Dependencies
+        run: yarn install
+      - name: Build
+        run: yarn build
+      - id: publish
+        name: Publish to NPM
+        uses: JS-DevTools/npm-publish@v1
         with:
-          node-version: 16
-          registry-url: https://registry.npmjs.org/
-      - run: cd ./lib
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
+          token: ${{secrets.NPM_PUBLISH_TOKEN}}
+          dry-run: false
+      - name: Post-publish
+        if: steps.publish.outputs.type != 'none'
+        run: |
+          echo "Published ${{ steps.publish.outputs.type }} version: ${{ steps.publish.outputs.version }}"
+      - name: Publish skipped
+        if: steps.publish.outputs.type == 'none'
+        run: |
+          echo "Version in package.json has not changed. Skipping."
+          exit 0
