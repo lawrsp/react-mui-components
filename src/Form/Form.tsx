@@ -1,12 +1,6 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import {
-  FormProvider,
-  type SubmitHandler,
-  type FieldValues,
-  type UseFormReturn,
-  type Path,
-} from 'react-hook-form';
+import { FormProvider, SubmitHandler, FieldValues, UseFormReturn, Path } from 'react-hook-form';
 
 import { SxProps, Theme } from '@mui/material/styles';
 
@@ -27,7 +21,10 @@ export interface FormProps<TFieldValues extends FieldValues, TContext extends ob
   sx?: SxProps<Theme>;
 }
 
-export const Form = <TFieldValues extends FieldValues = FieldValues, TContext extends object = object>(
+export const Form = <
+  TFieldValues extends FieldValues = FieldValues,
+  TContext extends object = object
+>(
   props: FormProps<TFieldValues, TContext>
 ) => {
   const { onSubmit, form, children } = props;
