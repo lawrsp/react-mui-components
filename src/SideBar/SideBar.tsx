@@ -17,7 +17,7 @@ export interface SideBarProps {
 
 const defaultIndentSize = 24;
 
-const SideBar = (props: SideBarProps) => {
+export const SideBar = (props: SideBarProps) => {
   const {
     logo,
     logoText,

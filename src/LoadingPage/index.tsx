@@ -1,1 +1,2 @@
-export { default as default } from './LoadingPage';
+export { default as LoadingPage } from './LoadingPage';
+export { default } from './LoadingPage';

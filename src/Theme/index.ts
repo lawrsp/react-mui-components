@@ -20,7 +20,7 @@ declare module '@mui/material/styles' {
   }
 }
 
-const defaultTheme = createTheme({
+export const defaultTheme = createTheme({
   typography: {
     htmlFontSize: 10,
     fontSize: 14,

@@ -6,8 +6,6 @@ import SideBar from '../SideBar';
 import HeaderBar from '../HeaderBar';
 import { RouteConfig, MenuConfig, MenuNodeConfig } from '../Types';
 
-const headerHeight = 55;
-
 export interface DashboardProps {
   logo: string;
   logoText: string;

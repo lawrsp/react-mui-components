@@ -197,7 +197,9 @@ function ProTableInternal<DataType extends Record<string, any>>(
   );
 }
 
-const ProTable = React.forwardRef(ProTableInternal) as <DataType extends Record<string, any> = any>(
+export const ProTable = React.forwardRef(ProTableInternal) as <
+  DataType extends Record<string, any> = any
+>(
   props: PropsWithChildren<ProTableProps<DataType>> & { ref?: Ref<HTMLDivElement> }
 ) => ReactElement;
 

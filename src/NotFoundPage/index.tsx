@@ -1,6 +1,4 @@
-import React from 'react';
-
-const NotFoundPage = () => {
+export const NotFoundPage = () => {
   return <div> Nonthing here 404 </div>;
 };
 

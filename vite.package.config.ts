@@ -1,10 +1,16 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import dts from 'vite-plugin-dts';
 import { resolve } from 'node:path';
+import packageJson from './package.json';
+console.log(packageJson.dependencies);
+
+const EXTERNAL = Object.keys(packageJson.devDependencies);
 
 export default defineConfig({
   plugins: [
+    peerDepsExternal(),
     react(),
     dts({
       insertTypesEntry: true,
@@ -23,13 +29,10 @@ export default defineConfig({
       fileName: (format) => `index.${format}.js`,
     },
     rollupOptions: {
-      external: ['react', 'react-dom'],
+      external: EXTERNAL,
       output: {
         compact: true,
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM',
-        },
+        globals: {},
       },
     },
   },

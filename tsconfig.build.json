@@ -16,7 +16,7 @@
     "noImplicitThis": true,
     "allowJs": true,
     "jsx": "react-jsx",
-    "noEmit": true,
+    "noEmit": false,
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "baseUrl": "src"

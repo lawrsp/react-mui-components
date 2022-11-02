@@ -1,1 +1,2 @@
-export { default as default } from './QRCodeBox';
+export * from './QRCodeBox';
+export { default } from './QRCodeBox';

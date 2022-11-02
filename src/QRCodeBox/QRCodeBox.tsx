@@ -14,7 +14,7 @@ export interface QRCodeBoxProps {
   fgColor: string;
 }
 
-const QRCodeBox = (props: QRCodeBoxProps) => {
+export const QRCodeBox = (props: QRCodeBoxProps) => {
   const { value = '', sx, size, loading, ...rest } = props;
 
   return (
