@@ -101,7 +101,7 @@ function paginationReducer(state: StateType, action: Action) {
   }
 }
 
-const usePagination = (props?: usePaginationProps) => {
+export const usePagination = (props?: usePaginationProps) => {
   const [state, dispatch] = useReducer(paginationReducer, props || {}, (args) => {
     let { currentPage = 1, rowsPerPage, rowsPerPageOptions = defaultRowsPerPageOptions } = args;
 

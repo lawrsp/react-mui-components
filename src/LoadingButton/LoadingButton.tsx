@@ -1,5 +1,5 @@
 import { forwardRef, Ref, ReactNode } from 'react';
-import { Button, ButtonProps, CircularProgress, CircularProgressProps } from '@mui/material';
+import { Button, ButtonProps, CircularProgress } from '@mui/material';
 
 export interface LoadingButtonProps extends ButtonProps {
   /**

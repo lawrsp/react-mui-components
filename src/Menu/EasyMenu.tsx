@@ -1,6 +1,6 @@
 import React, { MouseEventHandler } from 'react';
 import { MenuItem, Menu, ListItemText, ListItemIcon, MenuProps } from '@mui/material';
-import { MenuNodeConfig } from 'Types';
+import { MenuNodeConfig } from '../Types';
 
 export interface EasyMenuProps {
   anchorEl?: null | Element | ((element: Element) => Element);

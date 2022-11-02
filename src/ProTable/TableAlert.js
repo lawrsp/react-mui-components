@@ -1,7 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, lighten } from '@material-ui/core/styles';
-
 import { Typography } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 
@@ -48,12 +47,7 @@ const ProTableAlert = (props) => {
 
   return (
     <div className={clsx(classes.root, classes.highlight)}>
-      <Typography
-        className={classes.title}
-        color="inherit"
-        variant="subtitle1"
-        component="span"
-      >
+      <Typography className={classes.title} color="inherit" variant="subtitle1" component="span">
         <InfoIcon className={classes.icon} /> {message}
       </Typography>
       <span>{children}</span>

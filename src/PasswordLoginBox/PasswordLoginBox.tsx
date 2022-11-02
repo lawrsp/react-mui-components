@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import Form, { useForm, FormInput, type SubmitError } from 'Form';
+import Form, { useForm, FormInput, SubmitError } from '../Form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
