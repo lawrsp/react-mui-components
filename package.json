@@ -7,7 +7,7 @@
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "prepack": "json -f package.json -I -e \"delete this.devDependencies\"",
+    "prepack": "json -f package.json -I -e \"delete this.devDependencies;delete this.scripts;\"",
     "build": "rimraf dist && rollup -c",
     "test": "node scripts/test.js",
     "dev": "start-storybook -p 6006",
