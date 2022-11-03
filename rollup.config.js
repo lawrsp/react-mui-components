@@ -3,7 +3,7 @@ import pkg from './package.json' assert { type: 'json' };
 
 const EXTERNALS = Object.keys(pkg.dependencies)
   .concat(Object.keys(pkg.peerDependencies))
-  .concat([/@mui\/material\/.*/, /react\/.*/]);
+  .concat([/@mui\/.*/, /react\/.*/, '@hookform/resolvers/zod']);
 
 export default [
   // CommonJS (for Node) and ES module (for bundlers) build.

@@ -1,6 +1,6 @@
 {
   "name": "react-mui-components",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "some components based on react mui",
   "type": "module",
   "main": "dist/index.cjs",
@@ -27,6 +27,11 @@
   "homepage": "https://github.com/lawrsp/react-mui-components#readme",
   "devDependencies": {
     "@babel/core": "^7.16.0",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/icons-material": "^5.10.9",
+    "@mui/lab": "^5.0.0-alpha.103",
+    "@mui/material": "^5.10.9",
     "@rollup/plugin-typescript": "^9.0.2",
     "@storybook/addon-actions": "^6.5.13",
     "@storybook/addon-essentials": "^6.5.13",
@@ -43,25 +48,19 @@
     "eslint-plugin-prettier": "^4.2.1",
     "json": "^11.0.0",
     "prettier": "^2.7.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "rimraf": "^3.0.2",
     "rollup": "^3.2.5",
     "typescript": "^4.8.4",
-    "vite": "^3.2.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
-    "@mui/icons-material": "^5.10.9",
-    "@mui/lab": "^5.0.0-alpha.103",
-    "@mui/material": "^5.10.9"
+    "vite": "^3.2.1"
   },
   "dependencies": {
-    "notistack": "^2.0.8",
-    "qrcode.react": "^3.1.0",
     "@hookform/resolvers": "^2.9.9",
+    "@juggle/resize-observer": "^3.4.0",
+    "qrcode.react": "^3.1.0",
     "react-hook-form": "^7.37.0",
     "react-router-dom": "^6.4.2",
-    "@juggle/resize-observer": "^3.4.0",
     "use-resize-observer": "^9.0.2",
     "zod": "^3.19.1"
   },
@@ -71,9 +70,9 @@
     "@mui/icons-material": "^5.10.0",
     "@mui/lab": "^5.0.0-alpha.103",
     "@mui/material": "^5.10.0",
+    "@types/react": "^17.0.0 || ^18.0.0",
     "react": "^17.0.0 || ^18.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0",
-    "@types/react": "^17.0.0 || ^18.0.0"
+    "react-dom": "^17.0.0 || ^18.0.0"
   },
   "peerDependenciesMeta": {
     "@types/react": {

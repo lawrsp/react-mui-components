@@ -9,6 +9,7 @@ export * from './SideBar';
 export * from './Dashboard';
 export * from './Theme';
 export * from './App';
+export * from './PasswordLoginBox';
 export * from './NotFoundPage';
 export * from './ProTable';
 export * from './QRCodeBox';
