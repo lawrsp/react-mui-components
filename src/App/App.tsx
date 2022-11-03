@@ -1,9 +1,9 @@
-import React, { ReactNode } from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
+import { ReactNode } from 'react';
 import { ThemeProvider, Theme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import { SnackbarProvider, SnackbarOrigin } from 'notistack';
 import { RouteConfigProvider } from '../Contexts/RouteConfigContext';
-import defaultTheme from '../Theme';
+import { defaultTheme } from '../Theme';
 import { RouteConfig } from '../Types';
 
 const defaultSnackAnchorOrigin: SnackbarOrigin = {

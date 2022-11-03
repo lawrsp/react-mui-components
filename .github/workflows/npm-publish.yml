@@ -22,7 +22,9 @@ jobs:
         run: yarn install
       - name: Build
         run: yarn build
-      - id: publish
+      - name: Prepare Package
+        run: yarn prepack
+      - id: Publish
         name: Publish to NPM
         uses: JS-DevTools/npm-publish@v1
         with:

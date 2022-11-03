@@ -1,10 +1,11 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import typescript from '@rollup/plugin-typescript';
+import commonjs from '@rollup/plugin-commonjs';
 import dts from 'vite-plugin-dts';
 import { resolve } from 'node:path';
 import packageJson from './package.json';
-console.log(packageJson.dependencies);
 
 const EXTERNAL = Object.keys(packageJson.devDependencies);
 
@@ -12,9 +13,8 @@ export default defineConfig({
   plugins: [
     peerDepsExternal(),
     react(),
-    dts({
-      insertTypesEntry: true,
-    }),
+    commonjs(),
+    typescript({ tsconfig: './tsconfig.build.json' }),
   ],
   esbuild: {
     logOverride: { 'this-is-undefined-in-esm': 'silent' },

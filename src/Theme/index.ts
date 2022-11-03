@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme as muiCreateTheme } from '@mui/material/styles';
 
 declare module '@mui/material/styles' {
   interface Theme {
@@ -20,7 +20,7 @@ declare module '@mui/material/styles' {
   }
 }
 
-export const defaultTheme = createTheme({
+export const defaultTheme = muiCreateTheme({
   typography: {
     htmlFontSize: 10,
     fontSize: 14,
@@ -77,3 +77,5 @@ export const defaultTheme = createTheme({
 });
 
 export default defaultTheme;
+
+export const createTheme = (...args: object[]) => muiCreateTheme(defaultTheme, ...args);
