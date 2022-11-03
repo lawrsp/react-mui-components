@@ -1,6 +1,6 @@
 {
   "name": "react-mui-components",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "some components based on react mui",
   "type": "module",
   "main": "dist/index.cjs",
@@ -10,6 +10,7 @@
     "prepack": "json -f package.json -I -e \"delete this.devDependencies\"",
     "build": "rimraf dist && rollup -c",
     "test": "node scripts/test.js",
+    "dev": "start-storybook -p 6006",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
