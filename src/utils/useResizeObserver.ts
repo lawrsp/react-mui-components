@@ -1,4 +1,4 @@
-import React from 'react';
+import { Ref } from 'react';
 import { ResizeObserver } from '@juggle/resize-observer';
 import useResizeObserver from 'use-resize-observer';
 
@@ -14,7 +14,7 @@ export interface BreakpointsConfig<D> {
 }
 
 export interface BreakpointResult<T, D> {
-  ref: React.Ref<T>;
+  ref: Ref<T>;
   v: D;
   containerWidth: number;
   containerHeight: number;

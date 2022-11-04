@@ -1,6 +1,6 @@
 {
   "name": "react-mui-components",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "some components based on react mui",
   "type": "module",
   "main": "dist/index.cjs",
@@ -58,6 +58,7 @@
   "dependencies": {
     "@hookform/resolvers": "^2.9.9",
     "@juggle/resize-observer": "^3.4.0",
+    "notistack": "^2.0.8",
     "qrcode.react": "^3.1.0",
     "react-hook-form": "^7.37.0",
     "react-router-dom": "^6.4.2",
