@@ -2,10 +2,10 @@
   "name": "react-mui-components",
   "version": "0.0.12",
   "description": "some components based on react mui",
-  "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
+  "type": "module",
   "scripts": {
     "prepack": "json -f package.json -I -e \"delete this.devDependencies;delete this.scripts;\"",
     "build": "rimraf dist && rollup -c",

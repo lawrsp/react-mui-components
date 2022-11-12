@@ -43,3 +43,16 @@ LoadingBig.args = {
   value: 'test1234567890',
   size: 512,
 };
+
+export const Adpative = () => (
+  <div
+    style={{
+      background: '#f1f2f3',
+      padding: '8px',
+      display: 'flex',
+      justifyContent: 'center',
+    }}
+  >
+    <QRCodeBox />
+  </div>
+);

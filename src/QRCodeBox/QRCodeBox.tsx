@@ -6,12 +6,12 @@ import { SxProps, Theme } from '@mui/material/styles';
 export interface QRCodeBoxProps {
   value: string;
   loading?: boolean;
-  sx: SxProps<Theme>;
+  sx?: SxProps<Theme>;
 
   level?: 'L' | 'M' | 'Q' | 'H';
-  size: number;
-  bgColor: string;
-  fgColor: string;
+  size?: number;
+  bgColor?: string;
+  fgColor?: string;
 }
 
 export const QRCodeBox = (props: QRCodeBoxProps) => {
@@ -21,8 +21,6 @@ export const QRCodeBox = (props: QRCodeBoxProps) => {
     <Box
       sx={[
         {
-          width: `${size}px`,
-          height: `${size}px`,
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
