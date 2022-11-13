@@ -6,8 +6,8 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 export const LoginRequestBodySchema = z.object({
-  username: z.string().min(1, '请输入用户名'),
-  password: z.string().min(1, '请输入密码'),
+  username: z.string().min(1, { message: '请输入用户名' }).default(''),
+  password: z.string().min(1, { message: '请输入密码' }).default(''),
 });
 
 export type LoginRequestBody = z.infer<typeof LoginRequestBodySchema>;
@@ -22,6 +22,7 @@ function PasswordLoginBox(props: LoginProps) {
   const [inLogin, setInLogin] = React.useState(false);
   const form = useForm<LoginRequestBody>({
     resolver: zodResolver(LoginRequestBodySchema),
+    defaultValues: { username: '', password: '' },
   });
 
   const handleLogin = async (values: LoginRequestBody) => {
