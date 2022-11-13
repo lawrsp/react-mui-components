@@ -1,8 +1,7 @@
 import React from 'react';
 import { AppBar, Toolbar, Box, IconButton } from '@mui/material';
 import { SxProps, Theme } from '@mui/material/styles';
-import MenuIcon from '@mui/icons-material/Menu';
-import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import { Menu as MenuIcon, MenuOpen as MenuOpenIcon } from '@mui/icons-material';
 import AvatarItem, { AvatarItemProps } from './AvatarItem';
 
 type HeaderBarProps = {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import PasswordLoginBox from '../src/PasswordLoginBox/PasswordLoginBox';
+import { PasswordLoginBox } from '../dist/index.es';
+import { Button } from '@mui/material';
 
 export default {
   title: 'Example/PasswordLoginBox',
@@ -12,7 +13,15 @@ export default {
 } as ComponentMeta<typeof PasswordLoginBox>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof PasswordLoginBox> = (args) => <PasswordLoginBox {...args} />;
+const Template: ComponentStory<typeof PasswordLoginBox> = (args) => (
+  <div>
+    <PasswordLoginBox {...args} />
+    <div style={{ height: 20 }} />
+    <Button color="primary" variant="contained">
+      check color
+    </Button>
+  </div>
+);
 
 export const Passwordbox = Template.bind({});
 Passwordbox.args = {

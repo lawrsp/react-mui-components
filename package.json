@@ -1,11 +1,10 @@
 {
   "name": "react-mui-components",
-  "version": "0.0.12",
+  "version": "0.0.14",
   "description": "some components based on react mui",
   "main": "dist/index.cjs",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
-  "type": "module",
   "scripts": {
     "prepack": "json -f package.json -I -e \"delete this.devDependencies;delete this.scripts;\"",
     "build": "rimraf dist && rollup -c",
@@ -27,8 +26,6 @@
   "homepage": "https://github.com/lawrsp/react-mui-components#readme",
   "devDependencies": {
     "@babel/core": "^7.16.0",
-    "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.9",
     "@mui/lab": "^5.0.0-alpha.103",
     "@mui/material": "^5.10.9",
@@ -61,13 +58,10 @@
     "notistack": "^2.0.8",
     "qrcode.react": "^3.1.0",
     "react-hook-form": "^7.37.0",
-    "react-router-dom": "^6.4.2",
     "use-resize-observer": "^9.0.2",
     "zod": "^3.19.1"
   },
   "peerDependencies": {
-    "@emotion/react": "^11.5.0",
-    "@emotion/styled": "^11.3.0",
     "@mui/icons-material": "^5.10.0",
     "@mui/lab": "^5.0.0-alpha.103",
     "@mui/material": "^5.10.0",

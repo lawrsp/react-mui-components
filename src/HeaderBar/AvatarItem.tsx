@@ -1,6 +1,6 @@
 import React from 'react';
 import { IconButton, Box } from '@mui/material';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import { AccountCircle } from '@mui/icons-material';
 import { EasyMenu, EasyMenuItem } from '../Menu';
 import { MenuConfig, MenuNodeConfig } from '../Types';
 

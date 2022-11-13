@@ -1,6 +1,18 @@
 import React from 'react';
-import theme from '../src/Theme';
-import App from '../src/App';
+import { createTheme, App } from '../dist/index.es';
+// import App from '../src/App';
+// import { ThemeProvider } from '@mui/material/styles';
+// import { createTheme } from '@mui/material/styles';
+import './preview.css';
+
+const theme = createTheme({
+  // ....
+  palette: {
+    primary: {
+      main: '#1DA57A',
+    },
+  },
+});
 
 export const decorators = [
   (Story) => (
@@ -11,11 +23,11 @@ export const decorators = [
 ];
 
 export const parameters = {
-  actions: { argTypesRegex: "^on[A-Z].*" },
+  actions: { argTypesRegex: '^on[A-Z].*' },
   controls: {
     matchers: {
       color: /(background|color)$/i,
       date: /Date$/,
     },
   },
-}
+};

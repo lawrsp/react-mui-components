@@ -48,6 +48,6 @@ export const useSnackbar = () => {
         return closeSnackbar(key);
       },
     }),
-    []
+    [enqueueSnackbar, closeSnackbar]
   );
 };

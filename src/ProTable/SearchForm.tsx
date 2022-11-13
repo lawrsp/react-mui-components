@@ -1,7 +1,7 @@
 import { useEffect, SyntheticEvent, useMemo } from 'react';
 import { Box, Button, Paper } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import { ExpandLess as ExpandLessIcon } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { FieldValues } from 'react-hook-form';
 import Form, { useForm, FormInput } from '../Form';

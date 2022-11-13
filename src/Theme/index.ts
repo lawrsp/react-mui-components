@@ -1,4 +1,5 @@
-import { createTheme as muiCreateTheme } from '@mui/material/styles';
+import { createTheme as muiCreateTheme, ThemeOptions } from '@mui/material/styles';
+import { deepmerge } from '@mui/utils';
 
 declare module '@mui/material/styles' {
   interface Theme {
@@ -20,7 +21,7 @@ declare module '@mui/material/styles' {
   }
 }
 
-export const defaultTheme = muiCreateTheme({
+export const defaultTheme = {
   typography: {
     htmlFontSize: 10,
     fontSize: 14,
@@ -74,8 +75,9 @@ export const defaultTheme = muiCreateTheme({
   footer: {
     height: '40px',
   },
-});
+} as ThemeOptions;
 
-export default defaultTheme;
-
-export const createTheme = (...args: object[]) => muiCreateTheme(defaultTheme, ...args);
+export const createTheme = (...args: ThemeOptions[]) => {
+  const options = args.reduce((res, it) => deepmerge(res, it), defaultTheme);
+  return muiCreateTheme(options);
+};
