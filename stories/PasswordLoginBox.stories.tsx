@@ -1,7 +1,5 @@
-import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { PasswordLoginBox } from '../dist/index.es';
-import { Button } from '@mui/material';
+import { PasswordLoginBox } from '../src';
 
 export default {
   title: 'Example/PasswordLoginBox',
@@ -16,10 +14,6 @@ export default {
 const Template: ComponentStory<typeof PasswordLoginBox> = (args) => (
   <div>
     <PasswordLoginBox {...args} />
-    <div style={{ height: 20 }} />
-    <Button color="primary" variant="contained">
-      check color
-    </Button>
   </div>
 );
 

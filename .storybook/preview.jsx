@@ -1,8 +1,6 @@
 import React from 'react';
-import { createTheme, App } from '../dist/index.es';
-// import App from '../src/App';
-// import { ThemeProvider } from '@mui/material/styles';
-// import { createTheme } from '@mui/material/styles';
+// import { createTheme, App } from '../dist/index.es';
+import { createTheme, App } from '../src';
 import './preview.css';
 
 const theme = createTheme({

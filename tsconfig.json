@@ -1,24 +1,31 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["es6", "dom", "dom.iterable", "esnext"],
+    "target": "esnext",
+    "module": "esnext",
+    "lib": ["esnext", "dom", "dom.iterable"],
+    "allowJs": true,
+    "removeComments": true,
+    "strict": true,
+    "checkJs": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
-    "allowJs": true,
-    "skipLibCheck": true,
+    "jsx": "react-jsx",
+
+    "moduleResolution": "node",
     "esModuleInterop": true,
+
+    "outDir": "dist",
+    "declaration": true,
+    "declarationDir": ".",
+
+    "baseUrl": "src",
+    "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "sourceMap": true,
-    "jsx": "react-jsx",
-    "baseUrl": "src"
+    "isolatedModules": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["dist", "node_modules", "src/**/*.test.*", "src/**/*.stories.*", "stories"]
 }

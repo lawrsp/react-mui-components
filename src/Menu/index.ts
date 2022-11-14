@@ -1,3 +1,2 @@
-export { default as EasyMenu, EasyMenuItem } from './EasyMenu';
-export type { EasyMenuProps } from './EasyMenu';
-export { default } from './EasyMenu';
+export * from './EasyMenu';
+export { default as EasyMenu } from './EasyMenu';
