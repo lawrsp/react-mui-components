@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Box, Link } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 

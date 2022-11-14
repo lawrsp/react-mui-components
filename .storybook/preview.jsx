@@ -1,7 +1,6 @@
 import React from 'react';
 // import { createTheme, App } from '../dist/index.es';
 import { createTheme, App } from '../src';
-import './preview.css';
 
 const theme = createTheme({
   // ....

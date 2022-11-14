@@ -1,4 +1,4 @@
-import React, { Ref, ReactElement, PropsWithChildren, ForwardedRef } from 'react';
+import { useCallback, forwardRef, Ref, ReactElement, PropsWithChildren, ForwardedRef } from 'react';
 import { Table, Paper } from '@mui/material';
 /* import TableSelectionAlert from './TableSelectionAlert'; */
 /* import TableHeaderToolbar from './TableHeaderToolbar'; */
@@ -98,7 +98,7 @@ function ProTableInternal<DataType extends Record<string, any>>(
   const tableColumns = columns;
 
   // 排序
-  const handleOnSort = React.useCallback(async (field: string, order?: ProTableSorterOrder) => {
+  const handleOnSort = useCallback(async (field: string, order?: ProTableSorterOrder) => {
     console.log('field:', field, 'order:', order);
   }, []);
 
@@ -197,7 +197,7 @@ function ProTableInternal<DataType extends Record<string, any>>(
   );
 }
 
-export const ProTable = React.forwardRef(ProTableInternal) as <
+export const ProTable = forwardRef(ProTableInternal) as <
   DataType extends Record<string, any> = any
 >(
   props: PropsWithChildren<ProTableProps<DataType>> & { ref?: Ref<HTMLDivElement> }

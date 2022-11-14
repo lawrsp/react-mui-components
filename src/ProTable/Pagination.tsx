@@ -1,4 +1,4 @@
-import React, { ReactNode, ElementType, Ref, ChangeEvent } from 'react';
+import { useState, useEffect, ReactNode, ElementType, Ref, ChangeEvent } from 'react';
 import {
   Box,
   Select,
@@ -62,7 +62,7 @@ interface ProTablePaginationTypeMap<P = {}, D extends ElementType = 'div'> {
 }
 
 export type ProTablePaginationProps<
-  D extends React.ElementType = ProTablePaginationTypeMap['defaultComponent'],
+  D extends ElementType = ProTablePaginationTypeMap['defaultComponent'],
   P = {}
 > = OverrideProps<ProTablePaginationTypeMap<P, D>, D>;
 
@@ -119,10 +119,10 @@ const CustomTablePagination = (props: ProTablePaginationProps) => {
     actions?.setRowsPerPage?.(val);
   };
 
-  const [showLoading, setShowLoading] = React.useState(loading);
+  const [showLoading, setShowLoading] = useState(loading);
 
   // async set showLoading
-  React.useEffect(() => {
+  useEffect(() => {
     if (loading) {
       setShowLoading(true);
       return () => {};

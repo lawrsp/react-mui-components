@@ -1,10 +1,10 @@
-import React, { useMemo, useContext } from 'react';
+import { useMemo, useState, useEffect, useContext, createContext, ReactNode } from 'react';
 
 export interface PermissionContextType {
   checkPermission: (perm: string | string[]) => boolean;
 }
 
-const PermissionContext = React.createContext<PermissionContextType>({
+const PermissionContext = createContext<PermissionContextType>({
   checkPermission: () => false,
 });
 
@@ -75,7 +75,7 @@ function checkPermFunc(myPerms: PermissionoritiesType, checks: string | string[]
 }
 
 export interface PermissionProviderProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
   permissions:
     | PermissionoritiesType
     | (() => PermissionoritiesType)
@@ -86,11 +86,9 @@ export interface PermissionProviderProps {
 // 2. 提供检查权限检查方法，PermissionContext
 export const PermissionProvider = (props: PermissionProviderProps) => {
   const { children, permissions } = props;
-  const [permissionoritiesValue, setPermissionoritiesValue] = React.useState<PermissionoritiesType>(
-    {}
-  );
+  const [permissionoritiesValue, setPermissionoritiesValue] = useState<PermissionoritiesType>({});
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (typeof permissions === 'function') {
       const getter = async () => {
         const value = await permissions();

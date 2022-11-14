@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import { useContext, createContext } from 'react';
 import { RouteConfig } from '../Types';
 
-const RouteConfigContext = React.createContext<RouteConfig>([]);
+const RouteConfigContext = createContext<RouteConfig>([]);
 
 export default RouteConfigContext;
 

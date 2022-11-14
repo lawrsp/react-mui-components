@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Grid } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import Form, { useForm, FormInput, SubmitError } from '../Form';

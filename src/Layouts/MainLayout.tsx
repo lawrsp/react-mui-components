@@ -6,10 +6,11 @@ import SideBar from '../SideBar';
 import HeaderBar from '../HeaderBar';
 import { RouteConfig, MenuConfig, MenuNodeConfig } from '../Types';
 
-export interface DashboardProps {
+export interface MainLayoutProps {
   logo: string;
   logoText: string;
   avatarMenus: MenuConfig;
+  footer?: React.ReactNode;
   onClickAvatarMenu?: (ev: React.SyntheticEvent, menu: MenuNodeConfig) => void;
   children?: React.ReactNode;
 }
@@ -41,13 +42,14 @@ function reduceMenu(routes: RouteConfig): MenuConfig {
 }
 
 // menu here
-const Dashboard = ({
+export const MainLayout = ({
   logo,
   logoText,
+  footer,
   avatarMenus,
   onClickAvatarMenu,
   children,
-}: DashboardProps) => {
+}: MainLayoutProps) => {
   const [drawerOpen, setDrawerOpen] = React.useState(true);
   const routeConfig = React.useContext(RouteConfigContext);
   /* const classes = useLayoutStyles(props); */
@@ -148,21 +150,23 @@ const Dashboard = ({
           <Outlet />
           {children}
         </Box>
-        <Box
-          component="footer"
-          sx={{
-            flexShrik: 0,
-            height: (theme) => theme.footer.height,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          hello footer
-        </Box>
+        {footer ? (
+          <Box
+            component="footer"
+            sx={{
+              flexShrik: 0,
+              height: (theme) => theme.footer.height,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            {footer}
+          </Box>
+        ) : null}
       </Box>
     </Box>
   );
 };
 
-export default Dashboard;
+export default MainLayout;

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Drawer, Box } from '@mui/material';
 import { MenuNodeConfig, MenuConfig } from '../Types';
 import NavMenu from './NavMenu';

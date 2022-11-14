@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { TextField, TextFieldProps } from '@mui/material';
 import { useController, useFormContext } from 'react-hook-form';
 

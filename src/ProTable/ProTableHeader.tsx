@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { TableHead, TableRow, TableCell, TableSortLabel } from '@mui/material';
 import { SxProps, Theme } from '@mui/material/styles';
 import { ProTableColumnDefType, ProTableSorterOrder, ProTableSortersType } from './types';

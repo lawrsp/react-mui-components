@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Box, CircularProgress } from '@mui/material';
 import { SxProps, Theme } from '@mui/material/styles';
 

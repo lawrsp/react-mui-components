@@ -1,11 +1,11 @@
-import React, { MouseEventHandler } from 'react';
+import * as React from 'react';
 import { MenuItem, Menu, ListItemText, ListItemIcon, MenuProps } from '@mui/material';
 import { MenuNodeConfig } from '../Types';
 
 export interface EasyMenuProps {
   anchorEl?: null | Element | ((element: Element) => Element);
   open: boolean;
-  onClose: MouseEventHandler;
+  onClose: React.MouseEventHandler;
   menus: MenuNodeConfig[];
   onClickMenu: (ev: React.SyntheticEvent, menu: MenuNodeConfig) => void;
   anchorOrigin?: MenuProps['anchorOrigin'];

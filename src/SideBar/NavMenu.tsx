@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Box, Link, List, ListItem, ListItemText, Icon, Collapse } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
