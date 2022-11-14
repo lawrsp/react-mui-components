@@ -1,6 +1,6 @@
 {
   "name": "react-mui-components",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "some components based on react mui",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -17,11 +17,7 @@
     "type": "git",
     "url": "git+https://github.com/lawrsp/react-mui-components.git"
   },
-  "keywords": [
-    "react",
-    "mui",
-    "typescript"
-  ],
+  "keywords": ["react", "mui", "typescript"],
   "author": "lawrsp",
   "license": "MIT",
   "bugs": {
@@ -88,7 +84,5 @@
       "optional": true
     }
   },
-  "files": [
-    "dist"
-  ]
+  "files": ["dist"]
 }
