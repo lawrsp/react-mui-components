@@ -6,17 +6,15 @@
     "allowJs": true,
     "removeComments": true,
     "strict": true,
-    "checkJs": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
     "jsx": "react-jsx",
+    "noImplicitThis": true,
+
+    "noImplicitAny": true,
+    "checkJs": false,
 
     "moduleResolution": "node",
     "esModuleInterop": true,
-
-    "outDir": "dist",
-    "declaration": true,
-    "declarationDir": ".",
+    "noEmit": true,
 
     "baseUrl": "src",
     "skipLibCheck": true,

@@ -1,4 +1,4 @@
-import { createTheme as muiCreateTheme, ThemeOptions } from '@mui/material/styles';
+import { createTheme as muiCreateTheme, type ThemeOptions } from '@mui/material/styles';
 import { deepmerge } from '@mui/utils';
 
 declare module '@mui/material/styles' {

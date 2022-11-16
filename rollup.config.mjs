@@ -11,7 +11,11 @@ const EXTERNALS = Object.keys(pkg.dependencies).concat([
   /@babel\/runtime/,
   /@mui\//,
   /@hookform\/resolvers/,
+  /react\//,
+  /react-dom\//,
 ]);
+// .map((path) => new RegExp(`${path}`));
+console.log(EXTERNALS);
 
 const extensions = ['.ts', '.tsx', '.js', '.jsx'];
 
@@ -26,35 +30,30 @@ export default [
     input: 'src/index.ts',
     external: EXTERNALS,
     plugins: [
-      nodeResolve({
-        extensions,
-      }),
-      commonjs(),
-      typescript({
-        noForceEmit: true, // only declaration
-        // tsconfig.json
-      }),
-    ],
-
-    output: { file: pkg.types, format: 'cjs' },
-  },
-  {
-    input: 'src/index.ts',
-    external: EXTERNALS,
-    plugins: [
       // nodeResolve 可以查找更多的依赖， 需要extensions来支持 ts, tsx
       nodeResolve({
         extensions,
       }),
       // 依赖中有非esm包，就要用commonjs插件
       commonjs(),
+      typescript({
+        noForceEmit: true, // only declaration
+        compilerOptions: {
+          outDir: 'dist',
+          declaration: true,
+          declarationDir: '.',
+          noEmit: false,
+          emitDeclarationOnly: true,
+        },
+        // tsconfig.json
+      }),
+
       babel({
         // babel.config.json
         babelHelpers: 'runtime',
         extensions,
         exclude: ['node_modules/**', 'dist'],
         include: ['src/**/*'],
-        sourcemap: true,
       }),
     ],
     output: [

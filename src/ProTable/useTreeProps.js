@@ -6,7 +6,7 @@ import ExpandLessIcon from '@material-ui/icons/IndeterminateCheckBoxOutlined';
 import { useLatestFunc } from 'utils/useLatest';
 
 const useGetChildren = (fn) => {
-  const ref = React.useRef();
+  const ref = React.useRef(null);
   ref.current = fn;
 
   return React.useCallback(
@@ -45,9 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function useTreeProps(treeProps) {
   const classes = useStyles();
-  const [treeExpandAll] = React.useState(
-    (treeProps && treeProps.defaultExpandAll) || false
-  );
+  const [treeExpandAll] = React.useState((treeProps && treeProps.defaultExpandAll) || false);
   const [treeExpanded, setTreeExpanded] = React.useState(
     (treeProps && treeProps.detaultExpanded) || {}
   );

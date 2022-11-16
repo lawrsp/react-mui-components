@@ -1,5 +1,5 @@
 import { Fragment, ReactNode } from 'react';
-import { ThemeProvider, Theme } from '@mui/material/styles';
+import { ThemeProvider, type Theme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { SnackbarProvider, SnackbarOrigin } from 'notistack';
 import { RouteConfigProvider } from '../Contexts/RouteConfigContext';

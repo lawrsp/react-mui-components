@@ -14,3 +14,4 @@ export * from './NotFoundPage';
 export * from './ProTable';
 export * from './QRCodeBox';
 export * from './utils';
+export * from './Layouts';
