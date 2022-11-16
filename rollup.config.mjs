@@ -14,8 +14,6 @@ const EXTERNALS = Object.keys(pkg.dependencies).concat([
   /react\//,
   /react-dom\//,
 ]);
-// .map((path) => new RegExp(`${path}`));
-console.log(EXTERNALS);
 
 const extensions = ['.ts', '.tsx', '.js', '.jsx'];
 
