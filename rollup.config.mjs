@@ -2,6 +2,7 @@ import { createRequire } from 'node:module';
 import typescript from '@rollup/plugin-typescript';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { babel } from '@rollup/plugin-babel';
+import sizes from 'rollup-plugin-sizes';
 import commonjs from '@rollup/plugin-commonjs';
 
 const require = createRequire(import.meta.url);
@@ -53,6 +54,7 @@ export default [
         exclude: ['node_modules/**', 'dist'],
         include: ['src/**/*'],
       }),
+      sizes(),
     ],
     output: [
       { file: pkg.main, format: 'cjs', sourcemap: true },
