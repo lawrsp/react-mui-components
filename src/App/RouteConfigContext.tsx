@@ -1,5 +1,6 @@
 import { useContext, createContext } from 'react';
 import { RouteConfig } from '../Types';
+import { BrowserRouter, Routes } from 'react-router-dom';
 
 const RouteConfigContext = createContext<RouteConfig>([]);
 
@@ -12,7 +13,7 @@ export interface RouteConfigProviderProps {
   children?: React.ReactNode;
 }
 
-export const RouteConfigProvider = (props: RouteConfigProviderProps) => {
+export const RouteProvider = (props: RouteConfigProviderProps) => {
   const { routes, children } = props;
 
   return <RouteConfigContext.Provider value={routes}>{children}</RouteConfigContext.Provider>;

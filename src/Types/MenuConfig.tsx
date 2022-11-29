@@ -1,8 +1,8 @@
 export interface MenuNodeConfig {
   title: string;
+  path: string;
   icon?: string;
   key?: string;
-  path?: string;
   children?: MenuNodeConfig[];
 }
 

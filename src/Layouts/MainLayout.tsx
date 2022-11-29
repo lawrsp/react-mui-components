@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { useLocation, Outlet, useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
-import RouteConfigContext from '../Contexts/RouteConfigContext';
 import SideBar from '../SideBar';
 import HeaderBar from '../HeaderBar';
-import { RouteConfig, MenuConfig, MenuNodeConfig } from '../Types';
+import { MenuConfig, MenuNodeConfig } from '../Types';
+import { useMenuConfig } from '../App/MenuConfigContext';
+
+export type PathManager = [string, (to: string) => void];
 
 export interface MainLayoutProps {
   logo: string;
@@ -13,71 +15,37 @@ export interface MainLayoutProps {
   footer?: React.ReactNode;
   onClickAvatarMenu?: (ev: React.SyntheticEvent, menu: MenuNodeConfig) => void;
   children?: React.ReactNode;
+  usePathManager?: () => PathManager;
+  useMenus?: () => MenuConfig;
 }
 
-function reduceMenu(routes: RouteConfig): MenuConfig {
-  if (!routes.length) {
-    return [];
-  }
+const useRouteManager = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const currentPath = location.pathname;
+  const setCurrentkey = navigate;
 
-  return routes.reduce<MenuConfig>((all, it) => {
-    // 如果没有名字，表示不在菜单里显示，直接将其children提升
-    if (!it.title || it.hideInMenu) {
-      if (it.children && it.children.length) {
-        return [...all, ...reduceMenu(it.children)];
-      }
-      return [...all];
-    }
+  return [currentPath, setCurrentkey] as PathManager;
+};
 
-    const next = {
-      path: it.path,
-      title: it.title,
-      icon: it.icon,
-      authority: it.authority,
-      children: it.children ? reduceMenu(it.children) : [],
-    };
-
-    return [...all, next];
-  }, []);
-}
-
-// menu here
 export const MainLayout = ({
   logo,
   logoText,
   footer,
   avatarMenus,
-  onClickAvatarMenu,
   children,
+  usePathManager = useRouteManager,
+  useMenus = useMenuConfig,
 }: MainLayoutProps) => {
   const [drawerOpen, setDrawerOpen] = React.useState(true);
-  const routeConfig = React.useContext(RouteConfigContext);
-  /* const classes = useLayoutStyles(props); */
-  const location = useLocation();
-  const navigate = useNavigate();
-  // console.log('============= locationis', location);
+  const menus = useMenus();
 
-  const menus = React.useMemo(() => reduceMenu(routeConfig), [routeConfig]);
-
-  /* <Box className={classes.root}> */
-  /* SideBar className={clsx(classes.drawer, { [classes.drawerOpen]: drawerOpen })} */
-  /* HeaderBar className={clsx(classes.header, { [classes.drawerOpen]: drawerOpen })} */
-  /* main className={clsx(classes.main, { [classes.drawerOpen]: drawerOpen })} */
-
-  const handleClickSideMenu = (ev: React.SyntheticEvent, menu: MenuNodeConfig) => {
-    ev.preventDefault();
-    if (menu.path && !menu.children?.length) {
-      navigate(menu.path);
-    }
-  };
+  const [currentPath, setCurrentPath] = usePathManager();
 
   const handleClickAvarMenu = (ev: React.SyntheticEvent, menu: MenuNodeConfig) => {
     ev.preventDefault();
-    if (onClickAvatarMenu) {
-      return onClickAvatarMenu(ev, menu);
-    }
     if (menu.path && !menu.children?.length) {
-      navigate(menu.path);
+      setCurrentPath(menu.path);
     }
   };
 
@@ -99,8 +67,8 @@ export const MainLayout = ({
         logoText={logoText}
         menus={menus}
         open={drawerOpen}
-        onClickMenu={handleClickSideMenu}
-        currentPath={location.pathname}
+        currentPath={currentPath}
+        setCurrentPath={setCurrentPath}
       />
       <Box
         sx={{
@@ -140,7 +108,6 @@ export const MainLayout = ({
           onLogout={handleClickLogout}
         />
         <Box
-          key={location.key}
           component="main"
           sx={{
             flexGrow: 1,
@@ -148,7 +115,6 @@ export const MainLayout = ({
           }}
         >
           <Outlet />
-          {children}
         </Box>
         {footer ? (
           <Box
@@ -165,6 +131,7 @@ export const MainLayout = ({
           </Box>
         ) : null}
       </Box>
+      {children}
     </Box>
   );
 };

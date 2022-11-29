@@ -12,7 +12,7 @@ export interface SideBarProps {
   indentSize?: number;
   handleDrawerToggle?: () => {};
   currentPath: string;
-  onClickMenu: (ev: React.SyntheticEvent, item: MenuNodeConfig) => void;
+  setCurrentPath: (path: string) => void;
 }
 
 const defaultIndentSize = 24;
@@ -25,10 +25,16 @@ export const SideBar = (props: SideBarProps) => {
     open,
     indentSize = defaultIndentSize,
     currentPath,
-    onClickMenu,
+    setCurrentPath,
   } = props;
 
   // 菜单link
+  const handleClickSideMenu = (ev: React.SyntheticEvent, menu: MenuNodeConfig) => {
+    ev.preventDefault();
+    if (menu.path && !menu.children?.length) {
+      setCurrentPath(menu.path);
+    }
+  };
 
   return (
     <Drawer
@@ -59,7 +65,7 @@ export const SideBar = (props: SideBarProps) => {
           (theme) => theme.mixins.toolbar,
         ]}
       >
-        <Brand logo={logo} text={logoText} />
+        <Brand logo={logo} text={logoText} onClick={() => setCurrentPath('/')} />
       </Box>
       <Box
         sx={{
@@ -73,7 +79,7 @@ export const SideBar = (props: SideBarProps) => {
           indentSize={indentSize}
           menus={menus}
           currentPath={currentPath}
-          onClickMenu={onClickMenu}
+          onClickMenu={handleClickSideMenu}
         />
       </Box>
     </Drawer>

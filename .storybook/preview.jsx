@@ -1,6 +1,6 @@
 import React from 'react';
-// import { createTheme, App } from '../dist/index.es';
-import { createTheme, App } from '../src';
+// import { createTheme, AppProvider } from '../dist/index.es';
+import { createTheme, AppProvider } from '../src';
 
 const theme = createTheme({
   // ....
@@ -13,9 +13,9 @@ const theme = createTheme({
 
 export const decorators = [
   (Story) => (
-    <App theme={theme}>
+    <AppProvider theme={theme}>
       <Story />
-    </App>
+    </AppProvider>
   ),
 ];
 

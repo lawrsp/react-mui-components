@@ -1,13 +1,13 @@
-import * as React from 'react';
+import { MouseEventHandler } from 'react';
 import { Box, Link } from '@mui/material';
-import { NavLink } from 'react-router-dom';
 
 interface BrandProps {
   logo: string;
   text: string;
+  onClick?: MouseEventHandler;
 }
 
-const Brand = ({ logo, text }: BrandProps) => {
+const Brand = ({ logo, text, onClick }: BrandProps) => {
   return (
     <Box
       sx={{
@@ -21,8 +21,7 @@ const Brand = ({ logo, text }: BrandProps) => {
     >
       <Link
         underline="none"
-        component={NavLink}
-        to="/"
+        onClick={onClick}
         sx={{
           display: 'flex',
           alignItems: 'center',

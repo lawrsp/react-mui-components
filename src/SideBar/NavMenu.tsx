@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { NavLink } from 'react-router-dom';
-import { Box, Link, List, ListItem, ListItemText, Icon, Collapse } from '@mui/material';
+import { Box, List, ListItem, ListItemText, Icon, Collapse } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { MenuConfig, MenuNodeConfig } from '../Types';
 
@@ -12,6 +11,7 @@ export const locationContainPath = (location: string, path?: string) => {
   if (!path) {
     return false;
   }
+  console.log('location is:', location);
   const pathLength = path.length;
   if (location.slice(0, pathLength) !== path) {
     return false;
@@ -85,7 +85,7 @@ const NavMenuItem = ({ indent, menu, active, children, endIcon, onClick }: NavMe
 type NavMenuLeafProps = {
   indent: number;
   menu: MenuNodeConfig;
-  currentPath: string;
+  currentPath?: string;
   onClick?: (ev: React.SyntheticEvent, menu: MenuNodeConfig) => void;
 };
 
@@ -95,7 +95,7 @@ const NavMenuLeaf = (props: NavMenuLeafProps) => {
   const { path } = menu;
 
   const active = React.useMemo(() => {
-    if (locationContainPath(currentPath, path)) {
+    if (locationContainPath(currentPath || '', path)) {
       return true;
     }
     return false;
@@ -105,21 +105,13 @@ const NavMenuLeaf = (props: NavMenuLeafProps) => {
   const handleClick = onClick ? (ev: React.SyntheticEvent) => onClick(ev, menu) : undefined;
 
   // 有点击事件，则不用link
-  if (onClick) {
-    return <NavMenuItem {...rest} menu={menu} active={active} onClick={handleClick} />;
-  }
-
-  return (
-    <Link component={NavLink} underline="none" to={path || '#'}>
-      <NavMenuItem {...rest} menu={menu} active={active} />
-    </Link>
-  );
+  return <NavMenuItem {...rest} menu={menu} active={active} onClick={handleClick} />;
 };
 
 type NavMenuParentProps = {
   indentSize: number;
   indent: number;
-  currentPath: string;
+  currentPath?: string;
   menu: MenuNodeConfig;
   children?: React.ReactNode;
   onClickMenu?: (ev: React.SyntheticEvent, menu: MenuNodeConfig) => void;
@@ -134,7 +126,7 @@ const NavMenuParent = ({
   currentPath,
 }: NavMenuParentProps) => {
   const { path } = menu;
-  const active = locationContainPath(currentPath, path);
+  const active = locationContainPath(currentPath || '', path);
   const [collapsed, setCollapsed] = React.useState(active);
 
   const handleClickItem = (ev: React.SyntheticEvent) => {
@@ -149,12 +141,12 @@ const NavMenuParent = ({
       <Box
         sx={{
           position: 'absolute',
-          top: 'calc(50% - 0.8rem)',
+          top: 'calc(50% - 1.2rem)',
           width: '1.6rem',
           height: '2.4rem',
           right: '1.6rem',
         }}
-        component={active || collapsed ? ExpandLess : ExpandMore}
+        component={collapsed ? ExpandLess : ExpandMore}
       />
     );
   }, [collapsed]);
@@ -232,7 +224,7 @@ const NavMenuList = (props: NavMenuListProps) => {
 type NavMenuProps = {
   menus: MenuConfig;
   indentSize: number;
-  currentPath: string;
+  currentPath?: string;
   onClickMenu?: (ev: React.SyntheticEvent, menu: MenuNodeConfig) => void;
 };
 
