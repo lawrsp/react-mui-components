@@ -1,4 +1,4 @@
-import { Component, ElementType, ReactComponentElement, ReactElement, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 export type AccessType = { [key: string]: string | string[] | AccessType } | AccessType[];
 
@@ -12,7 +12,6 @@ export interface RouteNodeConfig {
   access?: AccessType; // privileges
   children?: RouteNodeConfig[];
   fallback?: ReactNode; // fallback ui
-  Component?: ReactElement; // component
   element?: ReactNode;
 }
 
