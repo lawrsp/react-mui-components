@@ -27,26 +27,31 @@ function reduceMenu(routes?: RouteConfig, parent?: string): MenuConfig {
     return [];
   }
 
-  return routes.reduce<MenuConfig>((all, it, index) => {
+  return routes.reduce<MenuConfig>((all, it, idx) => {
     // 如果没有名字，表示不在菜单里显示，直接将其children提升
-    if (!it.title || it.noMenu || !it.path) {
+    if (!it.title || it.noMenu || (!it.path && !it.index)) {
       return [...all, ...reduceMenu(it.children)];
     }
 
-    let { path = '/' } = it;
-    if (path && path[0] != '/') {
-      if (parent) {
-        path = `${parent}/${path}`;
-      } else {
-        path = `/${path}`;
+    // 要么有path，要么是index
+    let { path, index } = it;
+    if (path) {
+      if (path[0] != '/') {
+        if (parent) {
+          path = `${parent}/${path}`;
+        } else {
+          path = `/${path}`;
+        }
       }
+    } else if (index) {
+      path = parent || '/';
     }
 
     //
     const menu: MenuNodeConfig = {
       title: it.title,
       icon: it.icon,
-      key: it.key || `${index}`,
+      key: it.key || path || `${idx}`,
       path: path,
     };
 
@@ -66,7 +71,7 @@ export function AppProvider({
 }: AppProps) {
   // menu
   const menus = reduceMenu(routes);
-  console.log('menus:', menus);
+  /* console.log('menus:', menus); */
   // routes
 
   return (

@@ -86,7 +86,14 @@ export const MainWithAppRouter = () => {
         {
           path: '/entities',
           title: 'entities',
-          element: <ElementTest />,
+          children: [
+            {
+              title: 'list',
+              index: true,
+              id: 'list-entities',
+              element: <ElementTest name="test index" />,
+            },
+          ],
         },
         {
           key: 'hellow',

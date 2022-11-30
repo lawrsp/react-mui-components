@@ -25,9 +25,14 @@ const renderFullRoutes = (routes: RouteConfig) => {
   // console.log('routes is ', routes);
   const result = routes
     .map((node) => {
-      const { path, element, key } = node;
+      const { path, element, id } = node;
+
+      if (node.index) {
+        return <Route key={id || path} path={path} element={element} index />;
+      }
+
       return (
-        <Route key={key || path} path={path} element={element}>
+        <Route key={id || path} path={path} element={element}>
           {node.children && node.children.length > 0 && renderFullRoutes(node.children)}
         </Route>
       );

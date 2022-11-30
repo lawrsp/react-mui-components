@@ -11,7 +11,7 @@ export const locationContainPath = (location: string, path?: string) => {
   if (!path) {
     return false;
   }
-  console.log('location is:', location);
+  /* console.log('location is:', location); */
   const pathLength = path.length;
   if (location.slice(0, pathLength) !== path) {
     return false;
@@ -101,7 +101,7 @@ const NavMenuLeaf = (props: NavMenuLeafProps) => {
     return false;
   }, [currentPath, path]);
 
-  console.log('--- ', currentPath, path, active);
+  /* console.log('--- ', currentPath, path, active); */
   const handleClick = onClick ? (ev: React.SyntheticEvent) => onClick(ev, menu) : undefined;
 
   // 有点击事件，则不用link
