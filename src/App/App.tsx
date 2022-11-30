@@ -76,8 +76,8 @@ export function AppProvider({
 
   return (
     <Suspense fallback={fallback}>
-      <CssBaseline />
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <SnackbarProvider anchorOrigin={snackbarOrigin}>
           <MenuConfigProvider value={menus}>
             <RouteProvider routes={routes} routerType={routerType} />

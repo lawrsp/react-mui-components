@@ -21,6 +21,22 @@ declare module '@mui/material/styles' {
   }
 }
 
+const fontFamily = [
+  '"Microsoft Yahei"',
+  '-apple-system',
+  'BlinkMacSystemFont',
+  '"Segoe UI"',
+  'Roboto',
+  '"Helvetica Neue"',
+  'Arial',
+  '"Noto Sans"',
+  'sans-serif',
+  '"Apple Color Emoji"',
+  '"Segoe UI Emoji"',
+  '"Segoe UI Symbol"',
+  '"Noto Color Emoji"',
+].join(',');
+
 export const defaultTheme = {
   typography: {
     htmlFontSize: 10,
@@ -29,21 +45,7 @@ export const defaultTheme = {
     fontWeightRegular: 400,
     fontWeightMedium: 450,
     fontWeightBold: 600,
-    fontFamily: [
-      '"Microsoft Yahei"',
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      '"Noto Sans"',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-      '"Noto Color Emoji"',
-    ].join(','),
+    fontFamily,
   },
   components: {
     MuiCssBaseline: {
