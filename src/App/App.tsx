@@ -1,12 +1,12 @@
-import { Suspense, ReactNode } from 'react';
+import { Suspense, ReactNode, useMemo } from 'react';
 import { ThemeProvider, type Theme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { SnackbarProvider, SnackbarOrigin } from 'notistack';
-import { MenuConfigProvider } from './MenuConfigContext';
-import { MenuConfig, RouteConfig, MenuNodeConfig } from '../Types';
 import LoadingPage from '../LoadingPage';
 import { createTheme } from '../Theme';
 import { RouteProvider, type RouterType } from './RouteProvider';
+import { MenuConfigContext } from '../Contexts/MenuConfigContext';
+import type { MenuConfig, RouteConfig, RouteNodeConfig, MenuNodeConfig } from '../Contexts';
 
 const snackbarOriginDefault: SnackbarOrigin = {
   vertical: 'top',
@@ -22,12 +22,49 @@ export interface AppProps {
   children?: ReactNode;
 }
 
-function reduceMenu(routes?: RouteConfig, parent?: string): MenuConfig {
+function normalizeRoutes(routes: RouteConfig, parent: string): RouteConfig {
   if (!routes || !routes.length) {
-    return [];
+    return [] as RouteConfig;
   }
 
-  return routes.reduce<MenuConfig>((all, it, idx) => {
+  return routes.reduce((all: RouteConfig, it: RouteNodeConfig) => {
+    // 要么有path，要么是index
+    let item: RouteNodeConfig;
+    let { path, index, children } = it;
+    if (path) {
+      if (path[0] != '/') {
+        if (parent[parent.length - 1] != '/') {
+          path = `${parent}/${path}`;
+        } else {
+          path = `${parent}${path}`;
+        }
+      }
+      item = { ...it, path };
+    } else if (index) {
+      item = { ...it, path: parent };
+    } else if (children) {
+      //
+      return [...all, ...normalizeRoutes(children, parent)];
+    }
+
+    if (!it.element && !it.redirectTo) {
+      item!.noLink = true;
+    }
+
+    if (children) {
+      item!.children = normalizeRoutes(children, item!.path!);
+    }
+
+    return [...all, item!];
+  }, [] as RouteConfig);
+}
+
+function reduceMenu(routes?: RouteConfig, parent?: string): MenuConfig {
+  if (!routes || !routes.length) {
+    return [] as MenuConfig;
+  }
+
+  return routes.reduce((all: MenuConfig, it: RouteNodeConfig, idx: number) => {
     // 如果没有名字，表示不在菜单里显示，直接将其children提升
     if (!it.title || it.noMenu || (!it.path && !it.index)) {
       return [...all, ...reduceMenu(it.children)];
@@ -45,20 +82,22 @@ function reduceMenu(routes?: RouteConfig, parent?: string): MenuConfig {
       }
     } else if (index) {
       path = parent || '/';
+    } else {
+      path = '';
     }
 
     //
     const menu: MenuNodeConfig = {
       title: it.title,
       icon: it.icon,
-      key: it.key || path || `${idx}`,
+      key: it.id || path || `${idx}`,
       path: path,
     };
 
     menu.children = reduceMenu(it.children, path);
 
     return [...all, menu];
-  }, []);
+  }, [] as MenuConfig);
 }
 
 export function AppProvider({
@@ -73,16 +112,17 @@ export function AppProvider({
   const menus = reduceMenu(routes);
   /* console.log('menus:', menus); */
   // routes
+  const nroutes = useMemo(() => normalizeRoutes(routes, '/'), [routes]);
 
   return (
     <Suspense fallback={fallback}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <SnackbarProvider anchorOrigin={snackbarOrigin}>
-          <MenuConfigProvider value={menus}>
-            <RouteProvider routes={routes} routerType={routerType} />
+          <MenuConfigContext.Provider value={menus}>
+            <RouteProvider routes={nroutes} routerType={routerType} />
             {children}
-          </MenuConfigProvider>
+          </MenuConfigContext.Provider>
         </SnackbarProvider>
       </ThemeProvider>
     </Suspense>

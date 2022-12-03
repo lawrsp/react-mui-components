@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { useContext, createContext, ReactNode } from 'react';
 
 export type AccessType = { [key: string]: string | string[] | AccessType } | AccessType[];
 
@@ -9,6 +9,7 @@ export interface RouteNodeBaseConfig {
   icon?: string;
   noMenu?: boolean; // no show in menu
   noLink?: boolean; // no link in breadscrumb
+  redirectTo?: string;
   access?: AccessType; // privileges
   element?: ReactNode;
 }
@@ -27,4 +28,8 @@ export type RouteNodeConfig = IndexRouteNodeConfig | PathRouteNodeConfig;
 
 export type RouteConfig = RouteNodeConfig[];
 
-export default RouteConfig;
+export const RouteConfigContext = createContext<RouteConfig>([]);
+
+export default RouteConfigContext;
+
+export const useRouteConfig = () => useContext(RouteConfigContext);

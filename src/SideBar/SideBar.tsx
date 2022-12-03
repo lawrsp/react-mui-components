@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Drawer, Box } from '@mui/material';
-import { MenuNodeConfig, MenuConfig } from '../Types';
+import type { MenuNodeConfig, MenuConfig } from '../Contexts';
 import NavMenu from './NavMenu';
 import Brand from './Brand';
 

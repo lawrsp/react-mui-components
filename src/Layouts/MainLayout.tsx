@@ -3,8 +3,10 @@ import { useLocation, Outlet, useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 import SideBar from '../SideBar';
 import HeaderBar from '../HeaderBar';
-import { MenuConfig, MenuNodeConfig } from '../Types';
-import { useMenuConfig } from '../App/MenuConfigContext';
+import type { MenuConfig, MenuNodeConfig, RouteConfig } from '../Contexts';
+import { useMenuConfig } from '../Contexts/MenuConfigContext';
+import { useRouteConfig as useRouteConfigHook } from '../Contexts/RouteConfigContext';
+import Breadcrumbs from './Breadcrumbs';
 
 export type PathManager = [string, (to: string) => void];
 
@@ -17,15 +19,16 @@ export interface MainLayoutProps {
   children?: React.ReactNode;
   usePathManager?: () => PathManager;
   useMenus?: () => MenuConfig;
+  useRouteConfig?: () => RouteConfig;
 }
 
 const useRouteManager = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const currentPath = location.pathname;
-  const setCurrentkey = navigate;
+  const setCurrentPath = navigate;
 
-  return [currentPath, setCurrentkey] as PathManager;
+  return [currentPath, setCurrentPath] as PathManager;
 };
 
 export const MainLayout = ({
@@ -35,10 +38,12 @@ export const MainLayout = ({
   avatarMenus,
   children,
   usePathManager = useRouteManager,
+  useRouteConfig = useRouteConfigHook,
   useMenus = useMenuConfig,
 }: MainLayoutProps) => {
   const [drawerOpen, setDrawerOpen] = React.useState(true);
   const menus = useMenus();
+  const routes = useRouteConfig();
 
   const [currentPath, setCurrentPath] = usePathManager();
 
@@ -47,11 +52,6 @@ export const MainLayout = ({
     if (menu.path && !menu.children?.length) {
       setCurrentPath(menu.path);
     }
-  };
-
-  const handleClickLogout = (ev: React.SyntheticEvent) => {
-    ev.preventDefault();
-    console.log('==== logout');
   };
 
   return (
@@ -105,16 +105,19 @@ export const MainLayout = ({
           onToggle={() => setDrawerOpen((x) => !x)}
           menus={avatarMenus}
           onClickMenu={handleClickAvarMenu}
-          onLogout={handleClickLogout}
         />
         <Box
           component="main"
           sx={{
             flexGrow: 1,
             height: (theme) => `calc(100% - ${theme.footer.height})`,
+            pl: 2,
           }}
         >
-          <Outlet />
+          <Breadcrumbs currentPath={currentPath} setCurrentPath={setCurrentPath} routes={routes} />
+          <Box component="div">
+            <Outlet />
+          </Box>
         </Box>
         {footer ? (
           <Box

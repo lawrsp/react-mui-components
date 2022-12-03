@@ -1,13 +1,12 @@
 import * as React from 'react';
-// import { useHistory } from 'react-router-dom';
 import { MenuItem, Menu, ListItemText, ListItemIcon } from '@mui/material';
-import { MenuNodeConfig } from '../Types';
+import type { MenuConfig, MenuNodeConfig } from '../Contexts';
 
 export interface AvatarMenuProps {
   anchorEl?: null | Element | ((element: Element) => Element);
   open: boolean;
   onClose: React.MouseEventHandler;
-  menus: MenuNodeConfig[];
+  menus: MenuConfig;
   onClickMenu: (ev: React.SyntheticEvent, menu: MenuNodeConfig) => void;
 }
 

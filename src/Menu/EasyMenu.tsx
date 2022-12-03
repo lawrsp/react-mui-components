@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { MenuItem, Menu, ListItemText, ListItemIcon, MenuProps } from '@mui/material';
-import { MenuNodeConfig } from '../Types';
+import { MenuNodeConfig } from '../Contexts';
 
 export interface EasyMenuProps {
   anchorEl?: null | Element | ((element: Element) => Element);
@@ -32,6 +32,10 @@ export const EasyMenuItem = (props: EasyMenuItemProps) => {
 const EasyMenu = (props: EasyMenuProps) => {
   const { anchorEl, open, onClose, menus, onClickMenu, anchorOrigin, transformOrigin, children } =
     props;
+
+  if (!menus || !menus.length) {
+    return null;
+  }
 
   return (
     <Menu

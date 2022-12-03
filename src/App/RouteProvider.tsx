@@ -1,12 +1,6 @@
-import { useContext, createContext } from 'react';
-import { BrowserRouter, Routes, Route, HashRouter, MemoryRouter } from 'react-router-dom';
-import { RouteConfig } from '../Types';
-
-const RouteConfigContext = createContext<RouteConfig>([]);
-
-export default RouteConfigContext;
-
-export const useRouteConfigContext = () => useContext(RouteConfigContext);
+import { BrowserRouter, Routes, Route, HashRouter, MemoryRouter, Navigate } from 'react-router-dom';
+import { RouteConfigContext } from '../Contexts/RouteConfigContext';
+import { type RouteConfig } from '../Contexts/RouteConfigContext';
 
 export type RouterType = 'hash' | 'browser' | 'memory';
 
@@ -25,7 +19,13 @@ const renderFullRoutes = (routes: RouteConfig) => {
   // console.log('routes is ', routes);
   const result = routes
     .map((node) => {
-      const { path, element, id } = node;
+      const { path, id } = node;
+
+      let { element, redirectTo } = node;
+
+      if (redirectTo) {
+        element = <Navigate to={redirectTo} replace />;
+      }
 
       if (node.index) {
         return <Route key={id || path} path={path} element={element} index />;

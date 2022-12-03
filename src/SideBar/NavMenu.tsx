@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Box, List, ListItem, ListItemText, Icon, Collapse } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import { MenuConfig, MenuNodeConfig } from '../Types';
+import { MenuConfig, MenuNodeConfig } from '../Contexts';
 
 const openColor = 'white';
 const openBackground = 'primary.main';
@@ -12,6 +12,9 @@ export const locationContainPath = (location: string, path?: string) => {
     return false;
   }
   /* console.log('location is:', location); */
+  if (path === '/' && location[0] === '/') {
+    return true;
+  }
   const pathLength = path.length;
   if (location.slice(0, pathLength) !== path) {
     return false;
@@ -129,6 +132,14 @@ const NavMenuParent = ({
   const active = locationContainPath(currentPath || '', path);
   const [collapsed, setCollapsed] = React.useState(active);
 
+  console.log('path:', path, 'collapsed:', collapsed, active);
+
+  React.useEffect(() => {
+    if (active) {
+      setCollapsed(true);
+    }
+  }, [active]);
+
   const handleClickItem = (ev: React.SyntheticEvent) => {
     setCollapsed(!collapsed);
     if (onClickMenu) {
@@ -193,12 +204,12 @@ const NavMenuList = (props: NavMenuListProps) => {
         userSelect: 'none',
       }}
     >
-      {menus.map((item, key) => {
+      {menus.map((item: MenuNodeConfig, index: number) => {
         const { children } = item;
         if (children && children.length) {
           return (
             <NavMenuParent
-              key={key}
+              key={item.key || item.path || index}
               indent={indent}
               indentSize={indentSize}
               menu={item}
@@ -209,7 +220,7 @@ const NavMenuList = (props: NavMenuListProps) => {
         }
         return (
           <NavMenuLeaf
-            key={key}
+            key={index}
             indent={indent}
             menu={item}
             currentPath={currentPath}

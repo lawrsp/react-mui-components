@@ -1,18 +1,17 @@
 import * as React from 'react';
 import { IconButton, Box } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
-import { EasyMenu, EasyMenuItem } from '../Menu';
-import { MenuConfig, MenuNodeConfig } from '../Types';
+import { EasyMenu } from '../Menu';
+import type { MenuConfig, MenuNodeConfig } from '../Contexts';
 
 export interface AvatarItemProps {
   avatar?: string;
-  menus: MenuNodeConfig[];
+  menus: MenuConfig;
   onClickMenu: (ev: React.SyntheticEvent, menu: MenuNodeConfig) => void;
-  onLogout: (ev: React.SyntheticEvent) => void;
 }
 
 const AvatarItem = (props: AvatarItemProps) => {
-  const { onClickMenu, avatar, onLogout } = props;
+  const { onClickMenu, avatar, menus } = props;
   const [anchorEl, setAnchorEl] = React.useState<Element | null>(null);
   const [menuOpen, setMenuOpen] = React.useState(false);
 
@@ -28,27 +27,6 @@ const AvatarItem = (props: AvatarItemProps) => {
     onClickMenu(ev, menu);
     setMenuOpen(false);
   };
-
-  const handleClickLogout = (ev: React.SyntheticEvent) => {
-    onLogout(ev);
-    setMenuOpen(false);
-  };
-
-  const [menus, logoutMenu] = React.useMemo(() => {
-    const lm: MenuNodeConfig = { title: '退出登录' };
-    const mus: MenuConfig = [];
-    props.menus.forEach((item) => {
-      if (item.key === 'logout') {
-        lm.icon = item.icon;
-        lm.title = item.title || lm.title;
-      } else {
-        mus.push(item);
-      }
-    });
-    return [mus, lm];
-  }, [props.menus]);
-
-  /* color={color} */
 
   return (
     <div>
@@ -72,9 +50,7 @@ const AvatarItem = (props: AvatarItemProps) => {
         onClose={handleCloseMenu}
         menus={menus}
         onClickMenu={handleClickMenu}
-      >
-        <EasyMenuItem icon={logoutMenu.icon} title={logoutMenu.title} onClick={handleClickLogout} />
-      </EasyMenu>
+      />
     </div>
   );
 };
