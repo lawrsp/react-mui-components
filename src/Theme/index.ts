@@ -14,7 +14,7 @@ declare module '@mui/material/styles' {
   }
   // allow configuration using `createTheme`
   interface ThemeOptions {
-    mainLayout: {
+    mainLayout?: {
       sider?: {
         width?: number | string;
       };
