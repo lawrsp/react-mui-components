@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { BrowserRouter, Routes, Route, HashRouter, MemoryRouter, Navigate } from 'react-router-dom';
 import { RouteConfigContext } from './RouteConfigContext';
-import type { RouteConfig, RouteNodeConfig } from './types';
+import type { RouteConfig, RouteNodeConfig, AccessType } from './types';
 
 export type RouterType = 'hash' | 'browser' | 'memory';
 
@@ -9,6 +9,7 @@ export interface RouteConfigProviderProps {
   routes: RouteConfig;
   routerType?: RouterType;
   children?: React.ReactNode;
+  checkAccess?: (access?: AccessType) => boolean;
 }
 
 export type RouteRenderProps = {
@@ -16,12 +17,20 @@ export type RouteRenderProps = {
   routerType?: RouterType;
 };
 
-function normalizeRoutes(routes: RouteConfig, parent: string): RouteConfig {
+function normalizeRoutes(
+  routes: RouteConfig,
+  parent: string,
+  checkAccess?: (access?: AccessType) => boolean
+): RouteConfig {
   if (!routes || !routes.length) {
     return [] as RouteConfig;
   }
 
   return routes.reduce((all: RouteConfig, it: RouteNodeConfig) => {
+    if (checkAccess && !checkAccess(it.access)) {
+      return all;
+    }
+
     // 要么有path，要么是index
     let item: RouteNodeConfig;
     let { path, index, children } = it;
@@ -38,15 +47,19 @@ function normalizeRoutes(routes: RouteConfig, parent: string): RouteConfig {
       item = { ...it, path: parent };
     } else if (children) {
       //
-      return [...all, ...normalizeRoutes(children, parent)];
+      return [...all, ...normalizeRoutes(children, parent, checkAccess)];
     }
 
     if (!it.element && !it.redirectTo) {
       item!.noLink = true;
     }
 
-    if (children) {
-      item!.children = normalizeRoutes(children, item!.path!);
+    if (children && children.length) {
+      const normaledChildren = normalizeRoutes(children, item!.path!, checkAccess);
+      if (!normaledChildren || !normaledChildren.length) {
+        return all;
+      }
+      item!.children = normaledChildren;
     }
 
     return [...all, item!];
@@ -92,18 +105,20 @@ const routerComponent = {
 };
 
 export const RouteProvider = (props: RouteConfigProviderProps) => {
-  const { routes, routerType = 'browser', children } = props;
+  const { routes, routerType = 'browser', checkAccess, children } = props;
 
   const nRoutes = React.useMemo(() => {
-    return normalizeRoutes(routes, '/');
-  }, [routes]);
+    return normalizeRoutes(routes, '/', checkAccess);
+  }, [routes, checkAccess]);
+
+  console.log('nRoutes:', nRoutes);
 
   const Router = routerComponent[routerType];
 
   return (
     <RouteConfigContext.Provider value={nRoutes}>
       <Router>
-        <Routes>{renderFullRoutes(routes)}</Routes>
+        <Routes>{renderFullRoutes(nRoutes)}</Routes>
       </Router>
       {children}
     </RouteConfigContext.Provider>
