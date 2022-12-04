@@ -3,20 +3,24 @@ import { deepmerge } from '@mui/utils';
 
 declare module '@mui/material/styles' {
   interface Theme {
-    sider: {
-      width: number | string;
-    };
-    footer: {
-      height: number | string;
+    mainLayout: {
+      sider: {
+        width: number | string;
+      };
+      footer: {
+        height: number | string;
+      };
     };
   }
   // allow configuration using `createTheme`
   interface ThemeOptions {
-    sider?: {
-      width?: number | string;
-    };
-    footer?: {
-      height?: number | string;
+    mainLayout: {
+      sider?: {
+        width?: number | string;
+      };
+      footer?: {
+        height?: number | string;
+      };
     };
   }
 }
@@ -71,11 +75,13 @@ export const defaultTheme = {
       },
     },
   },
-  sider: {
-    width: '24rem',
-  },
-  footer: {
-    height: '40px',
+  mainLayout: {
+    sider: {
+      width: '24rem',
+    },
+    footer: {
+      height: '40px',
+    },
   },
 } as ThemeOptions;
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Drawer, Box } from '@mui/material';
-import type { MenuNodeConfig, MenuConfig } from '../Contexts';
+import type { MenuNodeConfig, MenuConfig } from '../Menu/types';
 import NavMenu from './NavMenu';
 import Brand from './Brand';
 
@@ -8,6 +8,7 @@ export interface SideBarProps {
   logo: string;
   logoText: string;
   menus: MenuConfig;
+  width: number | string;
   open?: boolean;
   indentSize?: number;
   handleDrawerToggle?: () => {};
@@ -22,6 +23,7 @@ export const SideBar = (props: SideBarProps) => {
     logo,
     logoText,
     menus,
+    width,
     open,
     indentSize = defaultIndentSize,
     currentPath,
@@ -45,7 +47,7 @@ export const SideBar = (props: SideBarProps) => {
         background: '#001529',
         flexShrink: 0,
         '& .MuiDrawer-paper': {
-          width: (theme) => theme.sider.width,
+          width,
           boxSizing: 'border-box',
           background: '#001529',
         },

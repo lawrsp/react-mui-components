@@ -2,16 +2,16 @@ import * as React from 'react';
 import { AppBar, Toolbar, Box, IconButton } from '@mui/material';
 import { SxProps, Theme } from '@mui/material/styles';
 import { Menu as MenuIcon, MenuOpen as MenuOpenIcon } from '@mui/icons-material';
-import AvatarItem, { AvatarItemProps } from './AvatarItem';
 
 type HeaderBarProps = {
+  avatar?: React.ReactNode;
   toggled: boolean;
   onToggle: React.MouseEventHandler;
   sx: SxProps<Theme>;
-} & AvatarItemProps;
+};
 
 export default function HeaderBar(props: HeaderBarProps) {
-  const { toggled, onToggle, sx, ...rest } = props;
+  const { toggled, onToggle, sx, avatar } = props;
 
   return (
     <AppBar
@@ -37,7 +37,7 @@ export default function HeaderBar(props: HeaderBarProps) {
           {toggled ? <MenuOpenIcon /> : <MenuIcon />}
         </IconButton>
         <Box flexGrow={1} />
-        <AvatarItem {...rest} />
+        {avatar}
       </Toolbar>
     </AppBar>
   );

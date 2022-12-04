@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { MenuItem, Menu, ListItemText, ListItemIcon } from '@mui/material';
-import type { MenuConfig, MenuNodeConfig } from '../Contexts';
+import type { MenuConfig, MenuNodeConfig } from '../Menu/types';
 
 export interface AvatarMenuProps {
   anchorEl?: null | Element | ((element: Element) => Element);

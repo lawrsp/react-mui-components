@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Box, List, ListItem, ListItemText, Icon, Collapse } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import { MenuConfig, MenuNodeConfig } from '../Contexts';
+import { MenuConfig, MenuNodeConfig } from '../Menu/types';
 
 const openColor = 'white';
 const openBackground = 'primary.main';

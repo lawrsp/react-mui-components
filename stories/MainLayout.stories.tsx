@@ -1,17 +1,18 @@
 import * as React from 'react';
 import { ComponentMeta } from '@storybook/react';
 import { useLocation, useMatch } from 'react-router-dom';
-import { MainLayout } from '../src/Layouts';
-import AppProvider from '../src/App/App';
+import { MainLayout, RoutedMainLayout } from '../src/MainLayout';
+import type { MenuConfig } from '../src/Menu/types';
+import type { RouteConfig } from '../src/Route/types';
+import { RouteProvider } from '../src/Route/RouteProvider';
 import logo from './logo.svg';
-import type { MenuConfig, RouteConfig } from '../src/Contexts';
 
 export default {
-  title: 'Example/Layouts',
+  title: 'Example/MainLayout',
   component: MainLayout,
 } as ComponentMeta<typeof MainLayout>;
 
-export const Main = () => {
+export const Simple = () => {
   const menus: MenuConfig = [
     {
       path: '/user',
@@ -36,45 +37,18 @@ export const Main = () => {
       title: 'login',
     },
   ];
-
-  const useMenus = () => menus;
-  const useRouteConfig = () => {
-    return [
-      {
-        path: '/user',
-        title: 'user',
-        noLink: true,
-        children: [
-          {
-            path: '/user/list',
-            title: 'list',
-          },
-          {
-            path: '/user/detail',
-            title: 'detail',
-          },
-        ],
-      },
-      {
-        path: '/entities',
-        title: 'entities',
-      },
-      {
-        path: '/login',
-        title: 'login',
-      },
-    ] as RouteConfig;
-  };
+  const [currentMenuPath, setCurrentMenuPath] = React.useState('/user/list');
 
   return (
     <MainLayout
       logo={logo}
       logoText="Test For Main"
-      avatarMenus={[]}
-      usePathManager={React.useState}
-      useMenus={useMenus}
-      useRouteConfig={useRouteConfig}
-    />
+      menus={menus}
+      currentMenuPath={currentMenuPath}
+      setCurrentMenuPath={setCurrentMenuPath}
+    >
+      <div>{currentMenuPath} </div>
+    </MainLayout>
   );
 };
 
@@ -92,16 +66,17 @@ const ElementTest = ({ name }: { name?: string }) => {
   );
 };
 
-export const MainWithAppRouter = () => {
+export const WithRouter = () => {
   const routes: RouteConfig = [
     {
       path: '/',
       title: 'main',
       noMenu: true,
-      element: <MainLayout logo={logo} logoText="Test For Main" avatarMenus={[]} />,
+      element: <RoutedMainLayout logo={logo} logoText="Test For Main" />,
       children: [
         {
           index: true,
+          noMenu: true,
           redirectTo: '/user/list',
         },
         {
@@ -148,5 +123,5 @@ export const MainWithAppRouter = () => {
     },
   ];
 
-  return <AppProvider routes={routes} routerType="hash" />;
+  return <RouteProvider routes={routes} routerType="hash" />;
 };

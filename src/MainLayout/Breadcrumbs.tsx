@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Breadcrumbs, Link } from '@mui/material';
 import { locationContainPath } from '../SideBar/NavMenu';
-import type { RouteNodeConfig, RouteConfig } from '../Contexts/RouteConfigContext';
+import type { RouteNodeConfig, RouteConfig } from '../Route/types';
 
 interface BreadcrumbsItem {
   title: string;

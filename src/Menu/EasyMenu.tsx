@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { MenuItem, Menu, ListItemText, ListItemIcon, MenuProps } from '@mui/material';
-import { MenuNodeConfig } from '../Contexts';
+import { MenuNodeConfig } from './types';
 
 export interface EasyMenuProps {
   anchorEl?: null | Element | ((element: Element) => Element);

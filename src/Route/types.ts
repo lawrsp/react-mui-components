@@ -1,4 +1,4 @@
-import { useContext, createContext, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 export type AccessType = { [key: string]: string | string[] | AccessType } | AccessType[];
 
@@ -27,9 +27,3 @@ export type PathRouteNodeConfig = RouteNodeBaseConfig & {
 export type RouteNodeConfig = IndexRouteNodeConfig | PathRouteNodeConfig;
 
 export type RouteConfig = RouteNodeConfig[];
-
-export const RouteConfigContext = createContext<RouteConfig>([]);
-
-export default RouteConfigContext;
-
-export const useRouteConfig = () => useContext(RouteConfigContext);

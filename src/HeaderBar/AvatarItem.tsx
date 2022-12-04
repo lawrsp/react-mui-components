@@ -2,7 +2,7 @@ import * as React from 'react';
 import { IconButton, Box } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
 import { EasyMenu } from '../Menu';
-import type { MenuConfig, MenuNodeConfig } from '../Contexts';
+import type { MenuConfig, MenuNodeConfig } from '../Menu/types';
 
 export interface AvatarItemProps {
   avatar?: string;
