@@ -45,7 +45,13 @@ function reduceMenu(routes?: RouteConfig, parent?: string): MenuConfig {
       path: path,
     };
 
-    menu.children = reduceMenu(it.children, path);
+    if (it.children && it.children.length) {
+      const mChildren = reduceMenu(it.children, path);
+      if (!mChildren || !mChildren.length) {
+        return all;
+      }
+      menu.children = mChildren;
+    }
 
     return [...all, menu];
   }, [] as MenuConfig);

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ComponentMeta } from '@storybook/react';
-import { useLocation, useMatch } from 'react-router-dom';
+import { useLocation, useMatch, useNavigate, Outlet } from 'react-router-dom';
 import { MainLayout, RoutedMainLayout } from '../src/MainLayout';
 import type { MenuConfig } from '../src/Menu/types';
 import type { AccessType, RouteConfig } from '../src/Route/types';
@@ -52,7 +52,7 @@ export const Simple = () => {
   );
 };
 
-const ElementTest = ({ name }: { name?: string }) => {
+const ElementTest = ({ name, children }: { name?: string; children?: React.ReactNode }) => {
   const location = useLocation();
   const matches = useMatch(location.pathname);
   return (
@@ -62,6 +62,8 @@ const ElementTest = ({ name }: { name?: string }) => {
       {name}
       <br />
       {JSON.stringify(matches)}
+      <br />
+      {children}
     </div>
   );
 };
@@ -126,6 +128,26 @@ export const WithRouter = () => {
   return <RouteProvider routes={routes} routerType="hash" />;
 };
 
+const GoToSomePage = (props: { to: string }) => {
+  const navigate = useNavigate();
+  const { to } = props;
+
+  return (
+    <div>
+      <button onClick={() => navigate(to)}>go to {to}</button>
+    </div>
+  );
+};
+
+const InvisibleFrame = () => {
+  return (
+    <div>
+      this is a invisible layout for test
+      <Outlet />
+    </div>
+  );
+};
+
 export const WithRouterAndAccess = () => {
   const routes: RouteConfig = [
     {
@@ -144,29 +166,47 @@ export const WithRouterAndAccess = () => {
           title: 'user',
           children: [
             {
+              index: true,
+              redirectTo: '/user/list',
+            },
+            {
               path: 'list',
               title: 'list',
-              access: { user: 'list' },
-              element: <ElementTest />,
+              access: 'user-list',
+              element: (
+                <ElementTest name="user list">
+                  <GoToSomePage to="/entities/list" />
+                  <GoToSomePage to="/login" />
+                  <GoToSomePage to="/user/detail" />
+                </ElementTest>
+              ),
             },
             {
               title: 'detail',
               path: 'detail',
-              access: { user: 'detail' },
-              element: <ElementTest name="test" />,
+              access: 'user-detail',
+              element: <ElementTest name="user detail" />,
             },
           ],
         },
         {
           path: '/entities',
           title: 'entities',
+          element: <InvisibleFrame />,
           children: [
             {
               title: 'list',
               index: true,
-              access: { entities: 'list' },
+              access: 'entities-list',
               id: 'list-entities',
-              element: <ElementTest name="test index" />,
+              element: <ElementTest name="entities list" />,
+            },
+            {
+              id: 'hellow',
+              path: '*',
+              noMenu: true,
+              title: 'not found',
+              element: <ElementTest name="not found admin page" />,
             },
           ],
         },
@@ -175,20 +215,33 @@ export const WithRouterAndAccess = () => {
           path: '*',
           noMenu: true,
           title: 'not found',
-          element: <ElementTest name="not found admin page" />,
+          element: (
+            <ElementTest name="not found admin page">
+              <GoToSomePage to="/user" />
+            </ElementTest>
+          ),
         },
       ],
     },
     {
       path: '/login',
       title: 'login',
-      element: <ElementTest name="login" />,
+      noMenu: true,
+      element: (
+        <ElementTest name="login">
+          <GoToSomePage to="/" />
+        </ElementTest>
+      ),
     },
     {
       path: '*',
       title: 'not found',
       noMenu: true,
-      element: <ElementTest name="not found" />,
+      element: (
+        <ElementTest name="not found">
+          <GoToSomePage to="/" />
+        </ElementTest>
+      ),
     },
   ];
 
@@ -197,13 +250,8 @@ export const WithRouterAndAccess = () => {
       return true;
     }
 
-    if ('user' in access) {
-      if (typeof access.user === 'string') {
-        if ('list' === access.user) {
-          return true;
-        }
-      }
-      return false;
+    if ('user-list' === access) {
+      return true;
     }
 
     return false;

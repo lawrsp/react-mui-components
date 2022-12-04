@@ -1,7 +1,5 @@
 import { ReactNode } from 'react';
 
-export type AccessType = { [key: string]: string | string[] | AccessType } | AccessType[];
-
 export interface RouteNodeBaseConfig {
   id?: string;
   path?: string;
@@ -10,7 +8,7 @@ export interface RouteNodeBaseConfig {
   noMenu?: boolean; // no show in menu
   noLink?: boolean; // no link in breadscrumb
   redirectTo?: string;
-  access?: AccessType; // privileges
+  access?: string; // privileges
   element?: ReactNode;
 }
 

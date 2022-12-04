@@ -26,6 +26,7 @@ export const SideBar = (props: SideBarProps) => {
     width,
     open,
     indentSize = defaultIndentSize,
+
     currentPath,
     setCurrentPath,
   } = props;

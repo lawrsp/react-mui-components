@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { BrowserRouter, Routes, Route, HashRouter, MemoryRouter, Navigate } from 'react-router-dom';
 import { RouteConfigContext } from './RouteConfigContext';
-import type { RouteConfig, RouteNodeConfig, AccessType } from './types';
+import type { RouteConfig, RouteNodeConfig } from './types';
 
 export type RouterType = 'hash' | 'browser' | 'memory';
 
@@ -9,7 +9,7 @@ export interface RouteConfigProviderProps {
   routes: RouteConfig;
   routerType?: RouterType;
   children?: React.ReactNode;
-  checkAccess?: (access?: AccessType) => boolean;
+  checkAccess?: (access?: string) => boolean;
 }
 
 export type RouteRenderProps = {
@@ -20,7 +20,7 @@ export type RouteRenderProps = {
 function normalizeRoutes(
   routes: RouteConfig,
   parent: string,
-  checkAccess?: (access?: AccessType) => boolean
+  checkAccess?: (access?: string) => boolean
 ): RouteConfig {
   if (!routes || !routes.length) {
     return [] as RouteConfig;
@@ -110,8 +110,6 @@ export const RouteProvider = (props: RouteConfigProviderProps) => {
   const nRoutes = React.useMemo(() => {
     return normalizeRoutes(routes, '/', checkAccess);
   }, [routes, checkAccess]);
-
-  console.log('nRoutes:', nRoutes);
 
   const Router = routerComponent[routerType];
 
