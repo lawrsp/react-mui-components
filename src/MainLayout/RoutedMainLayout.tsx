@@ -1,21 +1,21 @@
 import { useContext, createContext, useMemo, useCallback } from 'react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import type { RouteConfig, RouteNodeConfig } from '../Route/types';
-import type { MenuConfig, MenuNodeConfig } from '../Menu/types';
+import type { NavMenuConfig, NavMenuNodeConfig } from '../Menu/types';
 import MainLayout, { type MainLayoutProps } from './MainLayout';
 import { useRouteConfig } from '../Route/RouteConfigContext';
 import Breadcrumbs from './Breadcrumbs';
 
-const RouteMenuConfigContext = createContext<MenuConfig>([]);
+const RouteMenuConfigContext = createContext<NavMenuConfig>([]);
 
 export const useRouteMenuConfig = () => useContext(RouteMenuConfigContext);
 
-function reduceMenu(routes?: RouteConfig, parent?: string): MenuConfig {
+function reduceMenu(routes?: RouteConfig, parent?: string): NavMenuConfig {
   if (!routes || !routes.length) {
-    return [] as MenuConfig;
+    return [] as NavMenuConfig;
   }
 
-  return routes.reduce((all: MenuConfig, it: RouteNodeConfig, idx: number) => {
+  return routes.reduce((all: NavMenuConfig, it: RouteNodeConfig, idx: number) => {
     // 如果没有名字，表示不在菜单里显示，直接将其children提升
     if (!it.title || it.noMenu || (!it.path && !it.index)) {
       return [...all, ...reduceMenu(it.children)];
@@ -38,7 +38,7 @@ function reduceMenu(routes?: RouteConfig, parent?: string): MenuConfig {
     }
 
     //
-    const menu: MenuNodeConfig = {
+    const menu: NavMenuNodeConfig = {
       title: it.title,
       icon: it.icon,
       key: it.id || path || `${idx}`,
@@ -54,7 +54,7 @@ function reduceMenu(routes?: RouteConfig, parent?: string): MenuConfig {
     }
 
     return [...all, menu];
-  }, [] as MenuConfig);
+  }, [] as NavMenuConfig);
 }
 
 export type RoutedMainLayoutProps = Omit<

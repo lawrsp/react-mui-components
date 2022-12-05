@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Drawer, Box } from '@mui/material';
-import type { MenuNodeConfig, MenuConfig } from '../Menu/types';
+import type { NavMenuNodeConfig, NavMenuConfig } from '../Menu/types';
 import NavMenu from './NavMenu';
 import Brand from './Brand';
 
 export interface SideBarProps {
   logo: string;
   logoText: string;
-  menus: MenuConfig;
+  menus: NavMenuConfig;
   width: number | string;
   open?: boolean;
   indentSize?: number;
@@ -32,7 +32,7 @@ export const SideBar = (props: SideBarProps) => {
   } = props;
 
   // 菜单link
-  const handleClickSideMenu = (ev: React.SyntheticEvent, menu: MenuNodeConfig) => {
+  const handleClickSideMenu = (ev: React.SyntheticEvent, menu: NavMenuNodeConfig) => {
     ev.preventDefault();
     if (menu.path && !menu.children?.length) {
       setCurrentPath(menu.path);

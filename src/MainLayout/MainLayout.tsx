@@ -2,12 +2,12 @@ import * as React from 'react';
 import { Box, useTheme } from '@mui/material';
 import SideBar from '../SideBar';
 import HeaderBar from '../HeaderBar';
-import type { MenuConfig } from '../Menu/types';
+import type { NavMenuConfig } from '../Menu/types';
 
 export interface MainLayoutProps {
   logo: string;
   logoText: string;
-  menus: MenuConfig;
+  menus: NavMenuConfig;
   currentMenuPath: string;
   setCurrentMenuPath: (to: string) => void;
   // elements:

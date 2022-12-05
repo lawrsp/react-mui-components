@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Box, List, ListItem, ListItemText, Icon, Collapse } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import { MenuConfig, MenuNodeConfig } from '../Menu/types';
+import { NavMenuConfig, NavMenuNodeConfig } from '../Menu/types';
 
 const openColor = 'white';
 const openBackground = 'primary.main';
@@ -30,7 +30,7 @@ export const locationContainPath = (location: string, path?: string) => {
 
 type NavMenuItemProps = {
   indent: number;
-  menu: MenuNodeConfig;
+  menu: NavMenuNodeConfig;
   children?: React.ReactNode;
   endIcon?: React.ReactNode;
   active: boolean;
@@ -87,9 +87,9 @@ const NavMenuItem = ({ indent, menu, active, children, endIcon, onClick }: NavMe
 
 type NavMenuLeafProps = {
   indent: number;
-  menu: MenuNodeConfig;
+  menu: NavMenuNodeConfig;
   currentPath?: string;
-  onClick?: (ev: React.SyntheticEvent, menu: MenuNodeConfig) => void;
+  onClick?: (ev: React.SyntheticEvent, menu: NavMenuNodeConfig) => void;
 };
 
 const NavMenuLeaf = (props: NavMenuLeafProps) => {
@@ -115,9 +115,9 @@ type NavMenuParentProps = {
   indentSize: number;
   indent: number;
   currentPath?: string;
-  menu: MenuNodeConfig;
+  menu: NavMenuNodeConfig;
   children?: React.ReactNode;
-  onClickMenu?: (ev: React.SyntheticEvent, menu: MenuNodeConfig) => void;
+  onClickMenu?: (ev: React.SyntheticEvent, menu: NavMenuNodeConfig) => void;
 };
 
 const NavMenuParent = ({
@@ -204,7 +204,7 @@ const NavMenuList = (props: NavMenuListProps) => {
         userSelect: 'none',
       }}
     >
-      {menus.map((item: MenuNodeConfig, index: number) => {
+      {menus.map((item: NavMenuNodeConfig, index: number) => {
         const { children } = item;
         if (children && children.length) {
           return (
@@ -233,10 +233,10 @@ const NavMenuList = (props: NavMenuListProps) => {
 };
 
 type NavMenuProps = {
-  menus: MenuConfig;
+  menus: NavMenuConfig;
   indentSize: number;
   currentPath?: string;
-  onClickMenu?: (ev: React.SyntheticEvent, menu: MenuNodeConfig) => void;
+  onClickMenu?: (ev: React.SyntheticEvent, menu: NavMenuNodeConfig) => void;
 };
 
 const NavMenu = (props: NavMenuProps) => {
