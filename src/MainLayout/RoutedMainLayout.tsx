@@ -41,7 +41,7 @@ function reduceMenu(routes?: RouteConfig, parent?: string): NavMenuConfig {
     const menu: NavMenuNodeConfig = {
       title: it.title,
       icon: it.icon,
-      key: it.id || path || `${idx}`,
+      key: it.key || path || `${idx}`,
       path: path,
     };
 

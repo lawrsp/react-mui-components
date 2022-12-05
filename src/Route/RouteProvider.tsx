@@ -72,7 +72,7 @@ const renderFullRoutes = (routes?: RouteConfig) => {
   }
   // console.log('routes is ', routes);
   const result = routes.map((node: RouteNodeConfig, idx: number) => {
-    const { path, id } = node;
+    const { path, key } = node;
 
     let { element, redirectTo } = node;
 
@@ -81,11 +81,11 @@ const renderFullRoutes = (routes?: RouteConfig) => {
     }
 
     if (node.index) {
-      return <Route key={id || path || idx} element={element} index />;
+      return <Route key={key || path || idx} element={element} index />;
     }
 
     return (
-      <Route key={id || path || idx} path={path} element={element}>
+      <Route key={key || path || idx} path={path} element={element}>
         {renderFullRoutes(node.children)}
       </Route>
     );

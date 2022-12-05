@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 export interface RouteNodeBaseConfig {
-  id?: string;
+  key?: string;
   path?: string;
   title?: string;
   icon?: string;
