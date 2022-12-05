@@ -9,7 +9,7 @@ export interface AvatarMenuProps {
   avatar?: string;
   menus: MenuConfig;
   onClickMenu: (ev: React.SyntheticEvent, menu: MenuNodeConfig) => void;
-  sx: SxProps<Theme>;
+  sx?: SxProps<Theme>;
 }
 
 export const AvatarMenu = (props: AvatarMenuProps) => {
