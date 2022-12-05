@@ -198,11 +198,11 @@ export const WithRouterAndAccess = () => {
               title: 'list',
               index: true,
               access: 'entities-list',
-              id: 'list-entities',
+              key: 'list-entities',
               element: <ElementTest name="entities list" />,
             },
             {
-              id: 'hellow',
+              key: 'hellow',
               path: '*',
               noMenu: true,
               title: 'not found',
@@ -211,7 +211,7 @@ export const WithRouterAndAccess = () => {
           ],
         },
         {
-          id: 'hellow',
+          key: 'hellow',
           path: '*',
           noMenu: true,
           title: 'not found',
