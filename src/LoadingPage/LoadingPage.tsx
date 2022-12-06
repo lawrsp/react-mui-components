@@ -1,25 +1,28 @@
-import * as React from 'react';
 import { Box, CircularProgress } from '@mui/material';
 import { SxProps, Theme } from '@mui/material/styles';
 
 export interface LoadingPageProps {
   text?: string;
   textSx?: SxProps<Theme>;
+  sx?: SxProps<Theme>;
 }
 
-const LoadingPage = ({ text = 'loading...', textSx }: LoadingPageProps) => (
+const LoadingPage = ({ text = 'loading...', textSx, sx }: LoadingPageProps) => (
   <Box
-    sx={{
-      height: '100vh',
-      width: '100vw',
-      display: 'flex',
-      justifyContent: 'center',
-      flexDirection: 'column',
-      alignItems: 'center',
-      backgournd: 'gray',
-      zIndex: 1501,
-      opacity: '0.8',
-    }}
+    sx={[
+      {
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        alignItems: 'center',
+        backgournd: 'gray',
+        zIndex: 1501,
+        opacity: '0.8',
+      },
+      ...(Array.isArray(sx) ? sx : [sx]),
+    ]}
   >
     <CircularProgress color="primary" size={60} />
     <Box
