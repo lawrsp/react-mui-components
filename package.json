@@ -17,7 +17,11 @@
     "type": "git",
     "url": "git+https://github.com/lawrsp/react-mui-components.git"
   },
-  "keywords": ["react", "mui", "typescript"],
+  "keywords": [
+    "react",
+    "mui",
+    "typescript"
+  ],
   "author": "lawrsp",
   "license": "MIT",
   "bugs": {
@@ -57,6 +61,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.20.1",
+    "@date-io/date-fns": "^2.16.0",
     "@hookform/resolvers": "^2.9.9",
     "@juggle/resize-observer": "^3.4.0",
     "@mui/icons-material": "^5.10.9",
@@ -64,6 +69,7 @@
     "@mui/material": "^5.10.9",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
+    "date-fns": "^2.29.3",
     "notistack": "^2.0.8",
     "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
@@ -90,5 +96,7 @@
       "optional": true
     }
   },
-  "files": ["dist"]
+  "files": [
+    "dist"
+  ]
 }

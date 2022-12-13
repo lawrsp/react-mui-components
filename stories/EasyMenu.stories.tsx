@@ -1,7 +1,7 @@
-import React from 'react';
+import * as React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import EasyMenu from '../src/Menu/EasyMenu';
-import { MenuConfig, MenuNodeConfig } from '../src/Types';
+import { MenuConfig, MenuNodeConfig } from '../src/Menu';
 import { Button } from '@mui/material';
 
 export default {
@@ -43,22 +43,22 @@ const Template: ComponentStory<typeof EasyMenu> = (args) => {
 
 const menus: MenuConfig = [
   {
-    path: '/workplace/taskes',
+    key: '/workplace/taskes',
     title: '当前任务',
     icon: '',
   },
   {
-    path: '/workplace/done',
+    key: '/workplace/done',
     title: '已完成',
     children: [],
   },
   {
-    path: '/other/log',
+    key: '/other/log',
     title: '日志',
     icon: '',
   },
   {
-    path: '/other/remark',
+    key: '/other/remark',
     title: '备忘录',
   },
 ];
