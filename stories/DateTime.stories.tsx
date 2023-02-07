@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DateTimeSpan } from '../src/DateTime';
+import { DateTimeSpan, Calendar } from '../src/DateTime';
 
 export default {
   title: 'Example/DateTime',
@@ -24,6 +24,20 @@ export const DateTimeSpans = () => {
       <DateTimeSpan value={null} sx={sx} />
       <div>undefined:</div>
       <DateTimeSpan value={undefined} sx={sx} />
+    </div>
+  );
+};
+
+export const Calendars = () => {
+  const [time, setTime] = React.useState(new Date());
+  return (
+    <div>
+      <div>
+        <span>time is: &nbsp;</span>
+        <DateTimeSpan component="span" value={time} />
+      </div>
+      <div style={{ height: 10 }} />
+      <Calendar value={time} onChange={(_: Event, t: Date) => setTime(t)} />
     </div>
   );
 };
