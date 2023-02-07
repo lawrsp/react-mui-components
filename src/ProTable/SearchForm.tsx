@@ -27,7 +27,7 @@ type SearchFormProps = ProTableSearchState & {
 };
 
 // fields: name label type props
-const SearchForm = (props: SearchFormProps) => {
+export const SearchForm = (props: SearchFormProps) => {
   const { submitting, invisible, searches, searchFields, actions } = props;
 
   const defaultValues = useMemo<FieldValues>(

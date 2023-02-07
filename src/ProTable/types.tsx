@@ -29,7 +29,7 @@ export interface SearchFieldType {
   key?: string;
   field: string;
   label: string;
-  type: string;
+  type?: string;
 }
 
 export interface ProTableStateActionType {
