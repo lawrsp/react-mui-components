@@ -1,48 +1,131 @@
 import { ReactNode } from 'react';
+import { IconButton, Badge } from '@mui/material';
+import {
+  Refresh as RefreshIcon,
+  Close as CloseIcon,
+  Search as SearchIcon,
+} from '@mui/icons-material';
+import { ProTableSearchActions, ProTableSearchState, ProTableTitleToolConfig } from './types';
+
 import { Box, Divider } from '@mui/material';
 
-export interface ProTableRichTitleProps {
+export interface ProTableTitleProps {
   title: ReactNode;
-  children?: ReactNode;
+  tools?: ProTableTitleToolConfig[];
 }
 
-const ProTableRichTitle = (props: ProTableRichTitleProps) => {
-  const { title, children } = props;
+export const getSearchToolProps = (state: ProTableSearchState, actions: ProTableSearchActions) => {
+  console.log('state.searches:', state.searches);
+  return {
+    onClick: () => actions.setInvisible!(!state.invisible),
+    show: !state.invisible,
+    searched: !!state.searches && JSON.stringify(state.searches) !== '{}',
+  };
+};
+
+const renderTool = (t: ProTableTitleToolConfig, idx: number) => {
+  if (typeof t === 'string') {
+    switch (t) {
+      case 'divider':
+        return (
+          <Divider
+            key={`tool-divider-${idx}`}
+            orientation="vertical"
+            sx={{
+              ml: 0.5,
+              height: '2rem',
+            }}
+          />
+        );
+      default:
+        return null;
+    }
+  } else if ('icon' in t) {
+    switch (t.icon) {
+      case 'reload':
+        return (
+          <IconButton sx={{ ml: 0.5 }} key={`tool-reload-${idx}`} size="small" onClick={t.onClick}>
+            <RefreshIcon />
+          </IconButton>
+        );
+      case 'close':
+        return (
+          <IconButton sx={{ ml: 0.5 }} key={`tool-close-${idx}`} size="small" onClick={t.onClick}>
+            <CloseIcon />
+          </IconButton>
+        );
+      case 'search':
+        const color = t.show ? 'primary' : undefined;
+
+        return (
+          <IconButton
+            sx={{ ml: 0.5 }}
+            key={`tool-search-${idx}`}
+            size="small"
+            color={color}
+            onClick={t.onClick}
+          >
+            <Badge color="primary" variant="dot" overlap="circular" invisible={!t.searched}>
+              <SearchIcon />
+            </Badge>
+          </IconButton>
+        );
+      default:
+        return (
+          <IconButton sx={{ ml: 0.5 }} key={`tool-custom-${idx}`} size="small" onClick={t.onClick}>
+            {t.icon}
+          </IconButton>
+        );
+    }
+  } else if ('render' in t) {
+    return (
+      <Box sx={{ ml: 0.5 }} key={`tool-render-${idx}`}>
+        {t.render()}
+      </Box>
+    );
+  }
+
+  return null;
+};
+
+const ProTableTitle = (props: ProTableTitleProps) => {
+  const { title, tools = [] } = props;
 
   return (
     <Box
       sx={{
         lineHeight: 1.43,
         display: 'flex',
-        pt: 2,
+        pt: 1,
         pl: 2,
-        pr: 2,
-        pb: 1,
+        pr: 0.5,
+        pb: 0.5,
         alignItems: 'center',
+        fontSize: '1.6rem',
+        minHeight: '1.6rem',
       }}
     >
       <Box
         sx={{
-          fontSize: '1.6rem',
           fontWeight: 'bold',
           flexGrow: 1,
         }}
       >
         {title}
       </Box>
-      {children}
+      {!!tools.length && (
+        <Divider
+          orientation="vertical"
+          sx={{
+            ml: 0.5,
+            mr: 0.5,
+            height: '2rem',
+          }}
+        />
+      )}
+      {tools.map(renderTool)}
     </Box>
   );
 };
 
-export default ProTableRichTitle;
-
-/* {!!children && (
- *   <Divider
- *     orientation="vertical"
- *     sx={{
- *       ml: 2,
- *     }}
- *   />
- * )}
- * {children} */
+export default ProTableTitle;

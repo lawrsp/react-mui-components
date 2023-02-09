@@ -91,6 +91,7 @@ export const SearchForm = (props: SearchFormProps) => {
         display: invisible ? 'none' : 'flex',
         flexDirection: 'row',
         alignItems: 'flex-end',
+        borderRadius: 0,
       }}
     >
       <Form
@@ -101,9 +102,8 @@ export const SearchForm = (props: SearchFormProps) => {
       >
         <Grid container columnSpacing={2}>
           {searchFields.map(({ field, label, type, key }, index) => (
-            <Grid {...itemGrid}>
+            <Grid {...itemGrid} key={key || field || index}>
               <FormInput
-                key={key || field || index}
                 size="small"
                 fullWidth
                 variant="standard"

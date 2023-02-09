@@ -1,7 +1,28 @@
-import { ReactNode, SyntheticEvent } from 'react';
+import { ReactNode, SyntheticEvent, ReactElement } from 'react';
 import { SxProps, Theme } from '@mui/material/styles';
 import { TableCellProps } from '@mui/material';
-import { ProTablePaginationProps } from './Pagination';
+
+export type ProTableTitleToolConfig =
+  | string
+  | {
+      icon: 'reload';
+      onClick: () => void;
+    }
+  | {
+      icon: 'close';
+      onClick: () => void;
+    }
+  | {
+      icon: 'search';
+      searched: boolean;
+      show: boolean;
+      onClick: () => void;
+    }
+  | {
+      icon: ReactElement;
+      onClick: () => void;
+    }
+  | { render: () => ReactNode };
 
 export type ProTableSorterOrder = 'desc' | 'asc';
 
@@ -96,9 +117,9 @@ export interface ProTableSearchState {
 }
 
 export interface ProTableSearchActions {
-  setSearchFields?: (fields: SearchFieldType[]) => void;
-  setInvisible?: (invisible: boolean) => void;
-  setSearches?: (searches: Record<string, any>) => void;
+  setSearchFields: (fields: SearchFieldType[]) => void;
+  setInvisible: (invisible: boolean) => void;
+  setSearches: (searches: Record<string, any>) => void;
 }
 
 export interface ProTableAlertProps {
@@ -133,6 +154,7 @@ export interface ProTableOptionalProps<DataType> {
   size: 'small' | 'medium';
   // 标题部分
   title: ReactNode;
+  tools: ProTableTitleToolConfig[];
   toolbarRender: () => ReactNode;
   toolbarTypeaults: TableToolConfigProps;
   // columns
@@ -174,7 +196,7 @@ export type ProTableProps<DataType extends object> = ProTableRequiredProps<DataT
   } & {
     search?: {
       state: ProTableSearchState;
-      actions?: ProTableSearchActions;
+      actions: ProTableSearchActions;
     };
   } & {
     alert?: ProTableAlertProps;
