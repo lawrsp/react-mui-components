@@ -5,7 +5,7 @@ import {
   Close as CloseIcon,
   Search as SearchIcon,
 } from '@mui/icons-material';
-import { ProTableSearchActions, ProTableSearchState, ProTableTitleToolConfig } from './types';
+import { ProTableTitleToolConfig } from './types';
 
 import { Box, Divider } from '@mui/material';
 
@@ -13,15 +13,6 @@ export interface ProTableTitleProps {
   title: ReactNode;
   tools?: ProTableTitleToolConfig[];
 }
-
-export const getSearchToolProps = (state: ProTableSearchState, actions: ProTableSearchActions) => {
-  console.log('state.searches:', state.searches);
-  return {
-    onClick: () => actions.setInvisible!(!state.invisible),
-    show: !state.invisible,
-    searched: !!state.searches && JSON.stringify(state.searches) !== '{}',
-  };
-};
 
 const renderTool = (t: ProTableTitleToolConfig, idx: number) => {
   if (typeof t === 'string') {

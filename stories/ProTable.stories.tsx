@@ -10,7 +10,6 @@ import {
 } from '../src/ProTable/types';
 import useSearch from '../src/ProTable/useSearch';
 import useProTablePagination from '../src/ProTable/usePagination';
-import { getSearchToolProps } from '../src/ProTable/ProTableTitle';
 export default {
   title: 'Example/ProTable/Table',
   component: ProTable,
@@ -643,7 +642,7 @@ export const AllHeaderTitles = () => {
   const tools: ProTableTitleToolConfig[] = [
     {
       icon: 'search',
-      ...getSearchToolProps(search.state, search.actions),
+      ...search.tool,
     },
     { icon: 'reload', onClick: () => console.log('click reload') },
     'divider',

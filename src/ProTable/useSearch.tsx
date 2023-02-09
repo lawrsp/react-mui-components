@@ -1,6 +1,11 @@
 import { useMemo } from 'react';
 import { useState } from 'react';
-import { SearchFieldType, ProTableSearchState, ProTableSearchActions } from './types';
+import {
+  SearchFieldType,
+  ProTableSearchState,
+  ProTableSearchActions,
+  ProTableTitleSearchToolProps,
+} from './types';
 
 export interface useProTableSearchPropsParams {
   fields: SearchFieldType[];
@@ -11,6 +16,7 @@ export interface useProTableSearchPropsParams {
 export const useProTableSearchProps: (props: useProTableSearchPropsParams) => {
   state: ProTableSearchState;
   actions: ProTableSearchActions;
+  tool: ProTableTitleSearchToolProps;
 } = ({ defaultInvisible = false, fields, defaultSearches = {} }) => {
   const [searchFields, setSearchFields] = useState<SearchFieldType[]>(fields);
   const [invisible, setInvisible] = useState<boolean>(defaultInvisible);
@@ -35,7 +41,16 @@ export const useProTableSearchProps: (props: useProTableSearchPropsParams) => {
     return { setSearchFields, setInvisible, setSearches };
   }, []);
 
-  return { state, actions };
+  const tool = useMemo<ProTableTitleSearchToolProps>(
+    () => ({
+      onClick: () => setInvisible!((old) => !old),
+      show: !invisible,
+      searched: !!searches && JSON.stringify(searches) !== '{}',
+    }),
+    [invisible, setInvisible, searches]
+  );
+
+  return { state, actions, tool };
 };
 
 export default useProTableSearchProps;

@@ -2,6 +2,12 @@ import { ReactNode, SyntheticEvent, ReactElement } from 'react';
 import { SxProps, Theme } from '@mui/material/styles';
 import { TableCellProps } from '@mui/material';
 
+export type ProTableTitleSearchToolProps = {
+  searched: boolean;
+  show: boolean;
+  onClick: () => void;
+};
+
 export type ProTableTitleToolConfig =
   | string
   | {
@@ -12,12 +18,9 @@ export type ProTableTitleToolConfig =
       icon: 'close';
       onClick: () => void;
     }
-  | {
+  | ({
       icon: 'search';
-      searched: boolean;
-      show: boolean;
-      onClick: () => void;
-    }
+    } & ProTableTitleSearchToolProps)
   | {
       icon: ReactElement;
       onClick: () => void;
