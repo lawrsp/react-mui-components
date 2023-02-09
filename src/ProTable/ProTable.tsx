@@ -1,7 +1,7 @@
 import { useCallback, forwardRef, Ref, ReactElement, PropsWithChildren, ForwardedRef } from 'react';
 import { Table, Paper } from '@mui/material';
 /* import TableSelectionAlert from './TableSelectionAlert'; */
-/* import TableHeaderToolbar from './TableHeaderToolbar'; */
+import ProTableTitle from './ProTableTitle';
 /* import { useLatestFunc } from 'utils/useLatest'; */
 import LoadingContainer from '../LoadingContainer';
 /* import { useParam, useLoading } from 'utils/useFetcher'; */
@@ -10,6 +10,7 @@ import SearchForm from './SearchForm';
 import ProTableHeader from './ProTableHeader';
 import ProTableBody from './ProTableBody';
 import Pagination from './Pagination';
+import ProTableAlert from './ProTableAlert';
 
 /* const useTableStyles = makeStyles({
  *   root: {
@@ -79,6 +80,9 @@ function ProTableInternal<DataType extends Record<string, any>>(
 
     // search
     search,
+
+    // alert
+    alert,
 
     // onChage
     onChange,
@@ -161,7 +165,9 @@ function ProTableInternal<DataType extends Record<string, any>>(
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >
+      {!inRestrictionView && <ProTableTitle title={title} />}
       {!inRestrictionView && !!search && <SearchForm {...search.state} actions={search.actions} />}
+      {!inRestrictionView && !!alert && <ProTableAlert {...alert} />}
       <Table
         className="clsx(classes.table, showPagination && classes.showPagination)"
         size={size}

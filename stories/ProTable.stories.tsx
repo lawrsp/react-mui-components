@@ -13,6 +13,12 @@ import useProTablePagination from '../src/ProTable/usePagination';
 export default {
   title: 'Example/ProTable/Table',
   component: ProTable,
+  argTypes: {
+    alertType: {
+      options: ['info', 'success', 'warning', 'error'],
+      control: { type: 'select' }, // Automatically inferred when 'options' is defined
+    },
+  },
 };
 
 type DataType = {
@@ -107,6 +113,116 @@ export const Simple = () => {
   return (
     <div>
       <ProTable
+        title="测试表格"
+        data={data}
+        columns={columns}
+        total={total}
+        onChange={handleChange}
+        placeholder={<div style={{ height: '100px' }}>No Data</div>}
+      />
+    </div>
+  );
+};
+
+export const CustomTitle = () => {
+  const columns = [
+    {
+      field: 'name',
+      header: '姓名',
+    },
+    {
+      field: 'gender',
+      header: '性别',
+      renderRowCell: (data: DataType, index: number) => {
+        const v = data.gender;
+        if (v === 'M') {
+          return '男';
+        } else if (v === 'F') {
+          return '女';
+        } else {
+          return '未知';
+        }
+      },
+      rowCellSx: {},
+    },
+    {
+      field: 'age',
+      header: '年龄',
+      type: 'number',
+      valueFormatter: (data: DataType) => {
+        return `${data.age}岁`;
+      },
+    },
+    {
+      field: 'suffix',
+      header: '称呼',
+      valueGetter: (data: DataType) => {
+        const v = data.gender;
+        if (v === 'M') {
+          return '先生';
+        } else if (v === 'F') {
+          return '女士';
+        } else {
+          return '';
+        }
+      },
+      rowCellSx: {
+        bgcolor: 'action.disabled',
+      },
+      rowCellSxGetter: (data: DataType) => {
+        if (data.gender === 'M') {
+          return { color: 'blue' };
+        }
+        if (data.gender === 'F') {
+          return { color: 'red' };
+        }
+        return {};
+      },
+    },
+  ] as ProTableColumnDefType<DataType>[];
+
+  const [data, setData] = useState<DataType[]>([
+    { name: '123', gender: 'F', age: 19 },
+    { name: '12ff3', gender: 'M', age: 30 },
+    { name: '423412ff3', gender: '', age: 50 },
+  ]);
+  const [total, setTotal] = useState<number>(3);
+
+  const handleChange = ({ pagination, searches, sorters }: ProTableChangeParams) => {
+    console.log(
+      'handle data request,',
+      'pagination:',
+      pagination,
+      'sorter:',
+      sorters,
+      'searches:',
+      searches
+    );
+    setData([
+      { name: 'Jack', gender: 'M', age: 50 },
+      { name: 'Kevin', gender: 'M', age: 18 },
+      { name: 'Jane', gender: 'F', age: 28 },
+    ]);
+    setTotal(10);
+    return;
+  };
+
+  return (
+    <div>
+      <ProTable
+        title={
+          <div
+            style={{
+              color: 'green',
+              width: '100%',
+              justifyContent: 'center',
+              display: 'flex',
+              lineHeight: 3,
+            }}
+          >
+            自定义组件标题
+          </div>
+        }
         data={data}
         columns={columns}
         total={total}
@@ -231,7 +347,7 @@ export const Searchable = () => {
     {
       field: 'gender',
       header: '性别',
-      renderRowCell: (data: DataType, index: number) => {
+      renderRowCell: (data: DataType) => {
         const v = data.gender;
         if (v === 'M') {
           return '男';
@@ -317,6 +433,109 @@ export const Searchable = () => {
       />
     </div>
   );
+};
+
+const WithAlertTemplate = ({ alertType }) => {
+  const columns = [
+    {
+      field: 'name',
+      header: '姓名',
+    },
+    {
+      field: 'gender',
+      header: '性别',
+      renderRowCell: (data: DataType, index: number) => {
+        const v = data.gender;
+        if (v === 'M') {
+          return '男';
+        } else if (v === 'F') {
+          return '女';
+        } else {
+          return '未知';
+        }
+      },
+      rowCellSx: {},
+    },
+    {
+      field: 'age',
+      header: '年龄',
+      type: 'number',
+      valueFormatter: (data: DataType) => {
+        return `${data.age}岁`;
+      },
+    },
+    {
+      field: 'suffix',
+      header: '称呼',
+      valueGetter: (data: DataType) => {
+        const v = data.gender;
+        if (v === 'M') {
+          return '先生';
+        } else if (v === 'F') {
+          return '女士';
+        } else {
+          return '';
+        }
+      },
+      rowCellSx: {
+        bgcolor: 'action.disabled',
+      },
+      rowCellSxGetter: (data: DataType) => {
+        if (data.gender === 'M') {
+          return { color: 'blue' };
+        }
+        if (data.gender === 'F') {
+          return { color: 'red' };
+        }
+        return {};
+      },
+    },
+  ] as ProTableColumnDefType<DataType>[];
+
+  const [data, setData] = useState<DataType[]>([
+    { name: '123', gender: 'F', age: 19 },
+    { name: '12ff3', gender: 'M', age: 30 },
+    { name: '423412ff3', gender: '', age: 50 },
+  ]);
+  const [total, setTotal] = useState<number>(3);
+
+  const handleChange = ({ pagination, searches, sorters }: ProTableChangeParams) => {
+    console.log(
+      'handle data request,',
+      'pagination:',
+      pagination,
+      'sorter:',
+      sorters,
+      'searches:',
+      searches
+    );
+    setData([
+      { name: 'Jack', gender: 'M', age: 50 },
+      { name: 'Kevin', gender: 'M', age: 18 },
+      { name: 'Jane', gender: 'F', age: 28 },
+    ]);
+    setTotal(10);
+    return;
+  };
+
+  return (
+    <div style={{ padding: 10 }}>
+      <ProTable
+        data={data}
+        columns={columns}
+        title="测试表格"
+        total={total}
+        alert={{ message: 'this is alert', type: alertType }}
+        onChange={handleChange}
+        placeholder={<div style={{ height: '100px' }}>No Data</div>}
+      />
+    </div>
+  );
+};
+
+export const WithAlert = WithAlertTemplate.bind({});
+WithAlert.args = {
+  alertType: 'info',
 };
 
 export const TreeTable = () => {

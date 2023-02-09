@@ -65,7 +65,7 @@ const ProTableHeaderCell: <DataType>(props: ProTableHeaderCellProps<DataType>) =
 
   return (
     <TableCell
-      sx={[...(Array.isArray(sx) ? sx : [sx])]}
+      sx={[{ pt: 0.5, pb: 1, color: 'text.secondary' }, ...(Array.isArray(sx) ? sx : [sx])]}
       key={field}
       align={align}
       width={width}

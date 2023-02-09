@@ -15,7 +15,7 @@ export type SnackbarType = {
   info: (message: string | ReactNode) => void;
   success: (message: string | ReactNode) => void;
   error: (message: string | ReactNode) => void;
-  warnning: (message: string | ReactNode) => void;
+  warning: (message: string | ReactNode) => void;
   show: (message: string | ReactNode, options: SnackbarMessageOptions) => SnackbarKey;
   close: (key?: SnackbarKey) => void;
 };
@@ -37,7 +37,7 @@ export const useSnackbar = () => {
         enqueueSnackbar(message, { variant: 'error' });
         return;
       },
-      warnning: (message: string | ReactNode) => {
+      warning: (message: string | ReactNode) => {
         enqueueSnackbar(message, { variant: 'warning' });
         return;
       },

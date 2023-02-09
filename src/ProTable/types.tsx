@@ -101,6 +101,11 @@ export interface ProTableSearchActions {
   setSearches?: (searches: Record<string, any>) => void;
 }
 
+export interface ProTableAlertProps {
+  message: string;
+  type: 'info' | 'warning' | 'error' | 'success';
+}
+
 export interface ProTableChangeParams {
   pagination: ProTablePaginationType;
   sorters: ProTableSortersType;
@@ -171,6 +176,8 @@ export type ProTableProps<DataType extends object> = ProTableRequiredProps<DataT
       state: ProTableSearchState;
       actions?: ProTableSearchActions;
     };
+  } & {
+    alert?: ProTableAlertProps;
   };
 
 interface ProTableRefHandlers {

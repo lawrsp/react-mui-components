@@ -2,13 +2,13 @@ import { useMemo } from 'react';
 import { useState } from 'react';
 import { SearchFieldType, ProTableSearchState, ProTableSearchActions } from './types';
 
-export interface useSearchPropsParams {
+export interface useProTableSearchPropsParams {
   fields: SearchFieldType[];
   defaultSearches?: Record<string, any>;
   defaultInvisible?: boolean;
 }
 
-const useSearchProps: (props: useSearchPropsParams) => {
+export const useProTableSearchProps: (props: useProTableSearchPropsParams) => {
   state: ProTableSearchState;
   actions: ProTableSearchActions;
 } = ({ defaultInvisible = false, fields, defaultSearches = {} }) => {
@@ -38,4 +38,4 @@ const useSearchProps: (props: useSearchPropsParams) => {
   return { state, actions };
 };
 
-export default useSearchProps;
+export default useProTableSearchProps;
