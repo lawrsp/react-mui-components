@@ -1,6 +1,6 @@
 import { ReactNode, SyntheticEvent, ReactElement } from 'react';
 import { SxProps, Theme } from '@mui/material/styles';
-import { TableCellProps } from '@mui/material';
+import { TableCellProps, ButtonProps } from '@mui/material';
 
 export type ProTableTitleSearchToolProps = {
   searched: boolean;
@@ -10,6 +10,14 @@ export type ProTableTitleSearchToolProps = {
 
 export type ProTableTitleToolConfig =
   | string
+  | {
+      button: string;
+      onClick: () => void;
+      variant?: ButtonProps['variant'];
+      color?: ButtonProps['color'];
+      startIcon?: ButtonProps['startIcon'];
+      endIcon?: ButtonProps['endIcon'];
+    }
   | {
       icon: 'reload';
       onClick: () => void;

@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { action } from '@storybook/addon-actions';
+import { Send as SendIcon, AddShoppingCart as AddShoppingCartIcon } from '@mui/icons-material';
 import ProTable from '../src/ProTable/ProTable';
 import {
   ProTableColumnDefType,
@@ -640,13 +642,27 @@ export const AllHeaderTitles = () => {
   });
 
   const tools: ProTableTitleToolConfig[] = [
+    { button: '添加', variant: 'outlined', onClick: action('create') },
+    {
+      button: '测试',
+      variant: 'contained',
+      color: 'info',
+      startIcon: <SendIcon />,
+      onClick: action('test'),
+    },
+    {
+      button: '完成',
+      color: 'secondary',
+      onClick: action('complete'),
+      endIcon: <AddShoppingCartIcon />,
+    },
+    'divider',
     {
       icon: 'search',
       ...search.tool,
     },
-    { icon: 'reload', onClick: () => console.log('click reload') },
-    'divider',
-    { icon: 'close', onClick: () => console.log('click close') },
+    { icon: 'reload', onClick: action('reload') },
+    { icon: 'close', onClick: action('close') },
   ];
 
   return (

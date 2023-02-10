@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { IconButton, Badge } from '@mui/material';
+import { Button, IconButton, Badge } from '@mui/material';
 import {
   Refresh as RefreshIcon,
   Close as CloseIcon,
@@ -31,6 +31,21 @@ const renderTool = (t: ProTableTitleToolConfig, idx: number) => {
       default:
         return null;
     }
+  } else if ('button' in t) {
+    return (
+      <Button
+        sx={{ ml: 0.5 }}
+        key={`tool-reload-${idx}`}
+        size="small"
+        onClick={t.onClick}
+        color={t.color}
+        variant={t.variant}
+        endIcon={t.endIcon}
+        startIcon={t.startIcon}
+      >
+        {t.button}
+      </Button>
+    );
   } else if ('icon' in t) {
     switch (t.icon) {
       case 'reload':
