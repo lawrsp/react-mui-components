@@ -3,8 +3,8 @@ import { SxProps, Theme } from '@mui/material/styles';
 import { TableCellProps, ButtonProps } from '@mui/material';
 
 export type ProTableTitleSearchToolProps = {
-  searched: boolean;
-  show: boolean;
+  hasSearches: boolean;
+  open: boolean;
   onClick: () => void;
 };
 
@@ -119,18 +119,14 @@ export interface TableTreeProps {}
 export interface TableToolConfigProps {}
 
 export interface ProTableSearchState {
-  submitting?: boolean;
-
-  invisible?: boolean;
-
-  searches: Record<string, any>;
   searchFields: SearchFieldType[];
+  searches: Record<string, any>;
+  visible?: boolean;
 }
 
 export interface ProTableSearchActions {
-  setSearchFields: (fields: SearchFieldType[]) => void;
-  setInvisible: (invisible: boolean) => void;
-  setSearches: (searches: Record<string, any>) => void;
+  onSearch: (values: Record<string, any>) => void | Promise<void>;
+  onHide: (ev: SyntheticEvent) => void | Promise<void>;
 }
 
 export interface ProTableAlertProps {
@@ -194,6 +190,10 @@ export interface ProTableOptionalProps<DataType> {
   sx: SxProps<Theme>;
 }
 
+export type SearchFormProps = ProTableSearchState & {
+  actions: ProTableSearchActions;
+};
+
 export type ProTableProps<DataType extends object> = ProTableRequiredProps<DataType> &
   Partial<ProTableOptionalProps<DataType>> & {
     // restriction
@@ -205,12 +205,9 @@ export type ProTableProps<DataType extends object> = ProTableRequiredProps<DataT
       actions?: ProTablePaginationActions;
     };
   } & {
-    search?: {
-      state: ProTableSearchState;
-      actions: ProTableSearchActions;
-    };
+    searchProps?: SearchFormProps;
   } & {
-    alert?: ProTableAlertProps;
+    alertProps?: ProTableAlertProps;
   };
 
 interface ProTableRefHandlers {

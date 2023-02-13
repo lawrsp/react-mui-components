@@ -61,7 +61,7 @@ const renderTool = (t: ProTableTitleToolConfig, idx: number) => {
           </IconButton>
         );
       case 'search':
-        const color = t.show ? 'primary' : undefined;
+        const color = t.open ? 'primary' : undefined;
 
         return (
           <IconButton
@@ -71,7 +71,7 @@ const renderTool = (t: ProTableTitleToolConfig, idx: number) => {
             color={color}
             onClick={t.onClick}
           >
-            <Badge color="primary" variant="dot" overlap="circular" invisible={!t.searched}>
+            <Badge color="primary" variant="dot" overlap="circular" invisible={!t.hasSearches}>
               <SearchIcon />
             </Badge>
           </IconButton>

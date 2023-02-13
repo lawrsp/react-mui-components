@@ -10,8 +10,10 @@ import {
   ProTableChangeParams,
   ProTableTitleToolConfig,
 } from '../src/ProTable/types';
-import useSearch from '../src/ProTable/useSearch';
+import useSearch from '../src/ProTable/useSearchTool';
 import useProTablePagination from '../src/ProTable/usePagination';
+import { delayms } from '../src/utils/delay';
+
 export default {
   title: 'Example/ProTable/Table',
   component: ProTable,
@@ -324,7 +326,19 @@ export const WithPagination = () => {
 };
 
 export const Searchable = () => {
+  const [searches, setSearches] = useState({});
+  const onChangeSearches = (values: Record<string, any>) => {
+    console.log('change searches');
+    setSearches(values);
+  };
   const search = useSearch({
+    initialVisible: true,
+    searches,
+    refresh: async () => {
+      console.log('refresh');
+      await delayms(2000);
+    },
+    onChangeSearches,
     fields: [
       {
         field: 'name',
@@ -430,7 +444,7 @@ export const Searchable = () => {
         columns={columns}
         total={total}
         onChange={handleChange}
-        search={search}
+        searchProps={search.props}
         placeholder={<div style={{ height: '100px' }}>No Data</div>}
       />
     </div>
@@ -527,7 +541,7 @@ const WithAlertTemplate = ({ alertType }) => {
         columns={columns}
         title="测试表格"
         total={total}
-        alert={{ message: 'this is alert', type: alertType }}
+        alertProps={{ message: 'this is alert', type: alertType }}
         onChange={handleChange}
         placeholder={<div style={{ height: '100px' }}>No Data</div>}
       />
@@ -623,8 +637,27 @@ export const AllHeaderTitles = () => {
     return;
   };
 
+  const [loading, setLoading] = useState(false);
+
+  const [searches, setSearches] = useState({});
+  const onChangeSearches = async (values: Record<string, any>) => {
+    console.log('change searches');
+    setSearches(values);
+    setLoading(true);
+    await delayms(2000);
+    setLoading(false);
+  };
+
   const search = useSearch({
-    defaultInvisible: false,
+    initialVisible: true,
+    refresh: async () => {
+      console.log('refresh');
+      setLoading(true);
+      await delayms(1000);
+      setLoading(false);
+    },
+    searches,
+    onChangeSearches,
     fields: [
       {
         field: 'name',
@@ -668,14 +701,15 @@ export const AllHeaderTitles = () => {
   return (
     <div style={{ padding: 20 }}>
       <ProTable
+        loading={loading}
         data={data}
         columns={columns}
         total={total}
         onChange={handleChange}
         title="测试所有"
-        search={search}
+        searchProps={search.props}
         tools={tools}
-        alert={{ message: 'this is a alert', type: 'info' }}
+        alertProps={{ message: 'this is a alert', type: 'info' }}
         placeholder={<div style={{ height: '100px' }}>No Data</div>}
       />
     </div>

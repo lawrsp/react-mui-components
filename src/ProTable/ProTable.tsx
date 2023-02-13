@@ -79,13 +79,13 @@ function ProTableInternal<DataType extends Record<string, any>>(
     pagination,
 
     // search
-    search,
+    searchProps,
 
     // tools
     tools,
 
     // alert
-    alert,
+    alertProps,
 
     // onChage
     onChange,
@@ -169,8 +169,8 @@ function ProTableInternal<DataType extends Record<string, any>>(
       ]}
     >
       {!inRestrictionView && <ProTableTitle title={title} tools={tools} />}
-      {!inRestrictionView && !!search && <SearchForm {...search.state} actions={search.actions} />}
-      {!inRestrictionView && !!alert && <ProTableAlert {...alert} />}
+      {!inRestrictionView && !!searchProps && <SearchForm {...searchProps} />}
+      {!inRestrictionView && !!alertProps && <ProTableAlert {...alertProps} />}
       <Table
         className="clsx(classes.table, showPagination && classes.showPagination)"
         size={size}
