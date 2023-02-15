@@ -1,9 +1,9 @@
-import { useEffect, SyntheticEvent, useMemo, useState } from 'react';
+import { useEffect, SyntheticEvent, useMemo } from 'react';
 import { Box, Button, Paper } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { ExpandLess as ExpandLessIcon } from '@mui/icons-material';
 import { FieldValues } from 'react-hook-form';
-import { isEmpty, isEqual } from 'lodash';
+import { isEmpty } from 'lodash';
 import Form, { useForm, FormInput } from '../Form';
 import { SearchFieldType, SearchFormProps } from './types';
 

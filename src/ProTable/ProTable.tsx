@@ -36,8 +36,8 @@ import ProTableAlert from './ProTableAlert';
  *   showPagination: {},
  * }); */
 
-const emptyList: object[] = [];
-const defaultRowsPerPageOptions = [10, 25, 50] as Array<number>;
+/* const emptyList: object[] = [];
+ * const defaultRowsPerPageOptions = [10, 25, 50] as Array<number>; */
 
 // 功能：
 // 1. 分页加载
