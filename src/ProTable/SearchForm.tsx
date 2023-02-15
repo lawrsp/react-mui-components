@@ -10,7 +10,7 @@ import { SearchFieldType, SearchFormProps } from './types';
 // fields: name label type props
 export const SearchForm = (props: SearchFormProps) => {
   const { visible = true, searches, searchFields, actions } = props;
-  const { onSearch, onHide } = actions;
+  const { onSearch, onChangeVisible } = actions;
 
   const formValues = useMemo<FieldValues>(
     () =>
@@ -64,9 +64,11 @@ export const SearchForm = (props: SearchFormProps) => {
     }
   };
 
-  const handleClose = (ev: SyntheticEvent) => {
-    onHide?.(ev);
-  };
+  const handleClose = onChangeVisible
+    ? (ev: SyntheticEvent) => {
+        onChangeVisible(ev, false);
+      }
+    : undefined;
 
   // TODO: Grid
   const itemGrid = {
@@ -130,7 +132,7 @@ export const SearchForm = (props: SearchFormProps) => {
               <Button size="small" onClick={handleClear} variant="outlined" sx={{ ml: 2 }}>
                 清空
               </Button>
-              {!!onHide ? (
+              {!!handleClose ? (
                 <Box
                   component="span"
                   sx={{

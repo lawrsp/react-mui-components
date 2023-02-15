@@ -61,8 +61,6 @@ function ProTableInternal<DataType extends Record<string, any>>(
     restriction,
     // 标题部分
     title,
-    toolbarRender,
-    toolbarTypeaults,
     // 配置
     columns,
     headerSx,
@@ -82,7 +80,7 @@ function ProTableInternal<DataType extends Record<string, any>>(
     searchProps,
 
     // tools
-    tools,
+    titleTools,
 
     // alert
     alertProps,
@@ -168,7 +166,7 @@ function ProTableInternal<DataType extends Record<string, any>>(
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >
-      {!inRestrictionView && <ProTableTitle title={title} tools={tools} />}
+      {!inRestrictionView && <ProTableTitle title={title} tools={titleTools} />}
       {!inRestrictionView && !!searchProps && <SearchForm {...searchProps} />}
       {!inRestrictionView && !!alertProps && <ProTableAlert {...alertProps} />}
       <Table

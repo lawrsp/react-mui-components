@@ -5,7 +5,7 @@ import {
   Close as CloseIcon,
   Search as SearchIcon,
 } from '@mui/icons-material';
-import { ProTableTitleToolConfig } from './types';
+import { ProTableTitleToolConfig, isProTableSearchToolConfig } from './types';
 
 import { Box, Divider } from '@mui/material';
 
@@ -60,23 +60,24 @@ const renderTool = (t: ProTableTitleToolConfig, idx: number) => {
             <CloseIcon />
           </IconButton>
         );
-      case 'search':
-        const color = t.open ? 'primary' : undefined;
-
-        return (
-          <IconButton
-            sx={{ ml: 0.5 }}
-            key={`tool-search-${idx}`}
-            size="small"
-            color={color}
-            onClick={t.onClick}
-          >
-            <Badge color="primary" variant="dot" overlap="circular" invisible={!t.hasSearches}>
-              <SearchIcon />
-            </Badge>
-          </IconButton>
-        );
       default:
+        if (isProTableSearchToolConfig(t)) {
+          const color = t.open || t.hasSearches ? 'primary' : undefined;
+
+          return (
+            <IconButton
+              sx={{ ml: 0.5 }}
+              key={`tool-search-${idx}`}
+              size="small"
+              color={color}
+              onClick={t.onClick}
+            >
+              <Badge color="primary" variant="dot" overlap="circular" invisible={!t.hasSearches}>
+                <SearchIcon />
+              </Badge>
+            </IconButton>
+          );
+        }
         return (
           <IconButton sx={{ ml: 0.5 }} key={`tool-custom-${idx}`} size="small" onClick={t.onClick}>
             {t.icon}
@@ -113,23 +114,28 @@ const ProTableTitle = (props: ProTableTitleProps) => {
     >
       <Box
         sx={{
+          display: 'flex',
           fontWeight: 'bold',
+          alignItems: 'center',
           flexGrow: 1,
+          overflow: 'hidden',
         }}
       >
         {title}
       </Box>
-      {!!tools.length && (
-        <Divider
-          orientation="vertical"
-          sx={{
-            ml: 0.5,
-            mr: 0.5,
-            height: '2rem',
-          }}
-        />
-      )}
-      {tools.map(renderTool)}
+      <Box sx={{ flexShrink: 0, display: 'flex' }}>
+        {!!tools.length && (
+          <Divider
+            orientation="vertical"
+            sx={{
+              ml: 0.5,
+              mr: 0.5,
+              height: '2rem',
+            }}
+          />
+        )}
+        {tools.map(renderTool)}
+      </Box>
     </Box>
   );
 };

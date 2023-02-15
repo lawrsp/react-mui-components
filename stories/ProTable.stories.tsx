@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import { Send as SendIcon, AddShoppingCart as AddShoppingCartIcon } from '@mui/icons-material';
 import ProTable from '../src/ProTable/ProTable';
@@ -10,7 +10,10 @@ import {
   ProTableChangeParams,
   ProTableTitleToolConfig,
 } from '../src/ProTable/types';
-import useSearch from '../src/ProTable/useSearchTool';
+import useSearch from '../src/ProTable/useSearch';
+import useSearchTool from '../src/ProTable/useSearchTool';
+import useSearchTitle from '../src/ProTable/useSearchTitle';
+
 import useProTablePagination from '../src/ProTable/usePagination';
 import { delayms } from '../src/utils/delay';
 
@@ -333,6 +336,7 @@ export const Searchable = () => {
   };
   const search = useSearch({
     initialVisible: true,
+    noHide: true,
     searches,
     refresh: async () => {
       console.log('refresh');
@@ -444,7 +448,7 @@ export const Searchable = () => {
         columns={columns}
         total={total}
         onChange={handleChange}
-        searchProps={search.props}
+        searchProps={search}
         placeholder={<div style={{ height: '100px' }}>No Data</div>}
       />
     </div>
@@ -674,6 +678,9 @@ export const AllHeaderTitles = () => {
     ] as SearchFieldType[],
   });
 
+  const searchTool = useSearchTool(search);
+  const titleWithSearch = useSearchTitle('测试所有', search);
+
   const tools: ProTableTitleToolConfig[] = [
     { button: '添加', variant: 'outlined', onClick: action('create') },
     {
@@ -690,11 +697,16 @@ export const AllHeaderTitles = () => {
       endIcon: <AddShoppingCartIcon />,
     },
     'divider',
+    searchTool,
     {
-      icon: 'search',
-      ...search.tool,
+      icon: 'reload',
+      onClick: async (ev: SyntheticEvent) => {
+        action('reload')(ev);
+        setLoading(true);
+        await delayms(2000);
+        setLoading(false);
+      },
     },
-    { icon: 'reload', onClick: action('reload') },
     { icon: 'close', onClick: action('close') },
   ];
 
@@ -706,9 +718,9 @@ export const AllHeaderTitles = () => {
         columns={columns}
         total={total}
         onChange={handleChange}
-        title="测试所有"
-        searchProps={search.props}
-        tools={tools}
+        title={titleWithSearch}
+        titleTools={tools}
+        searchProps={search}
         alertProps={{ message: 'this is a alert', type: 'info' }}
         placeholder={<div style={{ height: '100px' }}>No Data</div>}
       />

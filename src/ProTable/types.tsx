@@ -2,17 +2,24 @@ import { ReactNode, SyntheticEvent, ReactElement } from 'react';
 import { SxProps, Theme } from '@mui/material/styles';
 import { TableCellProps, ButtonProps } from '@mui/material';
 
-export type ProTableTitleSearchToolProps = {
+export type ProTableTitleSearchToolConfig = {
+  icon: 'search';
   hasSearches: boolean;
   open: boolean;
-  onClick: () => void;
+  onClick: (ev: SyntheticEvent) => void;
 };
+
+export function isProTableSearchToolConfig(
+  t: ProTableTitleToolConfig
+): t is ProTableTitleSearchToolConfig {
+  return typeof t === 'object' && 'icon' in t && t.icon === 'search';
+}
 
 export type ProTableTitleToolConfig =
   | string
   | {
       button: string;
-      onClick: () => void;
+      onClick: (ev?: SyntheticEvent) => any | Promise<any>;
       variant?: ButtonProps['variant'];
       color?: ButtonProps['color'];
       startIcon?: ButtonProps['startIcon'];
@@ -20,18 +27,16 @@ export type ProTableTitleToolConfig =
     }
   | {
       icon: 'reload';
-      onClick: () => void;
+      onClick: (ev?: SyntheticEvent) => any | Promise<any>;
     }
   | {
       icon: 'close';
-      onClick: () => void;
+      onClick: (ev?: SyntheticEvent) => any | Promise<any>;
     }
-  | ({
-      icon: 'search';
-    } & ProTableTitleSearchToolProps)
+  | ProTableTitleSearchToolConfig
   | {
       icon: ReactElement;
-      onClick: () => void;
+      onClick: (ev?: SyntheticEvent) => any | Promise<any>;
     }
   | { render: () => ReactNode };
 
@@ -62,6 +67,7 @@ export interface SearchFieldType {
   field: string;
   label: string;
   type?: string;
+  getValueLabel?: (v: any) => string;
 }
 
 export interface ProTableStateActionType {
@@ -121,12 +127,12 @@ export interface TableToolConfigProps {}
 export interface ProTableSearchState {
   searchFields: SearchFieldType[];
   searches: Record<string, any>;
-  visible?: boolean;
+  visible: boolean;
 }
 
 export interface ProTableSearchActions {
   onSearch: (values: Record<string, any>) => void | Promise<void>;
-  onHide: (ev: SyntheticEvent) => void | Promise<void>;
+  onChangeVisible?: (ev: SyntheticEvent, visible: boolean) => void | Promise<void>;
 }
 
 export interface ProTableAlertProps {
@@ -161,9 +167,7 @@ export interface ProTableOptionalProps<DataType> {
   size: 'small' | 'medium';
   // 标题部分
   title: ReactNode;
-  tools: ProTableTitleToolConfig[];
-  toolbarRender: () => ReactNode;
-  toolbarTypeaults: TableToolConfigProps;
+  titleTools: ProTableTitleToolConfig[];
   // columns
   actions: TableActionProps<DataType>[];
   rowRender: (rowData: DataType, index: number) => ReactNode;
@@ -193,6 +197,13 @@ export interface ProTableOptionalProps<DataType> {
 export type SearchFormProps = ProTableSearchState & {
   actions: ProTableSearchActions;
 };
+
+export interface SearchTitleProps {
+  open: boolean;
+  onChangeOpen?: (ev: SyntheticEvent, v: boolean) => void;
+  fields: SearchFieldType[];
+  values: Record<string, any>;
+}
 
 export type ProTableProps<DataType extends object> = ProTableRequiredProps<DataType> &
   Partial<ProTableOptionalProps<DataType>> & {
