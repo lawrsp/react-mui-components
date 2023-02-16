@@ -165,9 +165,7 @@ export interface ProTableOptionalProps<DataType> {
   total: number;
 
   size: 'small' | 'medium';
-  // 标题部分
-  title: ReactNode;
-  titleTools: ProTableTitleToolConfig[];
+
   // columns
   actions: TableActionProps<DataType>[];
   rowRender: (rowData: DataType, index: number) => ReactNode;
@@ -205,8 +203,19 @@ export interface SearchTitleProps {
   values: Record<string, any>;
 }
 
+export interface ProTableTitleProps {
+  title: ReactNode;
+  tools?: ProTableTitleToolConfig[];
+  children?: ReactNode;
+}
+
 export type ProTableProps<DataType extends object> = ProTableRequiredProps<DataType> &
   Partial<ProTableOptionalProps<DataType>> & {
+    // title
+    // 标题部分
+    title?: ReactNode;
+    titleProps?: ProTableTitleProps;
+  } & {
     // restriction
     restriction?: Array<number>;
   } & {

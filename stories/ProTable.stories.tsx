@@ -12,7 +12,7 @@ import {
 } from '../src/ProTable/types';
 import useSearch from '../src/ProTable/useSearch';
 import useSearchTool from '../src/ProTable/useSearchTool';
-import useSearchTitle from '../src/ProTable/useSearchTitle';
+import useTitleProps from '../src/ProTable/useTitleProps';
 
 import useProTablePagination from '../src/ProTable/usePagination';
 import { delayms } from '../src/utils/delay';
@@ -225,6 +225,7 @@ export const CustomTitle = () => {
               justifyContent: 'center',
               display: 'flex',
               lineHeight: 3,
+              flexGrow: 1,
             }}
           >
             自定义组件标题
@@ -679,7 +680,6 @@ export const AllHeaderTitles = () => {
   });
 
   const searchTool = useSearchTool(search);
-  const titleWithSearch = useSearchTitle('测试所有', search);
 
   const tools: ProTableTitleToolConfig[] = [
     { button: '添加', variant: 'outlined', onClick: action('create') },
@@ -710,6 +710,8 @@ export const AllHeaderTitles = () => {
     { icon: 'close', onClick: action('close') },
   ];
 
+  const titleProps = useTitleProps('测试所有', { withSearch: search, withTools: tools });
+
   return (
     <div style={{ padding: 20 }}>
       <ProTable
@@ -718,8 +720,7 @@ export const AllHeaderTitles = () => {
         columns={columns}
         total={total}
         onChange={handleChange}
-        title={titleWithSearch}
-        titleTools={tools}
+        titleProps={titleProps}
         searchProps={search}
         alertProps={{ message: 'this is a alert', type: 'info' }}
         placeholder={<div style={{ height: '100px' }}>No Data</div>}

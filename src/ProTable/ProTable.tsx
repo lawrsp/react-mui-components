@@ -79,8 +79,8 @@ function ProTableInternal<DataType extends Record<string, any>>(
     // search
     searchProps,
 
-    // tools
-    titleTools,
+    // title
+    titleProps,
 
     // alert
     alertProps,
@@ -166,7 +166,11 @@ function ProTableInternal<DataType extends Record<string, any>>(
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >
-      {!inRestrictionView && <ProTableTitle title={title} tools={titleTools} />}
+      {!inRestrictionView && (!!title || !!titleProps) && (
+        <ProTableTitle title={title || titleProps?.title || ''} tools={titleProps?.tools}>
+          {titleProps?.children}
+        </ProTableTitle>
+      )}
       {!inRestrictionView && !!searchProps && <SearchForm {...searchProps} />}
       {!inRestrictionView && !!alertProps && <ProTableAlert {...alertProps} />}
       <Table

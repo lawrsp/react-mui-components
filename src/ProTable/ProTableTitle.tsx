@@ -1,18 +1,13 @@
-import { ReactNode } from 'react';
 import { Button, IconButton, Badge } from '@mui/material';
 import {
   Refresh as RefreshIcon,
   Close as CloseIcon,
   Search as SearchIcon,
 } from '@mui/icons-material';
-import { ProTableTitleToolConfig, isProTableSearchToolConfig } from './types';
+import { ProTableTitleProps, ProTableTitleToolConfig, isProTableSearchToolConfig } from './types';
 
 import { Box, Divider } from '@mui/material';
-
-export interface ProTableTitleProps {
-  title: ReactNode;
-  tools?: ProTableTitleToolConfig[];
-}
+import { useMemo } from 'react';
 
 const renderTool = (t: ProTableTitleToolConfig, idx: number) => {
   if (typeof t === 'string') {
@@ -96,7 +91,26 @@ const renderTool = (t: ProTableTitleToolConfig, idx: number) => {
 };
 
 const ProTableTitle = (props: ProTableTitleProps) => {
-  const { title, tools = [] } = props;
+  const { title, tools = [], children } = props;
+
+  const titleNode = useMemo(() => {
+    if (typeof title === 'string') {
+      return (
+        <Box
+          sx={{
+            display: 'flex',
+            fontWeight: 'bold',
+            alignItems: 'center',
+            flexShrink: 0,
+          }}
+        >
+          {title}
+        </Box>
+      );
+    }
+
+    return title;
+  }, [title]);
 
   return (
     <Box
@@ -112,19 +126,19 @@ const ProTableTitle = (props: ProTableTitleProps) => {
         minHeight: '1.6rem',
       }}
     >
+      {titleNode}
       <Box
         sx={{
-          display: 'flex',
-          fontWeight: 'bold',
+          display: children ? 'flex' : 'none',
           alignItems: 'center',
           flexGrow: 1,
           overflow: 'hidden',
         }}
       >
-        {title}
+        {children}
       </Box>
-      <Box sx={{ flexShrink: 0, display: 'flex' }}>
-        {!!tools.length && (
+      <Box sx={{ flexShrink: 0, display: tools?.length ? 'flex' : 'none', alignItems: 'center' }}>
+        {!!children && !!tools.length && (
           <Divider
             orientation="vertical"
             sx={{
