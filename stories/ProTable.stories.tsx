@@ -4,8 +4,6 @@ import { Send as SendIcon, AddShoppingCart as AddShoppingCartIcon } from '@mui/i
 import ProTable from '../src/ProTable/ProTable';
 import {
   ProTableColumnDefType,
-  ProTablePaginationType,
-  ProTableSortersType,
   SearchFieldType,
   ProTableChangeParams,
   ProTableTitleToolConfig,
@@ -690,11 +688,11 @@ export const AllHeaderTitles = () => {
   const searchTool = useSearchTool(search);
 
   const tools: ProTableTitleToolConfig[] = [
-    { button: '添加', variant: 'outlined', onClick: action('create') },
+    { button: '添加', onClick: action('create') },
     {
       button: '测试',
-      variant: 'contained',
       color: 'info',
+      variant: 'outlined',
       startIcon: <SendIcon />,
       onClick: action('test'),
     },
@@ -702,6 +700,7 @@ export const AllHeaderTitles = () => {
       button: '完成',
       color: 'secondary',
       onClick: action('complete'),
+      variant: 'contained',
       endIcon: <AddShoppingCartIcon />,
     },
     'divider',

@@ -29,7 +29,6 @@ const renderTool = (t: ProTableTitleToolConfig, idx: number) => {
   } else if ('button' in t) {
     return (
       <Button
-        sx={{ ml: 0.5 }}
         key={`tool-reload-${idx}`}
         size="small"
         onClick={t.onClick}
@@ -137,7 +136,16 @@ const ProTableTitle = (props: ProTableTitleProps) => {
       >
         {children}
       </Box>
-      <Box sx={{ flexShrink: 0, display: tools?.length ? 'flex' : 'none', alignItems: 'center' }}>
+      <Box
+        sx={{
+          flexShrink: 0,
+          display: tools?.length ? 'flex' : 'none',
+          alignItems: 'center',
+          '& button+button': {
+            ml: 1.5,
+          },
+        }}
+      >
         {!!children && !!tools.length && (
           <Divider
             orientation="vertical"
