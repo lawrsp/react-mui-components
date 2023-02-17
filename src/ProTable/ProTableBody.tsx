@@ -1,12 +1,13 @@
-import { ReactNode } from 'react';
-import { TableBody, TableRow, TableCell } from '@mui/material';
+import { ReactNode, SyntheticEvent } from 'react';
+import { TableBody, TableRow, TableCell, Box } from '@mui/material';
 import { SxProps, Theme } from '@mui/material/styles';
-import { type ProTableColumnDefType } from './types';
+import { type ProTableTreeProps, type ProTableColumnDefType } from './types';
 
 export interface ProTableBodyRowProps<DataType> {
   columns: ProTableColumnDefType<DataType>[];
   rowData: DataType;
   rowIndex: number;
+  treeProps?: ProTableTreeProps;
 }
 
 /* renderRowCell?: (record: DataType, index: number) => ReactNode;
@@ -14,8 +15,49 @@ export interface ProTableBodyRowProps<DataType> {
  * valueGetter?: (record: DataType, index: number) => string;
  *  */
 
+const getTreeNodePrefix = <T extends {}>(data: T, treeProps: ProTableTreeProps) => {
+  const id = treeProps.getId(data);
+  const treeInfo = treeProps.nodes[id];
+
+  let indent: ReactNode;
+
+  const tpi = treeProps.indent;
+
+  if (typeof tpi === 'number') {
+    indent = <Box sx={{ width: `${tpi * treeInfo.level}em`, height: '0.5em' }} />;
+  } else {
+    indent = <Box>{new Array(treeInfo.level).fill(tpi)}</Box>;
+    console.log(
+      '========================',
+      new Array(treeInfo.level).map(() => tpi)
+    );
+  }
+
+  let icon: ReactNode;
+  let onClick: ((ev: SyntheticEvent) => void) | undefined;
+
+  if (treeInfo.hasChildren) {
+    if (treeInfo.expanded) {
+      icon = treeProps.expandIcon;
+      onClick = (ev: SyntheticEvent) => treeProps.onToggleOne(ev, id);
+    } else {
+      icon = treeProps.foldIcon;
+      onClick = (ev: SyntheticEvent) => treeProps.onToggleOne(ev, id);
+    }
+  } else {
+    icon = treeProps.leafIcon;
+  }
+
+  return (
+    <Box component="span" sx={{ display: 'inline-flex' }} onClick={onClick}>
+      {indent}
+      {icon}
+    </Box>
+  );
+};
+
 const ProTableBodyRow = <DataType extends object>(props: ProTableBodyRowProps<DataType>) => {
-  const { columns, rowData, rowIndex } = props;
+  const { columns, rowData, rowIndex, treeProps } = props;
 
   return (
     <TableRow hover>
@@ -33,6 +75,13 @@ const ProTableBodyRow = <DataType extends object>(props: ProTableBodyRowProps<Da
         const { align, padding, rowCellSx, rowCellSxGetter } = col;
 
         let computedSx = rowCellSxGetter?.(rowData, rowIndex);
+        // TODO: tree cell
+        let prefix = null;
+        if (treeProps && col.field === treeProps.treeIndexField) {
+          // indent
+          // icon
+          prefix = getTreeNodePrefix(rowData, treeProps);
+        }
 
         return (
           <TableCell
@@ -40,11 +89,15 @@ const ProTableBodyRow = <DataType extends object>(props: ProTableBodyRowProps<Da
             align={align}
             padding={padding}
             sx={[
+              { '& > div': { display: 'inline-flex' } },
               ...(Array.isArray(rowCellSx) ? rowCellSx : [rowCellSx]),
               ...(Array.isArray(computedSx) ? computedSx : [computedSx]),
             ]}
           >
-            {value}
+            <div>
+              {prefix}
+              {value}
+            </div>
           </TableCell>
         );
       })}
@@ -56,13 +109,19 @@ export type ProTableBodyProps<DataType> = {
   placeholder?: ReactNode;
   sx?: SxProps<Theme>;
   data: DataType[];
+  treeProps?: ProTableTreeProps;
+  getRowKey?: (rowData: DataType, rowIndex: number) => string;
 } & Pick<ProTableBodyRowProps<DataType>, 'columns'>;
+
+const defaultGetRowKey = (data: any, index: number) => {
+  return data.id || `${index}`;
+};
 
 // bodys = [bodyItem]
 // rowSelection = { onSelectAllClick, onSelectRowClick }
 // selectedRows
 const ProTableBody = <DataType extends object>(props: ProTableBodyProps<DataType>) => {
-  const { data = [], columns, placeholder, sx } = props;
+  const { data = [], columns, placeholder, sx, treeProps, getRowKey = defaultGetRowKey } = props;
 
   // console.log('========body rerend');
   return (
@@ -75,12 +134,14 @@ const ProTableBody = <DataType extends object>(props: ProTableBodyProps<DataType
         </TableRow>
       ) : (
         data.map((rowData, rowIndex) => {
+          const key = getRowKey(rowData, rowIndex);
           return (
             <ProTableBodyRow
-              key={rowIndex}
+              key={key}
               columns={columns}
               rowData={rowData}
               rowIndex={rowIndex}
+              treeProps={treeProps}
             />
           );
         })

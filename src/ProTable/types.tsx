@@ -120,7 +120,31 @@ export interface TableActionProps<DataType> {
   sx: SxProps<Theme>;
 }
 
-export interface TableTreeProps {}
+export type TreeExpandState = {
+  expand: boolean;
+  excepts: string[];
+};
+
+export interface TreeInfoType {
+  level: number;
+  id: string;
+  parent: string[];
+  hasChildren: boolean;
+  expanded: boolean;
+}
+
+export interface ProTableTreeProps {
+  treeIndexField: string;
+  nodes: { [key: string]: TreeInfoType };
+  expandIcon: ReactNode;
+  foldIcon: ReactNode;
+  leafIcon: ReactNode;
+  indent: number;
+  onToggleOne: (ev: SyntheticEvent, id: string) => void;
+  onToggleAll: (ev: SyntheticEvent, expand: boolean) => void;
+  expandState: TreeExpandState;
+  getId: (d: any) => string;
+}
 
 export interface TableToolConfigProps {}
 
@@ -159,7 +183,7 @@ export interface ProTableOptionalProps<DataType> {
   onChange: (params: ProTableChangeParams) => void | Promise<void>;
 
   // row key
-  rowKey: string;
+  getRowKey?: (rowData: DataType, rowIndex: number) => string;
   // size
 
   total: number;
@@ -169,7 +193,7 @@ export interface ProTableOptionalProps<DataType> {
   // columns
   actions: TableActionProps<DataType>[];
   rowRender: (rowData: DataType, index: number) => ReactNode;
-  treeProps: TableTreeProps;
+  treeProps: ProTableTreeProps;
 
   // search
   searchFields: SearchFieldType[];
@@ -236,11 +260,3 @@ interface ProTableRefHandlers {
 }
 
 export type ProTableRefObjectType = Partial<ProTableRefHandlers>;
-
-export interface ProTableTreeProps<DataType> {
-  getChildren: (
-    data: DataType & { children?: DataType[] }
-  ) => (DataType & { children?: DataType[] })[];
-  treeNodeExpanded: Function;
-  treeNodePrefix: Function;
-}

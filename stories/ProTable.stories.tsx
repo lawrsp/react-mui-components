@@ -13,6 +13,7 @@ import {
 import useSearch from '../src/ProTable/useSearch';
 import useSearchTool from '../src/ProTable/useSearchTool';
 import useTitleProps from '../src/ProTable/useTitleProps';
+import useTreeProps from '../src/ProTable/useTreeProps';
 
 import useProTablePagination from '../src/ProTable/usePagination';
 import { delayms } from '../src/utils/delay';
@@ -28,10 +29,17 @@ export default {
   },
 };
 
-type DataType = {
+type DataTypeFlat = {
   name: string;
   gender: 'M' | 'F' | '';
   age: number;
+};
+
+type DataTypeWithTree = {
+  name: string;
+  gender: 'M' | 'F' | '';
+  age: number;
+  children?: DataTypeWithTree[];
 };
 
 export const Simple = () => {
@@ -43,7 +51,7 @@ export const Simple = () => {
     {
       field: 'gender',
       header: '性别',
-      renderRowCell: (data: DataType, index: number) => {
+      renderRowCell: (data: DataTypeFlat, index: number) => {
         const v = data.gender;
         if (v === 'M') {
           return '男';
@@ -59,14 +67,14 @@ export const Simple = () => {
       field: 'age',
       header: '年龄',
       type: 'number',
-      valueFormatter: (data: DataType) => {
+      valueFormatter: (data: DataTypeFlat) => {
         return `${data.age}岁`;
       },
     },
     {
       field: 'suffix',
       header: '称呼',
-      valueGetter: (data: DataType) => {
+      valueGetter: (data: DataTypeFlat) => {
         const v = data.gender;
         if (v === 'M') {
           return '先生';
@@ -79,7 +87,7 @@ export const Simple = () => {
       rowCellSx: {
         bgcolor: 'action.disabled',
       },
-      rowCellSxGetter: (data: DataType) => {
+      rowCellSxGetter: (data: DataTypeFlat) => {
         if (data.gender === 'M') {
           return { color: 'blue' };
         }
@@ -89,9 +97,9 @@ export const Simple = () => {
         return {};
       },
     },
-  ] as ProTableColumnDefType<DataType>[];
+  ] as ProTableColumnDefType<DataTypeFlat>[];
 
-  const [data, setData] = useState<DataType[]>([
+  const [data, setData] = useState<DataTypeFlat[]>([
     { name: '123', gender: 'F', age: 19 },
     { name: '12ff3', gender: 'M', age: 30 },
     { name: '423412ff3', gender: '', age: 50 },
@@ -140,7 +148,7 @@ export const CustomTitle = () => {
     {
       field: 'gender',
       header: '性别',
-      renderRowCell: (data: DataType, index: number) => {
+      renderRowCell: (data: DataTypeFlat, index: number) => {
         const v = data.gender;
         if (v === 'M') {
           return '男';
@@ -156,14 +164,14 @@ export const CustomTitle = () => {
       field: 'age',
       header: '年龄',
       type: 'number',
-      valueFormatter: (data: DataType) => {
+      valueFormatter: (data: DataTypeFlat) => {
         return `${data.age}岁`;
       },
     },
     {
       field: 'suffix',
       header: '称呼',
-      valueGetter: (data: DataType) => {
+      valueGetter: (data: DataTypeFlat) => {
         const v = data.gender;
         if (v === 'M') {
           return '先生';
@@ -176,7 +184,7 @@ export const CustomTitle = () => {
       rowCellSx: {
         bgcolor: 'action.disabled',
       },
-      rowCellSxGetter: (data: DataType) => {
+      rowCellSxGetter: (data: DataTypeFlat) => {
         if (data.gender === 'M') {
           return { color: 'blue' };
         }
@@ -186,9 +194,9 @@ export const CustomTitle = () => {
         return {};
       },
     },
-  ] as ProTableColumnDefType<DataType>[];
+  ] as ProTableColumnDefType<DataTypeFlat>[];
 
-  const [data, setData] = useState<DataType[]>([
+  const [data, setData] = useState<DataTypeFlat[]>([
     { name: '123', gender: 'F', age: 19 },
     { name: '12ff3', gender: 'M', age: 30 },
     { name: '423412ff3', gender: '', age: 50 },
@@ -251,7 +259,7 @@ export const WithPagination = () => {
     {
       field: 'gender',
       header: '性别',
-      renderRowCell: (data: DataType, index: number) => {
+      renderRowCell: (data: DataTypeFlat, index: number) => {
         const v = data.gender;
         if (v === 'M') {
           return '男';
@@ -267,14 +275,14 @@ export const WithPagination = () => {
       field: 'age',
       header: '年龄',
       type: 'number',
-      valueFormatter: (data: DataType) => {
+      valueFormatter: (data: DataTypeFlat) => {
         return `${data.age}岁`;
       },
     },
     {
       field: 'suffix',
       header: '称呼',
-      valueGetter: (data: DataType) => {
+      valueGetter: (data: DataTypeFlat) => {
         const v = data.gender;
         if (v === 'M') {
           return '先生';
@@ -287,7 +295,7 @@ export const WithPagination = () => {
       rowCellSx: {
         bgcolor: 'action.disabled',
       },
-      rowCellSxGetter: (data: DataType) => {
+      rowCellSxGetter: (data: DataTypeFlat) => {
         if (data.gender === 'M') {
           return { color: 'blue' };
         }
@@ -297,9 +305,9 @@ export const WithPagination = () => {
         return {};
       },
     },
-  ] as ProTableColumnDefType<DataType>[];
+  ] as ProTableColumnDefType<DataTypeFlat>[];
 
-  const [data, setData] = useState<DataType[]>([]);
+  const [data, setData] = useState<DataTypeFlat[]>([]);
   const [total, setTotal] = useState<number>(0);
 
   const {
@@ -368,7 +376,7 @@ export const Searchable = () => {
     {
       field: 'gender',
       header: '性别',
-      renderRowCell: (data: DataType) => {
+      renderRowCell: (data: DataTypeFlat) => {
         const v = data.gender;
         if (v === 'M') {
           return '男';
@@ -384,14 +392,14 @@ export const Searchable = () => {
       field: 'age',
       header: '年龄',
       type: 'number',
-      valueFormatter: (data: DataType) => {
+      valueFormatter: (data: DataTypeFlat) => {
         return `${data.age}岁`;
       },
     },
     {
       field: 'suffix',
       header: '称呼',
-      valueGetter: (data: DataType) => {
+      valueGetter: (data: DataTypeFlat) => {
         const v = data.gender;
         if (v === 'M') {
           return '先生';
@@ -404,7 +412,7 @@ export const Searchable = () => {
       rowCellSx: {
         bgcolor: 'action.disabled',
       },
-      rowCellSxGetter: (data: DataType) => {
+      rowCellSxGetter: (data: DataTypeFlat) => {
         if (data.gender === 'M') {
           return { color: 'blue' };
         }
@@ -414,9 +422,9 @@ export const Searchable = () => {
         return {};
       },
     },
-  ] as ProTableColumnDefType<DataType>[];
+  ] as ProTableColumnDefType<DataTypeFlat>[];
 
-  const [data, setData] = useState<DataType[]>([
+  const [data, setData] = useState<DataTypeFlat[]>([
     { name: '123', gender: 'F', age: 19 },
     { name: '12ff3', gender: 'M', age: 30 },
     { name: '423412ff3', gender: '', age: 50 },
@@ -465,7 +473,7 @@ const WithAlertTemplate = ({ alertType }) => {
     {
       field: 'gender',
       header: '性别',
-      renderRowCell: (data: DataType, index: number) => {
+      renderRowCell: (data: DataTypeFlat, index: number) => {
         const v = data.gender;
         if (v === 'M') {
           return '男';
@@ -481,14 +489,14 @@ const WithAlertTemplate = ({ alertType }) => {
       field: 'age',
       header: '年龄',
       type: 'number',
-      valueFormatter: (data: DataType) => {
+      valueFormatter: (data: DataTypeFlat) => {
         return `${data.age}岁`;
       },
     },
     {
       field: 'suffix',
       header: '称呼',
-      valueGetter: (data: DataType) => {
+      valueGetter: (data: DataTypeFlat) => {
         const v = data.gender;
         if (v === 'M') {
           return '先生';
@@ -501,7 +509,7 @@ const WithAlertTemplate = ({ alertType }) => {
       rowCellSx: {
         bgcolor: 'action.disabled',
       },
-      rowCellSxGetter: (data: DataType) => {
+      rowCellSxGetter: (data: DataTypeFlat) => {
         if (data.gender === 'M') {
           return { color: 'blue' };
         }
@@ -511,9 +519,9 @@ const WithAlertTemplate = ({ alertType }) => {
         return {};
       },
     },
-  ] as ProTableColumnDefType<DataType>[];
+  ] as ProTableColumnDefType<DataTypeFlat>[];
 
-  const [data, setData] = useState<DataType[]>([
+  const [data, setData] = useState<DataTypeFlat[]>([
     { name: '123', gender: 'F', age: 19 },
     { name: '12ff3', gender: 'M', age: 30 },
     { name: '423412ff3', gender: '', age: 50 },
@@ -568,7 +576,7 @@ export const AllHeaderTitles = () => {
     {
       field: 'gender',
       header: '性别',
-      renderRowCell: (data: DataType) => {
+      renderRowCell: (data: DataTypeFlat) => {
         const v = data.gender;
         if (v === 'M') {
           return '男';
@@ -584,14 +592,14 @@ export const AllHeaderTitles = () => {
       field: 'age',
       header: '年龄',
       type: 'number',
-      valueFormatter: (data: DataType) => {
+      valueFormatter: (data: DataTypeFlat) => {
         return `${data.age}岁`;
       },
     },
     {
       field: 'suffix',
       header: '称呼',
-      valueGetter: (data: DataType) => {
+      valueGetter: (data: DataTypeFlat) => {
         const v = data.gender;
         if (v === 'M') {
           return '先生';
@@ -604,7 +612,7 @@ export const AllHeaderTitles = () => {
       rowCellSx: {
         bgcolor: 'action.disabled',
       },
-      rowCellSxGetter: (data: DataType) => {
+      rowCellSxGetter: (data: DataTypeFlat) => {
         if (data.gender === 'M') {
           return { color: 'blue' };
         }
@@ -614,9 +622,9 @@ export const AllHeaderTitles = () => {
         return {};
       },
     },
-  ] as ProTableColumnDefType<DataType>[];
+  ] as ProTableColumnDefType<DataTypeFlat>[];
 
-  const [data, setData] = useState<DataType[]>([
+  const [data, setData] = useState<DataTypeFlat[]>([
     { name: '123', gender: 'F', age: 19 },
     { name: '12ff3', gender: 'M', age: 30 },
     { name: '423412ff3', gender: '', age: 50 },
@@ -738,7 +746,7 @@ export const TreeTable = () => {
     {
       field: 'gender',
       header: '性别',
-      renderRowCell: (data: DataType, index: number) => {
+      renderRowCell: (data: DataTypeWithTree, index: number) => {
         /* console.log('data:', data, 'index:', index); */
         const v = data.gender;
         if (v === 'M') {
@@ -755,14 +763,14 @@ export const TreeTable = () => {
       field: 'age',
       header: '年龄',
       type: 'number',
-      valueFormatter: (data: DataType) => {
+      valueFormatter: (data: DataTypeWithTree) => {
         return `${data.age}岁`;
       },
     },
     {
       field: 'suffix',
       header: '称呼',
-      valueGetter: (data: DataType) => {
+      valueGetter: (data: DataTypeWithTree) => {
         const v = data.gender;
         if (v === 'M') {
           return '先生';
@@ -775,7 +783,7 @@ export const TreeTable = () => {
       rowCellSx: {
         bgcolor: 'action.disabled',
       },
-      rowCellSxGetter: (data: DataType) => {
+      rowCellSxGetter: (data: DataTypeWithTree) => {
         if (data.gender === 'M') {
           return { color: 'blue' };
         }
@@ -785,39 +793,57 @@ export const TreeTable = () => {
         return {};
       },
     },
-  ] as ProTableColumnDefType<DataType>[];
+  ] as ProTableColumnDefType<DataTypeWithTree>[];
 
-  const [data, setData] = useState<DataType[]>([
-    { name: '123', gender: 'F', age: 19 },
-    { name: '12ff3', gender: 'M', age: 30 },
+  const data: DataTypeWithTree[] = [
+    {
+      name: '123',
+      gender: 'F',
+      age: 50,
+      children: [
+        {
+          name: 'abcd',
+          gender: 'F',
+          age: 30,
+          children: [
+            { name: 'jqka', gender: 'F', age: 6 },
+            { name: 'jqkb', gender: 'M', age: 6 },
+            { name: 'jqkc', gender: 'M', age: 6 },
+          ],
+        },
+        {
+          name: 'abce',
+          gender: 'M',
+          age: 20,
+        },
+      ],
+    },
+    {
+      name: '12ff3',
+      gender: 'M',
+      age: 30,
+      children: [{ name: '789a', gender: 'F', age: 6 }],
+    },
     { name: '423412ff3', gender: '', age: 50 },
-  ]);
-  const [total, setTotal] = useState<number>(3);
+  ];
+  const [treeData, treeProps] = useTreeProps(data, columns[0].field, {
+    getId: (d) => d.name,
+    initialExpandState: { expand: true, excepts: [] },
+    indent: 1.5,
+  });
 
-  const handleChange = ({
-    pagination,
-    sorters,
-  }: {
-    pagination: ProTablePaginationType;
-    sorters: ProTableSortersType;
-  }) => {
-    console.log('handle data request,', 'pagination:', pagination, 'sorter:', sorters);
-    setData([
-      { name: 'Jack', gender: 'M', age: 50 },
-      { name: 'Kevin', gender: 'M', age: 18 },
-      { name: 'Jane', gender: 'F', age: 28 },
-    ]);
-    setTotal(10);
-    return;
-  };
+  console.log('data:', data);
+  console.log('tree data:', treeData);
+  console.log('treeInfo:', treeProps);
 
   return (
     <div>
       <ProTable
-        data={data}
+        getRowKey={(data) => data.name}
+        data={treeData}
+        treeProps={treeProps}
+        total={100}
         columns={columns}
-        total={total}
-        onChange={handleChange}
         placeholder={<div style={{ height: '100px' }}>No Data</div>}
       />
     </div>
