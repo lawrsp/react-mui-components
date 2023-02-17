@@ -18,7 +18,7 @@ const renderTool = (t: ProTableTitleToolConfig, idx: number) => {
             key={`tool-divider-${idx}`}
             orientation="vertical"
             sx={{
-              ml: 0.5,
+              ml: 1.5,
               height: '2rem',
             }}
           />
@@ -145,6 +145,7 @@ const ProTableTitle = (props: ProTableTitleProps) => {
               ml: 0.5,
               mr: 0.5,
               height: '2rem',
+              visibility: 'hidden',
             }}
           />
         )}
