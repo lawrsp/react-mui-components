@@ -1,10 +1,5 @@
 import { SyntheticEvent, useMemo, useReducer, ReactNode } from 'react';
-import { Box } from '@mui/material';
-import {
-  ExpandMore as ExpandMoreIcon,
-  ExpandLess as ExpandLessIcon,
-  NavigateNextOutlined as NavigateNextOutlinedIcon,
-} from '@mui/icons-material';
+import { NavigateNextOutlined as NavigateNextOutlinedIcon } from '@mui/icons-material';
 import { TreeExpandState, ProTableTreeProps, TreeInfoType } from './types';
 
 enum TreeExpandActionKind {

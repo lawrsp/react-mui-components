@@ -5,6 +5,7 @@ export * from './LoadingContainer';
 export * from './LoadingButton';
 export * from './NotFoundPage';
 export * from './LoadingPage';
+export * from './Dialog';
 export * from './Menu';
 export * from './Form';
 export * from './Avatar';
