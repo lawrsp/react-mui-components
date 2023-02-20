@@ -25,7 +25,7 @@ export type DialogActionConfigType = {
 
 export type MaxDialogProps = {
   title?: string;
-  open: boolean;
+  open?: boolean;
   actions?: DialogActionConfigType[];
   loading?: boolean;
   onClose: (ev: SyntheticEvent) => void | Promise<void>;
@@ -33,7 +33,7 @@ export type MaxDialogProps = {
 };
 
 export const MaxDialog = (props: MaxDialogProps) => {
-  const { actions = [], children, title, open, loading = false, onClose } = props;
+  const { actions = [], children, title, open = false, loading = false, onClose } = props;
 
   const renderedActions = React.useMemo(() => {
     return actions.map((item: DialogActionConfigType, index: number) => {

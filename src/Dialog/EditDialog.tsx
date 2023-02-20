@@ -11,12 +11,11 @@ import {
 import { Close as CloseIcon } from '@mui/icons-material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { type Breakpoint, type Theme } from '@mui/material/styles';
-import { LoadingButton } from '@mui/lab';
 import { SyntheticEvent } from 'react';
 import LoadingContainer from '../LoadingContainer';
 
 type EditDialogPropsC = {
-  open: boolean;
+  open?: boolean;
   title: string;
   okText?: string;
   resetText?: string;
@@ -33,7 +32,7 @@ export type EditDialogProps = Omit<DialogProps, keyof EditDialogPropsC> & EditDi
 
 export function EditDialog(props: EditDialogProps) {
   const {
-    open,
+    open = false,
     okText = '提交',
     resetText = '重置',
     title,

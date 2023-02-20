@@ -43,7 +43,7 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
   const {
     cancelLabel = '取消',
     confirmLabel = '确定',
-    open,
+    open = false,
     popoverMode,
     title,
     children,
