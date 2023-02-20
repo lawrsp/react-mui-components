@@ -41,7 +41,7 @@ export function EditDialog(props: EditDialogProps) {
     onSubmit,
     onReset,
     closeOnSuccess,
-    maxWidth = 'md',
+    maxWidth = 'sm',
     fullScreen = 'sm',
     loading = false,
     children,
