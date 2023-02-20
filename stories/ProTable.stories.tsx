@@ -1,5 +1,6 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { action } from '@storybook/addon-actions';
+import { Box } from '@mui/material';
 import { Send as SendIcon, AddShoppingCart as AddShoppingCartIcon } from '@mui/icons-material';
 import ProTable from '../src/ProTable/ProTable';
 import {
@@ -14,6 +15,7 @@ import useTitleProps from '../src/ProTable/useTitleProps';
 import useTreeProps, { getDefaultTreeNodeRenderer } from '../src/ProTable/useTreeProps';
 
 import useProTablePagination from '../src/ProTable/usePagination';
+import { OpButton } from '../src/OpButton';
 import { delayms } from '../src/utils/delay';
 
 export default {
@@ -64,7 +66,6 @@ export const Simple = () => {
     {
       field: 'age',
       header: '年龄',
-      type: 'number',
       valueFormatter: (data: DataTypeFlat) => {
         return `${data.age}岁`;
       },
@@ -137,6 +138,131 @@ export const Simple = () => {
   );
 };
 
+export const WithActions = () => {
+  const columns = [
+    {
+      field: 'name',
+      header: '姓名',
+    },
+    {
+      field: 'gender',
+      header: '性别',
+      renderRowCell: (data: DataTypeFlat, index: number) => {
+        const v = data.gender;
+        if (v === 'M') {
+          return '男';
+        } else if (v === 'F') {
+          return '女';
+        } else {
+          return '未知';
+        }
+      },
+      rowCellSx: {},
+    },
+    {
+      field: 'age',
+      header: '年龄',
+      valueFormatter: (data: DataTypeFlat) => {
+        return `${data.age}岁`;
+      },
+    },
+    {
+      field: 'suffix',
+      header: '称呼',
+      valueGetter: (data: DataTypeFlat) => {
+        const v = data.gender;
+        if (v === 'M') {
+          return '先生';
+        } else if (v === 'F') {
+          return '女士';
+        } else {
+          return '';
+        }
+      },
+      rowCellSx: {
+        bgcolor: 'action.disabled',
+      },
+      rowCellSxGetter: (data: DataTypeFlat) => {
+        if (data.gender === 'M') {
+          return { color: 'blue' };
+        }
+        if (data.gender === 'F') {
+          return { color: 'red' };
+        }
+        return {};
+      },
+    },
+    {
+      field: '_actions',
+      header: '操作',
+      renderRowCell: (rowData, index) => {
+        return (
+          <Box gap={1}>
+            <OpButton
+              onClick={(ev) => {
+                console.log(rowData);
+                action('button')(ev);
+              }}
+              visible={() => index < 2}
+            >
+              编辑
+            </OpButton>
+            <OpButton
+              onClick={(ev) => {
+                console.log(rowData);
+                action('button')(ev);
+              }}
+              color="error"
+              visible={() => index > 0}
+            >
+              删除
+            </OpButton>
+          </Box>
+        );
+      },
+    },
+  ] as ProTableColumnDefType<DataTypeFlat>[];
+
+  const [data, setData] = useState<DataTypeFlat[]>([
+    { name: '123', gender: 'F', age: 19 },
+    { name: '12ff3', gender: 'M', age: 30 },
+    { name: '423412ff3', gender: '', age: 50 },
+  ]);
+  const [total, setTotal] = useState<number>(3);
+
+  const handleChange = ({ pagination, searches, sorters }: ProTableChangeParams) => {
+    console.log(
+      'handle data request,',
+      'pagination:',
+      pagination,
+      'sorter:',
+      sorters,
+      'searches:',
+      searches
+    );
+    setData([
+      { name: 'Jack', gender: 'M', age: 50 },
+      { name: 'Kevin', gender: 'M', age: 18 },
+      { name: 'Jane', gender: 'F', age: 28 },
+    ]);
+    setTotal(10);
+    return;
+  };
+
+  return (
+    <div>
+      <ProTable
+        title="测试表格"
+        data={data}
+        columns={columns}
+        total={total}
+        onChange={handleChange}
+        placeholder={<div style={{ height: '100px' }}>No Data</div>}
+      />
+    </div>
+  );
+};
+
 export const CustomTitle = () => {
   const columns = [
     {
@@ -161,7 +287,6 @@ export const CustomTitle = () => {
     {
       field: 'age',
       header: '年龄',
-      type: 'number',
       valueFormatter: (data: DataTypeFlat) => {
         return `${data.age}岁`;
       },
@@ -272,7 +397,6 @@ export const WithPagination = () => {
     {
       field: 'age',
       header: '年龄',
-      type: 'number',
       valueFormatter: (data: DataTypeFlat) => {
         return `${data.age}岁`;
       },
@@ -389,7 +513,6 @@ export const Searchable = () => {
     {
       field: 'age',
       header: '年龄',
-      type: 'number',
       valueFormatter: (data: DataTypeFlat) => {
         return `${data.age}岁`;
       },
@@ -486,7 +609,6 @@ const WithAlertTemplate = ({ alertType }) => {
     {
       field: 'age',
       header: '年龄',
-      type: 'number',
       valueFormatter: (data: DataTypeFlat) => {
         return `${data.age}岁`;
       },
@@ -589,7 +711,6 @@ export const AllHeaderTitles = () => {
     {
       field: 'age',
       header: '年龄',
-      type: 'number',
       valueFormatter: (data: DataTypeFlat) => {
         return `${data.age}岁`;
       },
@@ -761,7 +882,6 @@ export const TreeTable = () => {
     {
       field: 'age',
       header: '年龄',
-      type: 'number',
       valueFormatter: (data: DataTypeWithTree) => {
         return `${data.age}岁`;
       },

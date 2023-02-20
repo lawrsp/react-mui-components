@@ -3,6 +3,7 @@ export * from './DateTime';
 export * from './Route';
 export * from './LoadingContainer';
 export * from './LoadingButton';
+export * from './OpButton';
 export * from './NotFoundPage';
 export * from './LoadingPage';
 export * from './Dialog';
