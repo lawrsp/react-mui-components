@@ -1,10 +1,9 @@
 import { useEffect, SyntheticEvent, useMemo } from 'react';
 import { Box, Button, Paper } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
 import { ExpandLess as ExpandLessIcon } from '@mui/icons-material';
 import { FieldValues } from 'react-hook-form';
 import { isEmpty } from 'lodash';
-import Form, { useForm, FormInput } from '../Form';
+import Form, { useForm, FormItem, FormInput } from '../Form';
 import { SearchFieldType, SearchFormProps } from './types';
 
 // fields: name label type props
@@ -84,7 +83,7 @@ export const SearchForm = (props: SearchFormProps) => {
         pl: 2,
         pr: 2,
         pb: 1.5,
-        pt: 0.5,
+        pt: 0,
         display: visible ? 'flex' : 'none',
         flexDirection: 'row',
         alignItems: 'flex-end',
@@ -97,64 +96,62 @@ export const SearchForm = (props: SearchFormProps) => {
           width: '100%',
         }}
       >
-        <Grid container columnSpacing={2}>
-          {searchFields.map(({ field, label, type, key }, index) => (
-            <Grid {...itemGrid} key={key || field || index}>
-              <FormInput
-                size="small"
-                fullWidth
-                variant="standard"
-                label={label}
-                name={field}
-                type={type}
-              />
-            </Grid>
-          ))}
-          <Grid {...itemGrid}>
-            <Box
-              sx={{
-                flexGrow: 1,
-                pt: 2,
-                flexDriection: 'row',
-                alignItems: 'baseline',
-                justifyContent: 'flex-start',
-              }}
+        {searchFields.map(({ field, label, type, key }, index) => (
+          <FormItem {...itemGrid} key={key || field || index} sx={{ pt: 0.5, pb: 0 }}>
+            <FormInput
+              size="small"
+              fullWidth
+              variant="standard"
+              label={label}
+              name={field}
+              type={type}
+            />
+          </FormItem>
+        ))}
+        <FormItem {...itemGrid} sx={{ pt: 0.5, pb: 0 }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              pt: 2,
+              flexDriection: 'row',
+              alignItems: 'baseline',
+              justifyContent: 'flex-start',
+            }}
+          >
+            <Button
+              size="small"
+              onClick={handleSearch}
+              color="primary"
+              type="submit"
+              variant="contained"
             >
-              <Button
-                size="small"
-                onClick={handleSearch}
-                color="primary"
-                type="submit"
-                variant="contained"
+              查询
+            </Button>
+            <Button size="small" onClick={handleClear} variant="outlined" sx={{ ml: 2 }}>
+              清空
+            </Button>
+            {!!handleClose ? (
+              <Box
+                component="span"
+                sx={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  verticalAlign: 'middle',
+                  userSelect: 'none',
+                  ml: 2,
+                  color: 'primary.main',
+                  cursor: 'pointer',
+                  '&:hover': {
+                    color: 'primary.dark',
+                  },
+                }}
+                onClick={handleClose}
               >
-                查询
-              </Button>
-              <Button size="small" onClick={handleClear} variant="outlined" sx={{ ml: 2 }}>
-                清空
-              </Button>
-              {!!handleClose ? (
-                <Box
-                  component="span"
-                  sx={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    verticalAlign: 'middle',
-                    userSelect: 'none',
-                    ml: 2,
-                    color: 'primary.main',
-                    cursor: 'pointer',
-                    '&:hover': {
-                      color: 'primary.dark',
-                    },
-                  }}
-                  onClick={handleClose}
-                >
-                  <ExpandLessIcon fontSize="small" /> 收起
-                </Box>
-              ) : null}
-            </Box>
-          </Grid>
-        </Grid>
+                <ExpandLessIcon fontSize="small" /> 收起
+              </Box>
+            ) : null}
+          </Box>
+        </FormItem>
       </Form>
     </Paper>
   );

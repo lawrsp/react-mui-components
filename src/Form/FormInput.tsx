@@ -4,10 +4,11 @@ import { useController, useFormContext } from 'react-hook-form';
 
 export type FormInputProps = {
   name: string;
+  readOnly?: boolean;
 } & TextFieldProps;
 
 export const FormInput = (props: FormInputProps) => {
-  const { name, helperText, ...rest } = props;
+  const { name, helperText, readOnly, InputProps, ...rest } = props;
   const { control } = useFormContext();
   const {
     field,
@@ -23,6 +24,11 @@ export const FormInput = (props: FormInputProps) => {
 
   console.log('field error is', error);
 
+  const inputProps: FormInputProps['InputProps'] = {
+    ...InputProps,
+    readOnly,
+  };
+
   return (
     <TextField
       {...rest}
@@ -33,6 +39,7 @@ export const FormInput = (props: FormInputProps) => {
       inputRef={ref} // send input ref, so we can focus on input when error appear
       error={!!error}
       helperText={!!error ? error.message : helperText}
+      InputProps={inputProps}
     />
   );
 };

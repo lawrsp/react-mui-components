@@ -149,7 +149,7 @@ export interface TableToolConfigProps {}
 export interface ProTableSearchState {
   searchFields: SearchFieldType[];
   searches: Record<string, any>;
-  visible: boolean;
+  visible?: boolean;
 }
 
 export interface ProTableSearchActions {

@@ -35,8 +35,6 @@ export const Simple = () => {
     },
   ] as SearchFieldType[];
 
-  const [submitting, setSubmitting] = useState<boolean>(false);
-
   const handleSearch = (values: object) => {
     console.log('values:', values);
     const p = new Promise<void>((resolve) => {
@@ -48,24 +46,14 @@ export const Simple = () => {
   };
 
   const actions = {
-    setSearches: async (values) => {
-      try {
-        setSubmitting(true);
-        await handleSearch(values);
-      } finally {
-        setSubmitting(false);
-      }
+    onSearch: async (values) => {
+      await handleSearch(values);
     },
   } as ProTableSearchActions;
 
   return (
     <div>
-      <SearchForm
-        searchFields={searchFields}
-        searches={[]}
-        submitting={submitting}
-        actions={actions}
-      />
+      <SearchForm searchFields={searchFields} searches={[]} actions={actions} />
     </div>
   );
 };
@@ -92,7 +80,6 @@ export const WithHideButton = () => {
   ] as SearchFieldType[];
 
   const [open, setOpen] = useState(true);
-  const [submitting, setSubmitting] = useState<boolean>(false);
 
   const handleSearch = (values: object) => {
     console.log('values:', values);
@@ -105,17 +92,12 @@ export const WithHideButton = () => {
   };
 
   const actions = {
-    setSearches: async (values) => {
-      try {
-        setSubmitting(true);
-        await handleSearch(values);
-      } finally {
-        setSubmitting(false);
-      }
+    onSearch: async (values) => {
+      await handleSearch(values);
     },
-    setInvisible: (val) => {
+    onChangeVisible: (_, val) => {
       console.log('=--------set invisible:', val);
-      setOpen(!val);
+      setOpen(val);
     },
   } as ProTableSearchActions;
 
@@ -130,13 +112,7 @@ export const WithHideButton = () => {
         {' '}
         show{' '}
       </button>
-      <SearchForm
-        submitting={submitting}
-        searchFields={searchFields}
-        invisible={!open}
-        searches={[]}
-        actions={actions}
-      />
+      <SearchForm searchFields={searchFields} visible={open} searches={[]} actions={actions} />
     </div>
   );
 };

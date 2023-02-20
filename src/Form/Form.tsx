@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Box } from '@mui/material';
 import { FormProvider, SubmitHandler, FieldValues, UseFormReturn, Path } from 'react-hook-form';
-
+import Grid from '@mui/material/Unstable_Grid2';
 import { SxProps, Theme } from '@mui/material/styles';
 
 export { useForm } from 'react-hook-form';
@@ -51,15 +51,17 @@ export const Form = <
 
   return (
     <FormProvider {...form}>
-      <Box
+      <Grid
         component="form"
+        container
+        columnSpacing={2}
         onSubmit={form.handleSubmit(handleSubmit)}
         sx={{
           width: '100%',
         }}
       >
         {children}
-      </Box>
+      </Grid>
     </FormProvider>
   );
 };
