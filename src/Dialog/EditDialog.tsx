@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { Close as CloseIcon } from '@mui/icons-material';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { type Breakpoint, type Theme } from '@mui/material/styles';
+import { type Breakpoint, type Theme, type SxProps } from '@mui/material/styles';
 import { SyntheticEvent } from 'react';
 import LoadingContainer from '../LoadingContainer';
 
@@ -26,6 +26,7 @@ type EditDialogPropsC = {
   closeOnSuccess?: boolean;
   children: ReactNode;
   fullScreen?: Breakpoint;
+  contentSx?: SxProps<Theme>;
 };
 
 export type EditDialogProps = Omit<DialogProps, keyof EditDialogPropsC> & EditDialogPropsC;
@@ -44,6 +45,7 @@ export function EditDialog(props: EditDialogProps) {
     fullScreen = 'sm',
     loading = false,
     children,
+    contentSx,
     ...rest
   } = props;
 
@@ -117,7 +119,10 @@ export function EditDialog(props: EditDialogProps) {
         loading={loading || submitting}
       >
         <DialogContent
-          sx={{ pt: 1, pl: 3, pr: 2, pb: 1, visibility: hideChildren ? 'hidden' : 'visible' }}
+          sx={[
+            { py: 2, pl: 3, pr: 2, visibility: hideChildren ? 'hidden' : 'visible' },
+            ...(Array.isArray(contentSx) ? contentSx : [contentSx]),
+          ]}
         >
           {children}
         </DialogContent>
