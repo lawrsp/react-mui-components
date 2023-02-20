@@ -28,17 +28,19 @@ export const FormInputs = () => {
   return (
     <div>
       <Form form={form} onSubmit={onSubmit}>
-        <FormItem>
+        <FormItem xs={6}>
           <FormInput type="text" name="name" label="name" />
         </FormItem>
-        <FormItem>
+        <FormItem xs={6}>
           <FormInput type="password" name="password" label="password" />
         </FormItem>
         <FormItem>
           <FormInput multiline minRows={2} name="description" label="description" />
         </FormItem>
-        <FormInput name="date" label="date" />
-        <FormItem>
+        <FormItem xs={4}>
+          <FormInput name="date" label="date" />
+        </FormItem>
+        <FormItem xs={12} sx={{ gap: 2, display: 'flex' }}>
           <Button type="submit">提交</Button>
           <Button type="reset" onClick={() => form.reset()}>
             重置
