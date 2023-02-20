@@ -102,8 +102,8 @@ export interface ProTableColumnDefType<DataType> {
    * 3. valueGetter() => string
    * 4. row[field] */
   renderRowCell?: (rowData: DataType, rowIndex: number) => ReactNode;
-  valueFormatter?: (rowData: DataType, rowIndex: number) => string;
-  valueGetter?: (rowData: DataType, rowIndex: number) => string;
+  valueFormatter?: (rowData: DataType, rowIndex: number) => string | null;
+  valueGetter?: (rowData: DataType, rowIndex: number) => string | null;
 
   // style:
   headerSx?: SxProps<Theme>;
@@ -133,17 +133,19 @@ export interface TreeInfoType {
   expanded: boolean;
 }
 
-export interface ProTableTreeProps {
-  treeIndexField: string;
+export interface ProTableTreeInfo {
+  nodeIdGetter: (d: any) => string;
   nodes: { [key: string]: TreeInfoType };
-  expandIcon: ReactNode;
-  foldIcon: ReactNode;
-  leafIcon: ReactNode;
-  indent: number;
   onToggleOne: (ev: SyntheticEvent, id: string) => void;
   onToggleAll: (ev: SyntheticEvent, expand: boolean) => void;
+}
+
+export type TreeNodeRender<T> = (data: T, tableNode?: ReactNode) => ReactNode;
+
+export interface ProTableTreeProps<T> {
+  treeIndexField: string;
+  treeNodeRender: TreeNodeRender<T>;
   expandState: TreeExpandState;
-  getId: (d: any) => string;
 }
 
 export interface TableToolConfigProps {}
@@ -193,7 +195,7 @@ export interface ProTableOptionalProps<DataType> {
   // columns
   actions: TableActionProps<DataType>[];
   rowRender: (rowData: DataType, index: number) => ReactNode;
-  treeProps: ProTableTreeProps;
+  treeProps: ProTableTreeProps<DataType>;
 
   // search
   searchFields: SearchFieldType[];

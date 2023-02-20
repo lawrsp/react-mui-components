@@ -11,7 +11,7 @@ import {
 import useSearch from '../src/ProTable/useSearch';
 import useSearchTool from '../src/ProTable/useSearchTool';
 import useTitleProps from '../src/ProTable/useTitleProps';
-import useTreeProps from '../src/ProTable/useTreeProps';
+import useTreeProps, { getDefaultTreeNodeRenderer } from '../src/ProTable/useTreeProps';
 
 import useProTablePagination from '../src/ProTable/usePagination';
 import { delayms } from '../src/utils/delay';
@@ -826,9 +826,11 @@ export const TreeTable = () => {
     { name: '423412ff3', gender: '', age: 50 },
   ];
   const [treeData, treeProps] = useTreeProps(data, columns[0].field, {
-    getId: (d) => d.name,
+    nodeIdGetter: (d) => d.name,
     initialExpandState: { expand: true, excepts: [] },
-    indent: 1.5,
+    renderer: getDefaultTreeNodeRenderer({
+      indent: 1.5,
+    }),
   });
 
   console.log('data:', data);

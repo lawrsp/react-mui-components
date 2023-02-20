@@ -1,6 +1,13 @@
 import { SyntheticEvent, useMemo, useReducer, ReactNode } from 'react';
+import { Box } from '@mui/material';
 import { NavigateNextOutlined as NavigateNextOutlinedIcon } from '@mui/icons-material';
-import { TreeExpandState, ProTableTreeProps, TreeInfoType } from './types';
+import {
+  TreeExpandState,
+  ProTableTreeProps,
+  TreeInfoType,
+  ProTableTreeInfo,
+  TreeNodeRender,
+} from './types';
 
 enum TreeExpandActionKind {
   TOGGLE_ONE = 'toggle',
@@ -45,7 +52,7 @@ const treeReducer = (state: TreeExpandState, action: TreeExpandAction) => {
   }
 };
 
-function flatTreeData<T>(
+function flatData<T>(
   data: T[],
   getId: (d: T) => string | undefined,
   getChildren: (d: T) => T[] | undefined,
@@ -59,12 +66,14 @@ function flatTreeData<T>(
     }
 
     const theParent = parent || [];
+
     const node: TreeDataType<T> = {
       level: theParent.length,
-      parent: theParent,
       id,
-      data: d,
+      parent: theParent,
       hasChildren: false,
+      expanded: true,
+      data: d,
     };
 
     const children = getChildren(d);
@@ -76,7 +85,7 @@ function flatTreeData<T>(
 
     const nextParent = [...theParent, id];
 
-    return [...all, node, ...flatTreeData(children, getId, getChildren, nextParent)];
+    return [...all, node, ...flatData(children, getId, getChildren, nextParent)];
   }, [] as TreeDataType<T>[]);
 }
 
@@ -100,28 +109,88 @@ const getNodeExpandStatus = (nodeId: string, expandState: TreeExpandState) => {
   return expandState.excepts.indexOf(nodeId) < 0;
 };
 
+export interface GetDefaultTreeNodeRenderParams {
+  expandIcon?: ReactNode;
+  foldIcon?: ReactNode;
+  leafIcon?: ReactNode;
+  indent?: ReactNode;
+}
+
+export const getDefaultTreeNodeRenderer =
+  <T extends {}>({
+    expandIcon = (
+      <NavigateNextOutlinedIcon
+        fontSize="small"
+        sx={{ transform: 'rotate(90deg)', transition: 'transform 0.1s ease' }}
+      />
+    ),
+    foldIcon = (
+      <NavigateNextOutlinedIcon
+        fontSize="small"
+        sx={{ transform: 'rotate(0deg)', transition: 'transform 0.1s ease' }}
+      />
+    ),
+    leafIcon = <NavigateNextOutlinedIcon fontSize="small" sx={{ visibility: 'hidden' }} />,
+    indent = 1,
+  }: GetDefaultTreeNodeRenderParams) =>
+  (treeInfo: ProTableTreeInfo) =>
+  (data: T, tableNode?: ReactNode) => {
+    const id = treeInfo.nodeIdGetter(data);
+    const node = treeInfo.nodes[id];
+
+    let indentNode: ReactNode;
+    if (typeof indent === 'number') {
+      indentNode = <Box sx={{ width: `${indent * node.level}em`, height: '0.5em' }} />;
+    } else {
+      indentNode = <Box>{new Array(node.level).fill(indent)}</Box>;
+    }
+
+    let iconNode: ReactNode;
+    let onClick: ((ev: SyntheticEvent) => void) | undefined;
+
+    if (node.hasChildren) {
+      if (node.expanded) {
+        iconNode = expandIcon;
+        onClick = (ev: SyntheticEvent) => treeInfo.onToggleOne(ev, id);
+      } else {
+        iconNode = foldIcon;
+        onClick = (ev: SyntheticEvent) => treeInfo.onToggleOne(ev, id);
+      }
+    } else {
+      iconNode = leafIcon;
+    }
+
+    return (
+      <Box component="span" sx={{ display: 'inline-flex' }} onClick={onClick}>
+        {indentNode}
+        {iconNode}
+        {tableNode}
+      </Box>
+    );
+  };
+
+const defaultTreeNodeRenderer = getDefaultTreeNodeRenderer({});
+
 export const useTreeProps = <DataType extends {}>(
   data: DataType[],
   treeIndexField: string,
   options?: {
-    getId?: (d: DataType) => string;
-    getChildren?: (d: DataType) => DataType[] | undefined;
-    expandIcon?: ReactNode;
-    foldIcon?: ReactNode;
-    leafIcon?: ReactNode;
-    indent?: number;
+    nodeIdGetter?: (d: DataType) => string;
+    childrenGetter?: (d: DataType) => DataType[] | undefined;
+    renderer?: (treeInfo: ProTableTreeInfo) => TreeNodeRender<DataType>;
     initialExpandState?: TreeExpandState;
   }
 ) => {
   const {
     initialExpandState = defaultExpandState,
-    getId = defaultGetId,
-    getChildren = defaultGetChildren,
+    nodeIdGetter = defaultGetId,
+    childrenGetter = defaultGetChildren,
+    renderer = defaultTreeNodeRenderer,
   } = options || {};
 
-  const treeData = useMemo(() => {
-    return flatTreeData(data, getId, getChildren);
-  }, [data, getId, getChildren]);
+  const flatedData = useMemo(() => {
+    return flatData(data, nodeIdGetter, childrenGetter);
+  }, [data, nodeIdGetter, childrenGetter]);
 
   const [expandState, dispatch] = useReducer(treeReducer, initialExpandState);
 
@@ -134,8 +203,8 @@ export const useTreeProps = <DataType extends {}>(
     dispatch({ type: TreeExpandActionKind.TOGGLE_ALL, payload: expand });
   };
 
-  const [finalData, nodes] = useMemo(() => {
-    const finalTree = treeData.filter((x) => {
+  const { treeData, treeNodes } = useMemo(() => {
+    const finalTree = flatedData.filter((x) => {
       if (x.level === 0) {
         return true;
       }
@@ -155,36 +224,23 @@ export const useTreeProps = <DataType extends {}>(
       return { ...all, [x.id]: x };
     }, {});
 
-    return [finalTree.map((x) => x.data), treeNodes];
-  }, [treeData, expandState]);
+    return { treeData: finalTree.map((x) => x.data), treeNodes };
+  }, [flatedData, expandState]);
 
-  return [
-    finalData,
-    {
-      treeIndexField,
-      nodes,
-      onToggleOne,
-      onToggleAll,
-      expandIcon: options?.expandIcon || (
-        <NavigateNextOutlinedIcon
-          fontSize="small"
-          sx={{ transform: 'rotate(90deg)', transition: 'transform 0.1s ease' }}
-        />
-      ),
-      foldIcon: options?.expandIcon || (
-        <NavigateNextOutlinedIcon
-          fontSize="small"
-          sx={{ transform: 'rotate(0deg)', transition: 'transform 0.1s ease' }}
-        />
-      ),
-      leafIcon: options?.leafIcon || (
-        <NavigateNextOutlinedIcon fontSize="small" sx={{ visibility: 'hidden' }} />
-      ),
-      indent: options?.indent || 1,
-      expandState,
-      getId,
-    },
-  ] as [DataType[], ProTableTreeProps];
+  const treeNodeRender = renderer({
+    nodeIdGetter,
+    nodes: treeNodes,
+    onToggleOne,
+    onToggleAll,
+  });
+
+  const treeProps: ProTableTreeProps<DataType> = {
+    treeIndexField,
+    treeNodeRender,
+    expandState,
+  };
+
+  return [treeData, treeProps] as [DataType[], ProTableTreeProps<DataType>];
 };
 
 export default useTreeProps;
