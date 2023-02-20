@@ -81,8 +81,6 @@ export interface ProTableStateType {
   searches: ProTableSearchesType;
 }
 
-export type ProTableColumnValueType = 'number' | 'string';
-
 export interface ProTableColumnDefType<DataType> {
   field: string;
   header?: string;
@@ -93,8 +91,6 @@ export interface ProTableColumnDefType<DataType> {
   width?: number | string | undefined;
   align?: TableCellProps['align'];
   padding?: TableCellProps['padding'];
-
-  type?: ProTableColumnValueType;
 
   /* 顺序：
    * 1. renderCell() => ReactNode
