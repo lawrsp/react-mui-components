@@ -39,11 +39,12 @@ export function EditDialog(props: EditDialogProps) {
     onClose,
     onSubmit,
     onReset,
-    closeOnSuccess = true,
+    closeOnSuccess,
     maxWidth = 'md',
     fullScreen = 'sm',
     loading = false,
     children,
+    ...rest
   } = props;
 
   const [submitting, setSubmitting] = React.useState(false);
@@ -76,7 +77,7 @@ export function EditDialog(props: EditDialogProps) {
   };
 
   return (
-    <Dialog open={open} fullWidth maxWidth={maxWidth} fullScreen={isFullScreen}>
+    <Dialog open={open} fullWidth maxWidth={maxWidth} fullScreen={isFullScreen} {...rest}>
       <Box
         sx={{
           margin: 0,
