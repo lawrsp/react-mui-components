@@ -2,6 +2,7 @@ import * as React from 'react';
 import { TextField, TextFieldProps } from '@mui/material';
 import { useController, useFormContext } from 'react-hook-form';
 import { OverridableComponent, OverrideProps } from '@mui/types';
+import { useExtraFormContext } from './ExtraFormContext';
 
 interface FormInputTypeMap<P = {}, D extends React.ElementType = 'div'> {
   props: P & {
@@ -28,7 +29,14 @@ export type FormInputProps<
  * } & Omit<TextFieldProps, 'name'>;
  *  */
 export const FormInput: OverridableComponent<FormInputTypeMap> = (props: FormInputProps) => {
-  const { name, helperText, readOnly, InputProps, component: Comp = TextField, ...rest } = props;
+  const {
+    name,
+    helperText,
+    readOnly: propsReadOnly,
+    InputProps,
+    component: Comp = TextField,
+    ...rest
+  } = props;
   const { control } = useFormContext();
   const {
     field,
@@ -41,6 +49,9 @@ export const FormInput: OverridableComponent<FormInputTypeMap> = (props: FormInp
 
   const { onChange, onBlur, value, ref } = field;
   const { error } = fieldState;
+  const { readOnly: ctxReadOnly } = useExtraFormContext();
+
+  const readOnly = propsReadOnly || ctxReadOnly;
 
   const inputProps: FormInputProps['InputProps'] = {
     ...InputProps,

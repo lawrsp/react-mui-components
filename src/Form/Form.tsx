@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import { FormProvider, SubmitHandler, FieldValues, UseFormReturn, Path } from 'react-hook-form';
 import Grid from '@mui/material/Unstable_Grid2';
 import { SxProps, Theme } from '@mui/material/styles';
+import { ExtraFormProvider } from './ExtraFormContext';
 
 export { useForm } from 'react-hook-form';
 
@@ -12,6 +13,7 @@ export interface SubmitError {
 }
 
 export interface FormProps<TFieldValues extends FieldValues, TContext extends object> {
+  readOnly?: boolean;
   onSubmit?: (
     data: TFieldValues,
     ev?: React.BaseSyntheticEvent
@@ -27,7 +29,7 @@ export const Form = <
 >(
   props: FormProps<TFieldValues, TContext>
 ) => {
-  const { onSubmit, form, children } = props;
+  const { readOnly, onSubmit, form, children } = props;
 
   const handleSubmit: SubmitHandler<TFieldValues> = async (data, ev) => {
     ev?.preventDefault();
@@ -50,19 +52,21 @@ export const Form = <
   };
 
   return (
-    <FormProvider {...form}>
-      <Grid
-        component="form"
-        container
-        columnSpacing={2}
-        onSubmit={form.handleSubmit(handleSubmit)}
-        sx={{
-          width: '100%',
-        }}
-      >
-        {children}
-      </Grid>
-    </FormProvider>
+    <ExtraFormProvider readOnly={readOnly}>
+      <FormProvider {...form}>
+        <Grid
+          component="form"
+          container
+          columnSpacing={2}
+          onSubmit={form.handleSubmit(handleSubmit)}
+          sx={{
+            width: '100%',
+          }}
+        >
+          {children}
+        </Grid>
+      </FormProvider>
+    </ExtraFormProvider>
   );
 };
 
