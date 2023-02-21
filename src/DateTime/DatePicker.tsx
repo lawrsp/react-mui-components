@@ -1,5 +1,5 @@
 import { type SyntheticEvent, useMemo } from 'react';
-import { Box, Button, Paper, Popper, TextField, TextFieldProps, Theme } from '@mui/material';
+import { Box, Button, Paper, Popper, TextField, TextFieldProps } from '@mui/material';
 import { usePopperProps } from '../PopperInput/usePopperProps';
 import Calendar from './Calendar';
 import dateUtils from '../utils/date';
