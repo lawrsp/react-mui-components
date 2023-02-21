@@ -37,13 +37,13 @@ export const Calendars = () => {
         <DateTimeSpan component="span" value={time} />
       </div>
       <div style={{ height: 10 }} />
-      <Calendar value={time} onChange={(_: Event, t: Date) => setTime(t)} />
+      <Calendar value={time} onChange={(_, t) => setTime(t)} />
     </div>
   );
 };
 
 export const DatePickers = () => {
-  const [time, setTime] = React.useState<Date | ''>(new Date());
+  const [time, setTime] = React.useState<Date | ''>('');
   return (
     <div>
       <div>

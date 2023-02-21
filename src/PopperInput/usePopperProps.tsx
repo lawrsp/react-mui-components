@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useImperativeHandle } from 'react';
 import type { SyntheticEvent } from 'react';
 import { ArrowDropDown as ArrowDropDownIcon } from '@mui/icons-material';
 import type { TextFieldProps, PopperProps } from '@mui/material';
@@ -11,16 +11,18 @@ type UsePopperPropsOptions = {
   initialOpen?: boolean;
   noOpenOnFocus?: boolean;
   showPopupIcon?: boolean;
+  readOnly?: boolean;
   onOpen?: (ev: SyntheticEvent, reason?: PopperOpenReason) => void | Promise<void>;
   onClose?: (ev: SyntheticEvent, reason?: PopperCloseReason) => void | Promise<void>;
 };
 
 export const usePopperProps = (props: Partial<TextFieldProps>, options: UsePopperPropsOptions) => {
-  const { id, onFocus, onBlur, onClick, onKeyDown, InputProps, ...rest } = props;
+  const { id, onFocus, onBlur, onClick, onKeyDown, InputProps, inputRef, ...rest } = props;
   const {
     initialOpen = false,
     showPopupIcon = false,
     noOpenOnFocus = false,
+    readOnly,
     onOpen,
     onClose,
   } = options;
@@ -30,6 +32,13 @@ export const usePopperProps = (props: Partial<TextFieldProps>, options: UsePoppe
   //
   const anchorRef = useRef<any>(null);
   /* const [inputRef, setInputRef] = useState<Ref<any>>(null); */
+  useImperativeHandle(
+    inputRef,
+    () => {
+      return anchorRef.current;
+    },
+    [anchorRef.current]
+  );
 
   // anchorEl ? anchorEl.clientWidth : null,
   // const [menuMinWidthState, setMenuMinWidthState] = React.useState();
@@ -151,7 +160,7 @@ export const usePopperProps = (props: Partial<TextFieldProps>, options: UsePoppe
   const endAdornment = (
     <div>
       {InputProps?.endAdornment}
-      {!!showPopupIcon && (
+      {!!showPopupIcon && !readOnly && (
         <IconButton
           tabIndex={-1}
           onClick={handleClickPopupIndicator}
@@ -194,7 +203,7 @@ export const usePopperProps = (props: Partial<TextFieldProps>, options: UsePoppe
     } as Partial<TextFieldProps>,
 
     popperProps: {
-      open: openState,
+      open: readOnly ? false : openState,
       anchorEl: anchorRef?.current,
       placement: 'bottom-start',
       onClose: (ev: SyntheticEvent) => handleClose(ev, 'popperClose'),

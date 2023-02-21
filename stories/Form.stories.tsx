@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '@mui/material';
 import Form, { useForm, FormItem } from '../src/Form';
 import FormInput from '../src/Form/FormInput';
+import { DatePicker } from '../src/DateTime';
 
 export default {
   title: 'Example/Form',
@@ -12,11 +13,12 @@ type FormValues = {
   name: string;
   password: string;
   description: string;
+  date: Date | string | '';
 };
 
 export const FormInputs = () => {
   const form = useForm<FormValues>({
-    defaultValues: { name: '', password: '', description: '' },
+    defaultValues: { name: '', password: '', description: '', date: '' },
   });
   const onSubmit = (data: FormValues) => {
     console.log(data);
@@ -38,7 +40,7 @@ export const FormInputs = () => {
           <FormInput multiline minRows={2} name="description" label="description" />
         </FormItem>
         <FormItem xs={4}>
-          <FormInput name="date" label="date" />
+          <FormInput name="date" label="date" component={DatePicker} showPopupIcon />
         </FormItem>
         <FormItem xs={12} sx={{ gap: 2, display: 'flex' }}>
           <Button type="submit">提交</Button>

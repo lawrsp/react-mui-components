@@ -8,6 +8,7 @@ export type DatePickerProps = {
   value: number | Date | string;
   onChange: (ev: SyntheticEvent, value: Date | '') => void | Promise<void>;
   format?: string;
+  readOnly?: boolean;
   closeOnSelected?: boolean;
   showPopupIcon?: boolean;
   noOpenOnFocus?: boolean;
@@ -20,6 +21,7 @@ export const DatePicker = (props: DatePickerProps) => {
     value,
     onChange,
     noOpenOnFocus,
+    readOnly,
     showPopupIcon,
     ...rest
   } = props;
@@ -28,14 +30,14 @@ export const DatePicker = (props: DatePickerProps) => {
   const { textFieldProps, popperProps, close } = usePopperProps(rest, {
     showPopupIcon,
     noOpenOnFocus,
+    readOnly,
   });
   /* console.log('anchorWidth:', anchorWidth);
    * console.log('rest:', rest);
    * console.log('textFieldProps:', textFieldProps); */
 
-  const handleOnChange = (ev: SyntheticEvent, dv: Date | '') => {
-    console.log('onChange value:', dv);
-    onChange(ev, dv);
+  const handleOnChange = async (ev: SyntheticEvent, dv: Date | '') => {
+    await onChange(ev, dv);
     if (closeOnSelected) {
       close(ev);
     }
@@ -59,7 +61,7 @@ export const DatePicker = (props: DatePickerProps) => {
       <TextField value={visibleValue} {...textFieldProps} />
       <Popper {...popperProps} sx={{ zIndex: 'tooltip' }}>
         <Paper>
-          <Calendar value={value} onChange={handleOnChange} />
+          <Calendar value={value === '' ? undefined : value} onChange={handleOnChange} />
           <Box
             sx={{
               width: '100%',

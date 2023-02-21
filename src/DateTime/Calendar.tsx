@@ -3,7 +3,7 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import ReactCalendar from 'react-calendar';
 
 export interface CalendarProps {
-  value: number | string | Date;
+  value: number | string | Date | undefined | null;
   onChange?: (ev: SyntheticEvent, t: Date) => void;
 }
 

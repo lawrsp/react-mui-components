@@ -1,14 +1,34 @@
 import * as React from 'react';
 import { TextField, TextFieldProps } from '@mui/material';
 import { useController, useFormContext } from 'react-hook-form';
+import { OverridableComponent, OverrideProps } from '@mui/types';
 
-export type FormInputProps = {
-  name: string;
-  readOnly?: boolean;
-} & Omit<TextFieldProps, 'name'>;
+interface FormInputTypeMap<P = {}, D extends React.ElementType = 'div'> {
+  props: P & {
+    name: string;
+    readOnly?: boolean;
+    /**
+     * The component used for the root node.
+     * Either a string to use a HTML element or a component.
+     */
+    component?: React.ElementType;
+  } & Omit<TextFieldProps, 'name'>;
 
-export const FormInput = (props: FormInputProps) => {
-  const { name, helperText, readOnly, InputProps, ...rest } = props;
+  defaultComponent: D;
+}
+
+export type FormInputProps<
+  D extends React.ElementType = FormInputTypeMap['defaultComponent'],
+  P = {}
+> = OverrideProps<FormInputTypeMap<P, D>, D>;
+
+/* export type FormInputProps = {
+ *   name: string;
+ *   readOnly?: boolean;
+ * } & Omit<TextFieldProps, 'name'>;
+ *  */
+export const FormInput: OverridableComponent<FormInputTypeMap> = (props: FormInputProps) => {
+  const { name, helperText, readOnly, InputProps, component: Comp = TextField, ...rest } = props;
   const { control } = useFormContext();
   const {
     field,
@@ -22,19 +42,29 @@ export const FormInput = (props: FormInputProps) => {
   const { onChange, onBlur, value, ref } = field;
   const { error } = fieldState;
 
-  console.log('field error is', error);
-
   const inputProps: FormInputProps['InputProps'] = {
     ...InputProps,
     readOnly,
   };
 
+  const handleChange = React.useCallback(
+    (ev: any, value?: any) => {
+      if (value !== undefined) {
+        onChange(value);
+      } else {
+        onChange(ev);
+      }
+    },
+    [onChange]
+  );
+
   return (
-    <TextField
+    <Comp
       fullWidth
       variant="standard"
+      readOnly={readOnly}
       {...rest}
-      onChange={onChange} // send value to hook form
+      onChange={handleChange} // send value to hook form
       onBlur={onBlur} // notify when input is touched/blur
       value={value} // input value
       name={name} // send down the input name
