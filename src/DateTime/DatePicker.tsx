@@ -55,9 +55,8 @@ export const DatePicker = (props: DatePickerProps) => {
   }, [value, format]);
 
   return (
-    <Box component="div" sx={{ position: 'relative' }}>
+    <>
       <TextField value={visibleValue} {...textFieldProps} />
-      <Box sx={{ position: 'absolute', right: 0 }}>hello</Box>
       <Popper {...popperProps} sx={{ zIndex: 'tooltip' }}>
         <Paper>
           <Calendar value={value} onChange={handleOnChange} />
@@ -94,6 +93,6 @@ export const DatePicker = (props: DatePickerProps) => {
           </Box>
         </Paper>
       </Popper>
-    </Box>
+    </>
   );
 };
