@@ -5,7 +5,7 @@ import { useController, useFormContext } from 'react-hook-form';
 export type FormInputProps = {
   name: string;
   readOnly?: boolean;
-} & Omit<TextFieldProps, 'name' | 'fullWidth'>;
+} & Omit<TextFieldProps, 'name'>;
 
 export const FormInput = (props: FormInputProps) => {
   const { name, helperText, readOnly, InputProps, ...rest } = props;
@@ -32,6 +32,7 @@ export const FormInput = (props: FormInputProps) => {
   return (
     <TextField
       fullWidth
+      variant="standard"
       {...rest}
       onChange={onChange} // send value to hook form
       onBlur={onBlur} // notify when input is touched/blur

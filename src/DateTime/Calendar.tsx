@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { SyntheticEvent, Fragment } from 'react';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import ReactCalendar from 'react-calendar';
 
 export interface CalendarProps {
-  value: string | Date;
-  onChange?: (ev: Event, t: Date) => void;
+  value: number | string | Date;
+  onChange?: (ev: SyntheticEvent, t: Date) => void;
 }
 
 const calendarStyles = (
@@ -147,13 +147,13 @@ const calendarStyles = (
 );
 
 export const Calendar = ({ value, onChange }: CalendarProps) => {
-  const handleOnChange = (val: Date, ev: Event) => {
+  const handleOnChange = (val: Date, ev: SyntheticEvent) => {
     if (onChange) {
       onChange(ev, val);
     }
   };
   return (
-    <React.Fragment>
+    <Fragment>
       {calendarStyles}
       <ReactCalendar
         value={value}
@@ -162,7 +162,7 @@ export const Calendar = ({ value, onChange }: CalendarProps) => {
         formatDay={(_: string, date: Date) => date.getDate()}
         onChange={handleOnChange}
       />
-    </React.Fragment>
+    </Fragment>
   );
 };
 
