@@ -43,7 +43,7 @@ export const usePopperProps = (props: Partial<TextFieldProps>, options: UsePoppe
   // anchorEl ? anchorEl.clientWidth : null,
   // const [menuMinWidthState, setMenuMinWidthState] = React.useState();
 
-  console.log('openState =====', openState);
+  // console.log('openState =====', openState);
   const update = (
     ev: SyntheticEvent,
     open: boolean,
@@ -125,7 +125,7 @@ export const usePopperProps = (props: Partial<TextFieldProps>, options: UsePoppe
 
   const handleClickPopupIndicator = (ev: SyntheticEvent) => {
     ev.preventDefault();
-    console.log('popup indicator', openState);
+    // console.log('popup indicator', openState);
     if (openState) {
       handleClose(ev, 'toggle');
     } else {
@@ -141,7 +141,7 @@ export const usePopperProps = (props: Partial<TextFieldProps>, options: UsePoppe
   };
 
   const handleClick: TextFieldProps['onClick'] = (ev) => {
-    console.log('click root', openState);
+    // console.log('click root', openState);
     if (!noOpenOnFocus) {
       handleOpen(ev, 'click');
     }
