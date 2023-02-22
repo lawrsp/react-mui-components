@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { Box } from '@mui/material';
 import { FormProvider, SubmitHandler, FieldValues, UseFormReturn, Path } from 'react-hook-form';
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid, { Grid2Props } from '@mui/material/Unstable_Grid2';
 import { SxProps, Theme } from '@mui/material/styles';
 import { ExtraFormProvider } from './ExtraFormContext';
 
@@ -21,6 +20,8 @@ export interface FormProps<TFieldValues extends FieldValues, TContext extends ob
   form: UseFormReturn<TFieldValues, TContext>;
   children: React.ReactNode;
   sx?: SxProps<Theme>;
+  columnSpacing?: Grid2Props['columnSpacing'];
+  rowSpacing?: Grid2Props['rowSpacing'];
 }
 
 export const Form = <
@@ -29,7 +30,7 @@ export const Form = <
 >(
   props: FormProps<TFieldValues, TContext>
 ) => {
-  const { readOnly, onSubmit, form, children } = props;
+  const { readOnly, onSubmit, form, children, columnSpacing = 2, rowSpacing = 1, sx } = props;
 
   const handleSubmit: SubmitHandler<TFieldValues> = async (data, ev) => {
     ev?.preventDefault();
@@ -57,11 +58,15 @@ export const Form = <
         <Grid
           component="form"
           container
-          columnSpacing={2}
+          columnSpacing={columnSpacing}
+          rowSpacing={rowSpacing}
           onSubmit={form.handleSubmit(handleSubmit)}
-          sx={{
-            width: '100%',
-          }}
+          sx={[
+            {
+              padding: 1,
+            },
+            ...(Array.isArray(sx) ? sx : [sx]),
+          ]}
         >
           {children}
         </Grid>
