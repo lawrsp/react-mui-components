@@ -120,7 +120,7 @@ export function EditDialog(props: EditDialogProps) {
       >
         <DialogContent
           sx={[
-            { py: 2, pl: 3, pr: 2, visibility: hideChildren ? 'hidden' : 'visible' },
+            { pt: 1, pb: 5, pl: 3, pr: 2, visibility: hideChildren ? 'hidden' : 'visible' },
             ...(Array.isArray(contentSx) ? contentSx : [contentSx]),
           ]}
         >
@@ -128,7 +128,11 @@ export function EditDialog(props: EditDialogProps) {
         </DialogContent>
       </LoadingContainer>
       <DialogActions
-        sx={{ borderTop: (theme: Theme) => `1px solid ${theme.palette.grey[100]}`, pt: 1.5 }}
+        sx={{
+          borderTop: (theme: Theme) => `1px solid ${theme.palette.grey[100]}`,
+          pt: 2,
+          gap: 1.5,
+        }}
       >
         <Button
           onClick={handleSubmit}
