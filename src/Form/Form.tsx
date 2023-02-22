@@ -61,12 +61,7 @@ export const Form = <
           columnSpacing={columnSpacing}
           rowSpacing={rowSpacing}
           onSubmit={form.handleSubmit(handleSubmit)}
-          sx={[
-            {
-              padding: 1,
-            },
-            ...(Array.isArray(sx) ? sx : [sx]),
-          ]}
+          sx={sx}
         >
           {children}
         </Grid>

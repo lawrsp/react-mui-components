@@ -28,7 +28,7 @@ export const FormInputs = () => {
     };
   };
   return (
-    <div>
+    <div style={{ padding: 10 }}>
       <Form form={form} onSubmit={onSubmit}>
         <FormItem xs={6}>
           <FormInput type="text" name="name" label="name" />
@@ -70,7 +70,7 @@ export const ReadOnly = () => {
     };
   };
   return (
-    <div>
+    <div style={{ padding: 10 }}>
       <Form form={form} onSubmit={onSubmit} readOnly>
         <FormItem xs={6}>
           <FormInput type="text" name="name" label="name" />
