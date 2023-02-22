@@ -37,7 +37,14 @@ export const FormInputs = () => {
           <FormInput type="password" name="password" label="password" />
         </FormItem>
         <FormItem>
-          <FormInput multiline minRows={2} name="description" label="description" />
+          <FormInput
+            multiline
+            minRows={2}
+            maxRows={4}
+            name="description"
+            label="description"
+            variant="outlined"
+          />
         </FormItem>
         <FormItem xs={4}>
           <FormInput name="date" label="date" component={DatePicker} showPopupIcon />
@@ -79,7 +86,13 @@ export const ReadOnly = () => {
           <FormInput type="password" name="password" label="password" />
         </FormItem>
         <FormItem>
-          <FormInput multiline minRows={2} name="description" label="description" />
+          <FormInput
+            multiline
+            minRows={2}
+            name="description"
+            label="description"
+            variant="outlined"
+          />
         </FormItem>
         <FormItem xs={4}>
           <FormInput name="date" label="date" component={DatePicker} showPopupIcon />
