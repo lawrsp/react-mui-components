@@ -72,7 +72,6 @@ export const FormInput: OverridableComponent<FormInputTypeMap> = (props: FormInp
   return (
     <Comp
       fullWidth
-      variant="standard"
       readOnly={readOnly}
       {...rest}
       onChange={handleChange} // send value to hook form

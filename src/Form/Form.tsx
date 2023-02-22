@@ -30,7 +30,7 @@ export const Form = <
 >(
   props: FormProps<TFieldValues, TContext>
 ) => {
-  const { readOnly, onSubmit, form, children, columnSpacing = 2, rowSpacing = 1, sx } = props;
+  const { readOnly, onSubmit, form, children, columnSpacing = 3, rowSpacing = 3, sx } = props;
 
   const handleSubmit: SubmitHandler<TFieldValues> = async (data, ev) => {
     ev?.preventDefault();
@@ -54,18 +54,16 @@ export const Form = <
 
   return (
     <ExtraFormProvider readOnly={readOnly}>
-      <FormProvider {...form}>
-        <Grid
-          component="form"
-          container
-          columnSpacing={columnSpacing}
-          rowSpacing={rowSpacing}
-          onSubmit={form.handleSubmit(handleSubmit)}
-          sx={sx}
-        >
-          {children}
-        </Grid>
-      </FormProvider>
+      <Grid
+        component="form"
+        container
+        columnSpacing={columnSpacing}
+        rowSpacing={rowSpacing}
+        onSubmit={form.handleSubmit(handleSubmit)}
+        sx={sx}
+      >
+        <FormProvider {...form}>{children}</FormProvider>
+      </Grid>
     </ExtraFormProvider>
   );
 };

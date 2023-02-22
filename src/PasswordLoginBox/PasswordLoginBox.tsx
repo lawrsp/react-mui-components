@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import Form, { useForm, FormInput, SubmitError } from '../Form';
+import Form, { FormItem, useForm, FormInput, SubmitError } from '../Form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -34,14 +34,14 @@ function PasswordLoginBox(props: LoginProps) {
 
   return (
     <Form form={form} onSubmit={handleLogin}>
-      <Grid container>
-        <Grid item xs={12}>
-          <FormInput name="username" label="用户名" fullWidth helperText=" " />
-        </Grid>
-        <Grid item xs={12}>
-          <FormInput type="password" name="password" label="密码" fullWidth helperText=" " />
-        </Grid>
-        <Grid item xs={12} sx={{ px: 1, pt: 4 }}>
+      <FormItem>
+        <FormInput name="username" label="用户名" fullWidth helperText=" " />
+      </FormItem>
+      <FormItem>
+        <FormInput type="password" name="password" label="密码" fullWidth helperText=" " />
+      </FormItem>
+      <FormItem>
+        <Box sx={{ px: 1, pt: 4 }}>
           <LoadingButton
             loading={inLogin}
             type="submit"
@@ -51,8 +51,8 @@ function PasswordLoginBox(props: LoginProps) {
           >
             登录
           </LoadingButton>
-        </Grid>
-      </Grid>
+        </Box>
+      </FormItem>
     </Form>
   );
 }

@@ -61,6 +61,11 @@ export const defaultTheme = {
         },
       },
     },
+    MuiTextField: {
+      defaultProps: {
+        variant: 'standard',
+      },
+    },
   },
   mixins: {
     toolbar: {
