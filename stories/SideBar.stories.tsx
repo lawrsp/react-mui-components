@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { MenuConfig, MenuNodeConfig } from '../src/Types';
+import { RouteConfig } from '../src/Route';
 import SideBar from '../src/SideBar';
 
 export default {
@@ -11,19 +11,15 @@ export default {
 
 const Template: ComponentStory<typeof SideBar> = (args) => {
   const [currentPath, setCurrentPath] = React.useState<string>(args.currentPath);
-  const handleClickMenu = (_: React.SyntheticEvent, menu: MenuNodeConfig) => {
-    if ((!menu.children || !menu.children.length) && menu.path) {
-      setCurrentPath(menu.path);
-    }
-  };
+
   return (
     <Router>
-      <SideBar {...args} currentPath={currentPath} onClickMenu={handleClickMenu} />
+      <SideBar {...args} currentPath={currentPath} setCurrentPath={setCurrentPath} />
     </Router>
   );
 };
 
-const menus: MenuConfig = [
+const menus: RouteConfig = [
   {
     path: '/workplace',
     title: '工作区',
@@ -59,8 +55,9 @@ const menus: MenuConfig = [
 export const Simple = Template.bind({});
 Simple.args = {
   open: true,
-  logo: '',
   logoText: 'test',
+  logo: '/stories/logo.svg',
   menus: menus,
   currentPath: '/other/log',
+  width: 300,
 };
