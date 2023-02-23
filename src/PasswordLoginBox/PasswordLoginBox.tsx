@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Box } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import Form, { FormItem, useForm, FormInput, SubmitError } from '../Form';
+import Form, { FormItem, useForm, FormInput, SubmitError, FormInputProps } from '../Form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -14,10 +14,11 @@ export type LoginRequestBody = z.infer<typeof LoginRequestBodySchema>;
 
 type LoginProps = {
   onLogin: (res: LoginRequestBody) => void | SubmitError | Promise<void | SubmitError>;
+  inputVariant?: FormInputProps['variant'];
 };
 
 function PasswordLoginBox(props: LoginProps) {
-  const { onLogin } = props;
+  const { onLogin, inputVariant = 'outlined' } = props;
 
   const [inLogin, setInLogin] = React.useState(false);
   const form = useForm<LoginRequestBody>({
@@ -35,11 +36,11 @@ function PasswordLoginBox(props: LoginProps) {
   return (
     <Form form={form} onSubmit={handleLogin}>
       <FormItem>
-        <FormInput variant="outlined" name="username" label="用户名" fullWidth helperText=" " />
+        <FormInput variant={inputVariant} name="username" label="用户名" fullWidth helperText=" " />
       </FormItem>
       <FormItem>
         <FormInput
-          variant="outlined"
+          variant={inputVariant}
           type="password"
           name="password"
           label="密码"

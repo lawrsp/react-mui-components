@@ -13,7 +13,15 @@ export default {
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template: ComponentStory<typeof PasswordLoginBox> = (args) => (
   <div
-    style={{ width: 600, height: 500, border: '1px solid #000000', padding: 10, margin: '0 auto' }}
+    style={{
+      width: 600,
+      height: 'auto',
+      border: '1px solid #000000',
+      padding: '40px 24px',
+      borderRadius: '8px',
+      borderColor: '#e3e3d3',
+      margin: '60px auto',
+    }}
   >
     <PasswordLoginBox {...args} />
   </div>
