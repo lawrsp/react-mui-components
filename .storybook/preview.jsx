@@ -11,6 +11,8 @@ const theme = createTheme({
   },
 });
 
+console.info('theme is:', theme);
+
 export const decorators = [
   (Story) => (
     <AppProvider theme={theme}>

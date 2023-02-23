@@ -17,7 +17,7 @@ const LoadingPage = ({ text = 'loading...', textSx, sx }: LoadingPageProps) => (
         justifyContent: 'center',
         flexDirection: 'column',
         alignItems: 'center',
-        backgournd: 'gray',
+        backgroundColor: 'background.default',
         zIndex: 1501,
         opacity: '0.8',
       },
