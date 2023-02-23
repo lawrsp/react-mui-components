@@ -33,18 +33,22 @@ function PasswordLoginBox(props: LoginProps) {
     defaultValues: { username: '', password: '' },
   });
 
-  const handleLogin = useFormSubmitHandler(form, async (values: LoginRequestBody) => {
-    try {
-      setInLogin(true);
-      const result = await onLogin(values);
-      return result;
-    } finally {
-      setInLogin(false);
-    }
-  });
+  const handleLogin = useFormSubmitHandler(
+    form,
+    async (values: LoginRequestBody) => {
+      try {
+        setInLogin(true);
+        const result = await onLogin(values);
+        return result;
+      } finally {
+        setInLogin(false);
+      }
+    },
+    { noThrow: true }
+  );
 
   return (
-    <Form form={form} onSubmit={handleLogin}>
+    <Form form={form} onSubmit={handleLogin} readOnly={inLogin}>
       <FormItem>
         <FormInput variant={inputVariant} name="username" label="用户名" fullWidth helperText=" " />
       </FormItem>

@@ -1,5 +1,11 @@
-import { FormEventHandler, ReactNode } from 'react';
-import { FormProvider, FieldValues, UseFormReturn, Path } from 'react-hook-form';
+import { ReactNode, BaseSyntheticEvent } from 'react';
+import {
+  FormProvider,
+  type FieldValues,
+  type UseFormReturn,
+  type Path,
+  type SubmitErrorHandler,
+} from 'react-hook-form';
 import Grid, { Grid2Props } from '@mui/material/Unstable_Grid2';
 import { SxProps, Theme } from '@mui/material/styles';
 import { ExtraFormProvider } from './ExtraFormContext';
@@ -39,15 +45,20 @@ const defaultErrorTranslator = (err: any) => {
 
 export const useFormSubmitHandler = <TFieldValues extends FieldValues, TContext extends object>(
   form: UseFormReturn<TFieldValues, TContext>,
-  onSubmit: (data: TFieldValues, ev?: React.BaseSyntheticEvent) => void | Promise<any>,
+  onSubmit?: (data: TFieldValues, ev?: React.BaseSyntheticEvent) => void | Promise<any>,
   options?: {
     translateError?: (err: any) => SubmitError | null;
-    throwError?: boolean;
+    onInvalid?: SubmitErrorHandler<TFieldValues>;
+    noThrow?: boolean;
   }
 ) => {
-  const { translateError = defaultErrorTranslator, throwError = false } = options || {};
+  if (!onSubmit) {
+    return undefined;
+  }
 
-  const handleSubmit: FormEventHandler = form.handleSubmit(async (data, ev) => {
+  const { translateError = defaultErrorTranslator, noThrow = false, onInvalid } = options || {};
+
+  const handleSubmit = form.handleSubmit(async (data, ev) => {
     ev?.preventDefault();
     if (!onSubmit) {
       return;
@@ -65,24 +76,23 @@ export const useFormSubmitHandler = <TFieldValues extends FieldValues, TContext 
         });
       }
 
-      if (throwError) {
+      if (!noThrow) {
         throw err;
       }
     }
-  });
+  }, onInvalid);
 
   return handleSubmit;
 };
 
 export interface FormProps<TFieldValues extends FieldValues, TContext extends object> {
   readOnly?: boolean;
-  onSubmit?: FormEventHandler;
+  onSubmit?: (e?: BaseSyntheticEvent) => void | Promise<void>;
   form: UseFormReturn<TFieldValues, TContext>;
   children: ReactNode;
   sx?: SxProps<Theme>;
   columnSpacing?: Grid2Props['columnSpacing'];
   rowSpacing?: Grid2Props['rowSpacing'];
-  translateError?: (error: any) => SubmitError;
 }
 
 export const Form = <

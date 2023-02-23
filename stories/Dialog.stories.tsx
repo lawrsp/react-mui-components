@@ -12,6 +12,7 @@ import {
 } from '../src/Dialog';
 import { delayms } from '../src/utils/delay';
 import { Form, FormItem, FormInput, useForm, useFormSubmitHandler } from '../src/Form';
+import LoadingContainer from '../src/LoadingContainer';
 
 export default {
   title: 'Example/Dialog',
@@ -49,7 +50,6 @@ export const Edit = () => {
       <button
         onClick={() => {
           setOpen(1);
-          setLoading(true);
         }}
       >
         open dialog without actions
@@ -65,24 +65,26 @@ export const Edit = () => {
         loading={loading}
         submitting={submitting}
       >
-        <p>hello, this is a eidt dialog </p>
-        <p>write some components here...</p>
-        <p>input components</p>
-        <TextField
-          InputProps={{
-            readOnly: submitting || loading,
-          }}
-          variant="outlined"
-          defaultValue={loading ? 'this is a input' : ''}
-        />
-        <p>
-          and some long long long long long long long long long long long long long long long
-          components...
-        </p>
-        <p>and more...</p>
-        <p>...</p>
-        <p>..</p>
-        <p>.</p>
+        <LoadingContainer loading={loading}>
+          <p>hello, this is a eidt dialog </p>
+          <p>write some components here...</p>
+          <p>input components</p>
+          <TextField
+            InputProps={{
+              readOnly: submitting || loading,
+            }}
+            variant="outlined"
+            defaultValue={loading ? 'this is a input' : ''}
+          />
+          <p>
+            and some long long long long long long long long long long long long long long long
+            components...
+          </p>
+          <p>and more...</p>
+          <p>...</p>
+          <p>..</p>
+          <p>.</p>
+        </LoadingContainer>
       </EditDialog>
     </div>
   );

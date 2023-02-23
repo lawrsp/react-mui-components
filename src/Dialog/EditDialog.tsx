@@ -67,23 +67,33 @@ export function EditDialog(props: EditDialogProps) {
     };
   }, [open]);
 
+  // no throw error
   const handleSubmit = async (ev: SyntheticEvent) => {
     ev.preventDefault();
     if (!onSubmit) {
       return;
     }
-    await onSubmit(ev);
-    if (closeOnSuccess) {
-      await onClose(ev);
+    try {
+      await onSubmit(ev);
+      if (closeOnSuccess) {
+        await onClose(ev);
+      }
+    } catch (err) {
+      // console.log(err)
     }
   };
 
+  // no throw error
   const handleReset = async (ev: SyntheticEvent) => {
     ev.preventDefault();
     if (!onReset) {
       return;
     }
-    await onReset(ev);
+    try {
+      await onReset(ev);
+    } catch (err) {
+      // console.log(err)
+    }
   };
 
   return (
