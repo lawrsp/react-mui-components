@@ -91,8 +91,6 @@ function ProTableInternal<DataType extends Record<string, any>>(
         {
           overflowX: 'auto',
           overflowY: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}

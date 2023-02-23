@@ -23,10 +23,11 @@ export const Loading = () => {
         ref={ref}
         loading
         sx={{
-          height: 300,
+          height: 400,
           width: 600,
           background: '#f2f3f4',
           wordBreak: 'break-all',
+          margin: '10px auto',
         }}
       >
         <Box>hello world: {str}</Box>

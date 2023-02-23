@@ -114,8 +114,6 @@ export const MaxDialog = (props: MaxDialogProps) => {
       </Box>
       <LoadingContainer
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
           flexGrow: 1,
           overflow: 'hidden',
         }}

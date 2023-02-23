@@ -41,6 +41,7 @@ function LoadingContainer(props: LoadingContainerProps, ref: ForwardedRef<any>) 
       sx={[
         {
           display: 'flex',
+          flexDirection: 'column',
           position: 'relative',
         },
         ...(Array.isArray(sx) ? sx : [sx]),
