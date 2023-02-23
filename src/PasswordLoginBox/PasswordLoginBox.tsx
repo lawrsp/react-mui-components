@@ -35,10 +35,17 @@ function PasswordLoginBox(props: LoginProps) {
   return (
     <Form form={form} onSubmit={handleLogin}>
       <FormItem>
-        <FormInput name="username" label="用户名" fullWidth helperText=" " />
+        <FormInput variant="outlined" name="username" label="用户名" fullWidth helperText=" " />
       </FormItem>
       <FormItem>
-        <FormInput type="password" name="password" label="密码" fullWidth helperText=" " />
+        <FormInput
+          variant="outlined"
+          type="password"
+          name="password"
+          label="密码"
+          fullWidth
+          helperText=" "
+        />
       </FormItem>
       <FormItem>
         <Box sx={{ px: 1, pt: 4 }}>

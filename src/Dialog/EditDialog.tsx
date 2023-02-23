@@ -120,7 +120,7 @@ export function EditDialog(props: EditDialogProps) {
       >
         <DialogContent
           sx={[
-            { pt: 1, pb: 5, pl: 3, pr: 2, visibility: hideChildren ? 'hidden' : 'visible' },
+            { pt: 1, pb: 5, px: 3, visibility: hideChildren ? 'hidden' : 'visible' },
             ...(Array.isArray(contentSx) ? contentSx : [contentSx]),
           ]}
         >
