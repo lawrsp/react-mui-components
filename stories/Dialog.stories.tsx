@@ -11,6 +11,7 @@ import {
   type DialogActionConfigType,
 } from '../src/Dialog';
 import { delayms } from '../src/utils/delay';
+import { Form, FormItem, FormInput, useForm, useFormSubmitHandler } from '../src/Form';
 
 export default {
   title: 'Example/Dialog',
@@ -82,6 +83,63 @@ export const Edit = () => {
         <p>...</p>
         <p>..</p>
         <p>.</p>
+      </EditDialog>
+    </div>
+  );
+};
+
+export const EditWithForm = () => {
+  const [open, setOpen] = React.useState(false);
+  const [injectError, setInjectError] = React.useState(1);
+  const [submitting, setSubmitting] = React.useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const form = useForm({ defaultValues: { name: '' } });
+
+  const handleSubmit = useFormSubmitHandler(form, async (_, ev) => {
+    action('submit')(ev);
+    setSubmitting(true);
+    await delayms(3000);
+    setSubmitting(false);
+
+    setInjectError((x) => x + 1);
+    if (injectError % 2) {
+      throw {
+        message: 'error',
+        fields: [
+          {
+            field: 'name',
+            message: 'duplicated',
+          },
+        ],
+      };
+    }
+  });
+  const handleReset = () => form.reset();
+
+  return (
+    <div>
+      <div>open </div>
+      <button onClick={() => setOpen(true)}>open dialog </button>
+      <EditDialog
+        open={!!open}
+        title="test测试"
+        onClose={handleClose}
+        onSubmit={handleSubmit}
+        onReset={handleReset}
+        fullScreen="md"
+        submitting={submitting}
+        closeOnSuccess
+      >
+        <Form form={form} readOnly={submitting}>
+          <p>hello, this is a eidt dialog </p>
+          <FormItem>
+            <FormInput label="name" name="name" />
+          </FormItem>
+        </Form>
       </EditDialog>
     </div>
   );
@@ -198,7 +256,7 @@ export const Max = () => {
 };
 
 const UseConfirmHookChildren = () => {
-  const [open, setOpen] = React.useState(false);
+  /* const [open, setOpen] = React.useState(false); */
 
   const openConfirm1 = useConfirmPopover({
     description: 'this is a use confirm popover',

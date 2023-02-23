@@ -1,4 +1,4 @@
-import { FormEventHandler, ReactNode } from 'react';
+import { FormEventHandler, ReactNode, SyntheticEvent } from 'react';
 import { FormProvider, FieldValues, UseFormReturn, Path } from 'react-hook-form';
 import Grid, { Grid2Props } from '@mui/material/Unstable_Grid2';
 import { SxProps, Theme } from '@mui/material/styles';
@@ -59,8 +59,8 @@ export const useFormSubmitHandler = <TFieldValues extends FieldValues, TContext 
           form.setError(field as Path<TFieldValues>, { type: 'custom', message });
         });
       }
+      throw err;
     }
-    return;
   });
 
   return handleSubmit;

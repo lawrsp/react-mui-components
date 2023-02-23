@@ -52,12 +52,12 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
   } = props;
 
   const handleClickCancel = async (ev: SyntheticEvent) => {
-    console.log('==============click cancel mini dialog');
+    // console.log('==============click cancel mini dialog');
     await props.onCancel?.(ev);
   };
 
   const handleClickOk = async (ev: SyntheticEvent) => {
-    console.log('==============click ok mini dialog');
+    // console.log('==============click ok mini dialog');
     await props.onConfirm?.(ev);
   };
 

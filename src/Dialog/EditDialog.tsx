@@ -67,10 +67,32 @@ export function EditDialog(props: EditDialogProps) {
     };
   }, [open]);
 
+  // this is the end of submit stack, catch the error
   const handleSubmit = async (ev: SyntheticEvent) => {
-    await onSubmit?.(ev);
-    if (closeOnSuccess) {
-      await onClose(ev);
+    ev.preventDefault();
+    try {
+      if (!onSubmit) {
+        return;
+      }
+      await onSubmit(ev);
+      if (closeOnSuccess) {
+        await onClose(ev);
+      }
+    } catch (err) {
+      /* console.log(err) */
+    }
+  };
+
+  // this is the end of reset stack, catch the error
+  const handleReset = async (ev: SyntheticEvent) => {
+    ev.preventDefault();
+    try {
+      if (!onReset) {
+        return;
+      }
+      await onReset(ev);
+    } catch (err) {
+      /* console.log(err) */
     }
   };
 
@@ -137,7 +159,7 @@ export function EditDialog(props: EditDialogProps) {
         {!!onReset && (
           <Button
             disabled={submitting || loading}
-            onClick={onReset}
+            onClick={handleReset}
             variant="outlined"
             size="small"
           >
