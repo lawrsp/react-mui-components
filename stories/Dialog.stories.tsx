@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
+import { TextField } from '@mui/material';
 import {
   EditDialog,
   ConfirmDialog,
@@ -16,44 +17,63 @@ export default {
 };
 
 export const Edit = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(0);
   const [loading, setLoading] = React.useState(false);
+  const [submitting, setSubmitting] = React.useState(false);
 
   const handleClose = () => {
-    setOpen(false);
+    setOpen(0);
     setLoading(false);
   };
 
   const handleSubmit = async (ev: React.SyntheticEvent) => {
     action('submit')(ev);
-    await delayms(1000);
+    setSubmitting(true);
+    await delayms(3000);
+    setSubmitting(false);
   };
 
   return (
     <div>
       <div>open </div>
-      <button onClick={() => setOpen(true)}>open dialog </button>
+      <button onClick={() => setOpen(3)}>open dialog </button>
       <button
         onClick={() => {
-          setOpen(true);
+          setOpen(2);
           setLoading(true);
         }}
       >
         open dialog and is loading
       </button>
+      <button
+        onClick={() => {
+          setOpen(1);
+          setLoading(true);
+        }}
+      >
+        open dialog without actions
+      </button>
       <EditDialog
-        open={open}
+        open={!!open}
         title="test测试"
         onClose={handleClose}
-        onSubmit={handleSubmit}
-        onReset={action('reset')}
+        onSubmit={(open > 1 && handleSubmit) || undefined}
+        onReset={(open > 2 && action('reset')) || undefined}
+        submitLabel={open > 2 ? '提交' : '确定'}
         fullScreen="md"
         loading={loading}
+        submitting={submitting}
       >
         <p>hello, this is a eidt dialog </p>
         <p>write some components here...</p>
         <p>input components</p>
-        <input />
+        <TextField
+          InputProps={{
+            readOnly: submitting || loading,
+          }}
+          variant="outlined"
+          defaultValue={loading ? 'this is a input' : ''}
+        />
         <p>
           and some long long long long long long long long long long long long long long long
           components...

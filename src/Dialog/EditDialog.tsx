@@ -12,19 +12,20 @@ import { Close as CloseIcon } from '@mui/icons-material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { type Breakpoint, type Theme, type SxProps } from '@mui/material/styles';
 import { SyntheticEvent } from 'react';
-import LoadingContainer from '../LoadingContainer';
+import { LoadingButton } from '@mui/lab';
 
 type EditDialogPropsC = {
   open?: boolean;
   title: string;
-  okText?: string;
-  resetText?: string;
+  submitLabel?: string;
+  resetLabel?: string;
   loading?: boolean;
+  submitting?: boolean;
   onClose: (ev: SyntheticEvent) => void | Promise<any>;
-  onSubmit: (ev: SyntheticEvent) => void | Promise<any>;
-  onReset: (ev: SyntheticEvent) => void | Promise<any>;
+  onSubmit?: (ev: SyntheticEvent) => void | Promise<any>;
+  onReset?: (ev: SyntheticEvent) => void | Promise<any>;
   closeOnSuccess?: boolean;
-  children: ReactNode;
+  children?: ReactNode;
   fullScreen?: Breakpoint;
   contentSx?: SxProps<Theme>;
 };
@@ -34,8 +35,8 @@ export type EditDialogProps = Omit<DialogProps, keyof EditDialogPropsC> & EditDi
 export function EditDialog(props: EditDialogProps) {
   const {
     open = false,
-    okText = '提交',
-    resetText = '重置',
+    submitLabel = '提交',
+    resetLabel = '重置',
     title,
     onClose,
     onSubmit,
@@ -44,12 +45,12 @@ export function EditDialog(props: EditDialogProps) {
     maxWidth = 'sm',
     fullScreen = 'sm',
     loading = false,
+    submitting = false,
     children,
     contentSx,
     ...rest
   } = props;
 
-  const [submitting, setSubmitting] = React.useState(false);
   const [hideChildren, setHideChildren] = React.useState(false);
   const isFullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down(fullScreen));
 
@@ -67,14 +68,9 @@ export function EditDialog(props: EditDialogProps) {
   }, [open]);
 
   const handleSubmit = async (ev: SyntheticEvent) => {
-    try {
-      setSubmitting(true);
-      await onSubmit(ev);
-      if (closeOnSuccess) {
-        await onClose(ev);
-      }
-    } finally {
-      setSubmitting(false);
+    await onSubmit?.(ev);
+    if (closeOnSuccess) {
+      await onClose(ev);
     }
   };
 
@@ -109,44 +105,45 @@ export function EditDialog(props: EditDialogProps) {
           <CloseIcon fontSize="small" />
         </IconButton>
       </Box>
-      <LoadingContainer
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          flexGrow: 1,
-          overflow: 'hidden',
-        }}
-        loading={loading || submitting}
+      <DialogContent
+        sx={[
+          { pt: 1, pb: 5, px: 3, visibility: hideChildren ? 'hidden' : 'visible' },
+          ...(Array.isArray(contentSx) ? contentSx : [contentSx]),
+        ]}
       >
-        <DialogContent
-          sx={[
-            { pt: 1, pb: 5, px: 3, visibility: hideChildren ? 'hidden' : 'visible' },
-            ...(Array.isArray(contentSx) ? contentSx : [contentSx]),
-          ]}
-        >
-          {children}
-        </DialogContent>
-      </LoadingContainer>
+        {children}
+      </DialogContent>
       <DialogActions
         sx={{
           borderTop: (theme: Theme) => `1px solid ${theme.palette.grey[100]}`,
           pt: 2,
+          pr: 3,
           gap: 1.5,
         }}
       >
-        <Button
-          onClick={handleSubmit}
-          color="primary"
-          type="submit"
-          size="small"
-          variant="contained"
-          disabled={submitting || loading}
-        >
-          {okText}
-        </Button>
-        <Button disabled={submitting || loading} onClick={onReset} variant="outlined" size="small">
-          {resetText}
-        </Button>
+        {!!onSubmit && (
+          <LoadingButton
+            onClick={handleSubmit}
+            color="primary"
+            type="submit"
+            size="small"
+            variant="contained"
+            loading={submitting}
+            disabled={loading}
+          >
+            {submitLabel}
+          </LoadingButton>
+        )}
+        {!!onReset && (
+          <Button
+            disabled={submitting || loading}
+            onClick={onReset}
+            variant="outlined"
+            size="small"
+          >
+            {resetLabel}
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );
