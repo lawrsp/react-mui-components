@@ -15,17 +15,6 @@ export interface SubmitError {
   fields?: SubmitErrorField[];
 }
 
-export interface FormProps<TFieldValues extends FieldValues, TContext extends object> {
-  readOnly?: boolean;
-  onSubmit?: (data: TFieldValues, ev?: React.BaseSyntheticEvent) => void | Promise<any>;
-  form: UseFormReturn<TFieldValues, TContext>;
-  children: React.ReactNode;
-  sx?: SxProps<Theme>;
-  columnSpacing?: Grid2Props['columnSpacing'];
-  rowSpacing?: Grid2Props['rowSpacing'];
-  translateError?: (error: any) => SubmitError;
-}
-
 const defaultErrorTranslator = (err: any) => {
   if (!err || (!err.message && !err.fields)) {
     return null;
@@ -47,6 +36,17 @@ const defaultErrorTranslator = (err: any) => {
   }
   return result;
 };
+
+export interface FormProps<TFieldValues extends FieldValues, TContext extends object> {
+  readOnly?: boolean;
+  onSubmit?: (data: TFieldValues, ev?: React.BaseSyntheticEvent) => void | Promise<any>;
+  form: UseFormReturn<TFieldValues, TContext>;
+  children: React.ReactNode;
+  sx?: SxProps<Theme>;
+  columnSpacing?: Grid2Props['columnSpacing'];
+  rowSpacing?: Grid2Props['rowSpacing'];
+  translateError?: (error: any) => SubmitError;
+}
 
 export const Form = <
   TFieldValues extends FieldValues = FieldValues,
