@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, TextField } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import Form, { useForm, FormItem } from '../src/Form';
@@ -23,11 +22,12 @@ export const FormInputs = () => {
   });
   const onSubmit = (data: FormValues) => {
     console.log(data);
-    return {
+    throw {
       message: 'error!',
       fields: [{ field: 'name', message: 'duplicated' }],
     };
   };
+
   return (
     <div style={{ padding: 10 }}>
       <Form form={form} onSubmit={onSubmit}>
@@ -61,6 +61,79 @@ export const FormInputs = () => {
   );
 };
 
+export const TranslateError = () => {
+  const form = useForm<FormValues>({
+    defaultValues: { name: '', password: '', description: '', date: '' },
+  });
+  const onSubmit = (data: FormValues) => {
+    console.log(data);
+    throw {
+      message: 'error!',
+      fields: [{ field: 'name', message: 'duplicated', lang: 'EN' }],
+    };
+  };
+  const submitErrorTranslator = ({
+    message,
+    fields,
+  }: {
+    message: string;
+    fields?: {
+      field: string;
+      message: string;
+      lang: string;
+    }[];
+  }) => {
+    return {
+      message,
+      fields: fields?.map(({ field, message, lang }) => {
+        if (lang === 'EN' && message === 'duplicated' && field === 'name') {
+          return {
+            field,
+            message: `用户名已存在`,
+          };
+        }
+
+        return {
+          field,
+          message: `Translated(${lang}): ${message}`,
+        };
+      }),
+    };
+  };
+
+  return (
+    <div style={{ padding: 10 }}>
+      <Form form={form} onSubmit={onSubmit} translateError={submitErrorTranslator}>
+        <FormItem xs={6}>
+          <FormInput type="text" name="name" label="用户名" />
+        </FormItem>
+        <FormItem xs={6}>
+          <FormInput type="password" name="password" label="密码" />
+        </FormItem>
+        <FormItem>
+          <FormInput
+            multiline
+            minRows={2}
+            maxRows={4}
+            name="description"
+            label="详情描述"
+            variant="outlined"
+          />
+        </FormItem>
+        <FormItem xs={4}>
+          <FormInput name="date" label="日期" component={DatePicker} showPopupIcon />
+        </FormItem>
+        <FormItem xs={12} sx={{ gap: 2, display: 'flex' }}>
+          <Button type="submit">提交</Button>
+          <Button type="reset" onClick={() => form.reset()}>
+            重置
+          </Button>
+        </FormItem>
+      </Form>
+    </div>
+  );
+};
+
 export const ReadOnly = () => {
   const form = useForm<FormValues>({
     defaultValues: {
@@ -72,7 +145,7 @@ export const ReadOnly = () => {
   });
   const onSubmit = (data: FormValues) => {
     console.log(data);
-    return {
+    throw {
       message: 'error!',
       fields: [{ field: 'name', message: 'duplicated' }],
     };
