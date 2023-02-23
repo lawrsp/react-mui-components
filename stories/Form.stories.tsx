@@ -1,6 +1,6 @@
 import { Button, TextField } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import Form, { useForm, FormItem } from '../src/Form';
+import Form, { useForm, FormItem, useFormSubmitHandler } from '../src/Form';
 import FormInput from '../src/Form/FormInput';
 import { DatePicker } from '../src/DateTime';
 
@@ -28,9 +28,11 @@ export const FormInputs = () => {
     };
   };
 
+  const handleSubmit = useFormSubmitHandler(form, onSubmit);
+
   return (
     <div style={{ padding: 10 }}>
-      <Form form={form} onSubmit={onSubmit}>
+      <Form form={form} onSubmit={handleSubmit}>
         <FormItem xs={6}>
           <FormInput type="text" name="name" label="name" />
         </FormItem>
@@ -101,9 +103,11 @@ export const TranslateError = () => {
     };
   };
 
+  const handleSubmit = useFormSubmitHandler(form, onSubmit, submitErrorTranslator);
+
   return (
     <div style={{ padding: 10 }}>
-      <Form form={form} onSubmit={onSubmit} translateError={submitErrorTranslator}>
+      <Form form={form} onSubmit={handleSubmit} translateError={submitErrorTranslator}>
         <FormItem xs={6}>
           <FormInput type="text" name="name" label="用户名" />
         </FormItem>
@@ -143,16 +147,10 @@ export const ReadOnly = () => {
       date: new Date(),
     },
   });
-  const onSubmit = (data: FormValues) => {
-    console.log(data);
-    throw {
-      message: 'error!',
-      fields: [{ field: 'name', message: 'duplicated' }],
-    };
-  };
+
   return (
     <div style={{ padding: 10, flexGrow: 1 }}>
-      <Form form={form} onSubmit={onSubmit} readOnly columnSpacing={3} rowSpacing={8}>
+      <Form form={form} readOnly columnSpacing={3} rowSpacing={8}>
         <FormItem xs={6}>
           <FormInput type="text" name="name" label="name" />
         </FormItem>
