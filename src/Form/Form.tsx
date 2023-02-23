@@ -1,4 +1,4 @@
-import { FormEventHandler, ReactNode, SyntheticEvent } from 'react';
+import { FormEventHandler, ReactNode } from 'react';
 import { FormProvider, FieldValues, UseFormReturn, Path } from 'react-hook-form';
 import Grid, { Grid2Props } from '@mui/material/Unstable_Grid2';
 import { SxProps, Theme } from '@mui/material/styles';
@@ -40,8 +40,13 @@ const defaultErrorTranslator = (err: any) => {
 export const useFormSubmitHandler = <TFieldValues extends FieldValues, TContext extends object>(
   form: UseFormReturn<TFieldValues, TContext>,
   onSubmit: (data: TFieldValues, ev?: React.BaseSyntheticEvent) => void | Promise<any>,
-  translateError?: (err: any) => SubmitError
+  options?: {
+    translateError?: (err: any) => SubmitError | null;
+    throwError?: boolean;
+  }
 ) => {
+  const { translateError = defaultErrorTranslator, throwError = false } = options || {};
+
   const handleSubmit: FormEventHandler = form.handleSubmit(async (data, ev) => {
     ev?.preventDefault();
     if (!onSubmit) {
@@ -51,7 +56,7 @@ export const useFormSubmitHandler = <TFieldValues extends FieldValues, TContext 
       return await onSubmit(data, ev);
     } catch (err) {
       /* console.error('submit error:', err); */
-      const submitError = (translateError || defaultErrorTranslator)(err);
+      const submitError = translateError(err);
       if (submitError?.fields?.length) {
         // setfield errors
         submitError.fields.forEach((fe) => {
@@ -59,7 +64,10 @@ export const useFormSubmitHandler = <TFieldValues extends FieldValues, TContext 
           form.setError(field as Path<TFieldValues>, { type: 'custom', message });
         });
       }
-      throw err;
+
+      if (throwError) {
+        throw err;
+      }
     }
   });
 

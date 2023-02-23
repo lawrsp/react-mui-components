@@ -16,7 +16,7 @@ export const useTitleProps: (
       return undefined;
     }
 
-    const { visible, searchFields, searches, actions } = withSearch;
+    const { visible = false, searchFields, searches, actions } = withSearch;
 
     return (
       <SearchTitle

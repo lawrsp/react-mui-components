@@ -30,10 +30,10 @@ const Template: ComponentStory<typeof PasswordLoginBox> = (args) => (
 export const Passwordbox = Template.bind({});
 Passwordbox.args = {
   onLogin: () => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       setTimeout(() => {
         console.log('resolve===============', resolve);
-        resolve({
+        reject({
           message: 'error in login',
           fields: [{ field: 'username', message: 'not found' }],
         });

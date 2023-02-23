@@ -67,33 +67,23 @@ export function EditDialog(props: EditDialogProps) {
     };
   }, [open]);
 
-  // this is the end of submit stack, catch the error
   const handleSubmit = async (ev: SyntheticEvent) => {
     ev.preventDefault();
-    try {
-      if (!onSubmit) {
-        return;
-      }
-      await onSubmit(ev);
-      if (closeOnSuccess) {
-        await onClose(ev);
-      }
-    } catch (err) {
-      /* console.log(err) */
+    if (!onSubmit) {
+      return;
+    }
+    await onSubmit(ev);
+    if (closeOnSuccess) {
+      await onClose(ev);
     }
   };
 
-  // this is the end of reset stack, catch the error
   const handleReset = async (ev: SyntheticEvent) => {
     ev.preventDefault();
-    try {
-      if (!onReset) {
-        return;
-      }
-      await onReset(ev);
-    } catch (err) {
-      /* console.log(err) */
+    if (!onReset) {
+      return;
     }
+    await onReset(ev);
   };
 
   return (

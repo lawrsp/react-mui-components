@@ -1,7 +1,14 @@
 import * as React from 'react';
 import { Box } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import Form, { FormItem, useForm, FormInput, SubmitError, FormInputProps } from '../Form';
+import Form, {
+  FormItem,
+  useForm,
+  FormInput,
+  SubmitError,
+  FormInputProps,
+  useFormSubmitHandler,
+} from '../Form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -26,12 +33,15 @@ function PasswordLoginBox(props: LoginProps) {
     defaultValues: { username: '', password: '' },
   });
 
-  const handleLogin = async (values: LoginRequestBody) => {
-    setInLogin(true);
-    const result = await onLogin(values);
-    setInLogin(false);
-    return result;
-  };
+  const handleLogin = useFormSubmitHandler(form, async (values: LoginRequestBody) => {
+    try {
+      setInLogin(true);
+      const result = await onLogin(values);
+      return result;
+    } finally {
+      setInLogin(false);
+    }
+  });
 
   return (
     <Form form={form} onSubmit={handleLogin}>
