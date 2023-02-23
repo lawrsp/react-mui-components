@@ -29,7 +29,7 @@ export const DateTimeSpans = () => {
 };
 
 export const Calendars = () => {
-  const [time, setTime] = React.useState<Date | string>('2022-06-29T00:00:00.000Z');
+  const [time, setTime] = React.useState<Date | string | number>('2022-06-29T00:00:00.000Z');
   return (
     <div>
       <div>
@@ -43,6 +43,9 @@ export const Calendars = () => {
         <button onClick={() => setTime(undefined)}>undefined</button>
         <button onClick={() => setTime('2022-08-32T12:29:20.000Z')}>
           2022-08-32T12:29:20.000Z
+        </button>
+        <button onClick={() => setTime(1677180676674)}>
+          1677180676674(2023-02-23T19:31:16.674Z)
         </button>
         <br />
         <span>time is: &nbsp;</span>
