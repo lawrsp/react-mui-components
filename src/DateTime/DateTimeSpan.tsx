@@ -13,21 +13,31 @@ export interface DateTimeSpanProps {
 export const DateTimeSpan = (props: DateTimeSpanProps) => {
   const { value, component = 'div', format = 'yyyy-MM-dd HH:mm:ss', sx } = props;
 
-  const visibleValue = useMemo(() => {
+  const { visibleValue, error } = useMemo(() => {
     if (!value) {
-      return '';
+      return { visibleValue: '' };
     }
     try {
       const date = dateUtils.date(value);
       const text = dateUtils.formatByString(date, format);
-      return text;
+      return { visibleValue: text };
     } catch (err) {
-      return JSON.stringify(value);
+      return { visibleValue: JSON.stringify(value), error: true };
     }
   }, [value, format]);
 
   return (
-    <Box component={component} sx={[...(Array.isArray(sx) ? sx : [sx])]}>
+    <Box
+      component={component}
+      sx={[
+        error
+          ? {
+              color: 'error.main',
+            }
+          : {},
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+    >
       {visibleValue}
     </Box>
   );

@@ -1,4 +1,4 @@
-import { SyntheticEvent, Fragment } from 'react';
+import { SyntheticEvent, Fragment, useState, useEffect } from 'react';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import ReactCalendar from 'react-calendar';
 
@@ -152,14 +152,28 @@ export const Calendar = ({ value, onChange }: CalendarProps) => {
       onChange(ev, val);
     }
   };
+  const [date, setDate] = useState<Date | undefined>(undefined);
+  useEffect(() => {
+    try {
+      const a = new Date(value || '');
+      if (isNaN(a.getTime())) {
+        setDate(undefined);
+      } else {
+        setDate(a);
+      }
+    } catch (err) {
+      setDate(undefined);
+    }
+  }, [value]);
+
   return (
     <Fragment>
       {calendarStyles}
       <ReactCalendar
-        value={value}
+        value={date}
         showNavigation={true}
         showNeighboringMonth={false}
-        formatDay={(_: string, date: Date) => date.getDate()}
+        formatDay={(_: string, date: string | Date) => new Date(date).getDate()}
         onChange={handleOnChange}
       />
     </Fragment>

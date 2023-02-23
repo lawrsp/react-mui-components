@@ -29,10 +29,22 @@ export const DateTimeSpans = () => {
 };
 
 export const Calendars = () => {
-  const [time, setTime] = React.useState(new Date());
+  const [time, setTime] = React.useState<Date | string>('2022-06-29T00:00:00.000Z');
   return (
     <div>
       <div>
+        <button onClick={() => setTime(new Date())}>now </button>
+        <button onClick={() => setTime('2022-06-29T00:00:00.000Z')}>
+          2022-06-29T00:00:00.000Z
+        </button>
+        <button onClick={() => setTime('x.y.z')}>x.y.z</button>
+        <button onClick={() => setTime('')}>空字符串</button>
+        <button onClick={() => setTime(null)}>null</button>
+        <button onClick={() => setTime(undefined)}>undefined</button>
+        <button onClick={() => setTime('2022-08-32T12:29:20.000Z')}>
+          2022-08-32T12:29:20.000Z
+        </button>
+        <br />
         <span>time is: &nbsp;</span>
         <DateTimeSpan component="span" value={time} />
       </div>
@@ -43,7 +55,7 @@ export const Calendars = () => {
 };
 
 export const DatePickers = () => {
-  const [time, setTime] = React.useState<Date | ''>('');
+  const [time, setTime] = React.useState<Date | string | ''>('2022-06-29T00:00:00.000Z');
   return (
     <div>
       <div>
