@@ -30,35 +30,34 @@ export type ConfirmDialogProps = {
   cancelLabel?: string;
   children?: ReactNode;
   sx?: SxProps<Theme>;
-} & (
-  | ({
-      popoverMode: true;
-    } & Pick<PopoverProps, 'anchorEl' | 'anchorOrigin' | 'transformOrigin'>)
-  | {
-      popoverMode?: false;
-    }
-);
+  popoverMode?: boolean;
+} & Pick<PopoverProps, 'anchorEl' | 'anchorOrigin' | 'transformOrigin'>;
 
 export const ConfirmDialog = (props: ConfirmDialogProps) => {
   const {
     cancelLabel = '取消',
     confirmLabel = '确定',
     open = false,
+    onConfirm,
+    onCancel,
     popoverMode,
     title,
     children,
     sx,
+    anchorEl,
+    anchorOrigin,
+    transformOrigin,
     ...rest
   } = props;
 
   const handleClickCancel = async (ev: SyntheticEvent) => {
     // console.log('==============click cancel mini dialog');
-    await props.onCancel?.(ev);
+    await onCancel?.(ev);
   };
 
-  const handleClickOk = async (ev: SyntheticEvent) => {
+  const handleClickConfirm = async (ev: SyntheticEvent) => {
     // console.log('==============click ok mini dialog');
-    await props.onConfirm?.(ev);
+    await onConfirm?.(ev);
   };
 
   return (
@@ -67,8 +66,9 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
       open={!!open}
       {...(popoverMode
         ? {
-            anchorOrigin: defaultAnchorOrigin,
-            transformOrigin: defaultTransformOrigin,
+            anchorEl: anchorEl,
+            anchorOrigin: anchorOrigin || defaultAnchorOrigin,
+            transformOrigin: transformOrigin || defaultTransformOrigin,
           }
         : {})}
       sx={[...(Array.isArray(sx) ? sx : [sx])]}
@@ -106,7 +106,7 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
           </Button>
         )}
         {confirmLabel && (
-          <Button color="primary" variant="text" size="small" onClick={handleClickOk}>
+          <Button color="primary" variant="text" size="small" onClick={handleClickConfirm}>
             {confirmLabel}{' '}
           </Button>
         )}
