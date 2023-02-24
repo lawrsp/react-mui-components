@@ -1,13 +1,5 @@
 import * as React from 'react';
-import {
-  SelectProps,
-  TextField as MuiTextField,
-  type TextFieldProps as MuiTextFieldProps,
-} from '@mui/material';
-
-const EmptyIcon = () => {
-  return null;
-};
+import { TextField as MuiTextField, type TextFieldProps as MuiTextFieldProps } from '@mui/material';
 
 export type TextFieldProps = {
   readOnly?: boolean;

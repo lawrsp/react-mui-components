@@ -1,6 +1,5 @@
-import { type SyntheticEvent, useMemo } from 'react';
+import { type SyntheticEvent, useMemo, useState, useEffect } from 'react';
 import { Box, Button, Paper, Popper } from '@mui/material';
-import { useControlled } from '@mui/material/utils';
 import { TextField, type TextFieldProps } from '../Inputs/TextField';
 import { usePopperProps } from '../PopperInput/usePopperProps';
 import Calendar from './Calendar';
@@ -30,11 +29,12 @@ export const DatePicker = (props: DatePickerProps) => {
     ...rest
   } = props;
 
-  const [value, setValue] = useControlled<number | string | Date | ''>({
-    controlled: valueProp,
-    default: defaultValue,
-    name: 'DatePicker',
-  });
+  const [value, setValue] = useState(valueProp || defaultValue || '');
+  useEffect(() => {
+    if (valueProp !== undefined) {
+      setValue(valueProp);
+    }
+  }, [valueProp]);
 
   const { textFieldProps, popperProps, close } = usePopperProps(rest, {
     showPopupIcon,

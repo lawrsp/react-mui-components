@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Form, { useForm, FormItem, useFormSubmitHandler } from '../src/Form';
 import FormInput from '../src/Form/FormInput';
 import { DatePicker } from '../src/DateTime';
+import { Checkbox } from '../src/Inputs';
 import { delayms } from '../src/utils/delay';
 import { LoadingButton } from '@mui/lab';
 
@@ -15,29 +16,43 @@ export default {
   component: Form,
 };
 
-type FormValues = {
+type TestFormValues = {
   name: string;
   password: string;
   description: string;
   date: Date | string | '';
   country: string;
   age: number | '';
+  checked: boolean;
 };
 
 const schema = z.object({
   name: z.string().min(1, { message: 'Required' }),
   password: z.string().min(6, { message: 'length >= 6' }),
+  description: z.string(),
+  date: z.date(),
+  country: z.string(),
+  age: z.string(),
+  checked: z.boolean(),
 });
 
 export const FormInputs = () => {
-  const form = useForm<FormValues>({
-    defaultValues: { name: '', password: '', description: '', date: '', country: '', age: '' },
+  const form = useForm<TestFormValues>({
+    defaultValues: {
+      name: '',
+      password: '',
+      description: '',
+      date: '',
+      country: '',
+      age: '',
+      checked: false,
+    },
     resolver: zodResolver(schema),
   });
   const [submitting, setSubmitting] = useState(false);
 
-  const onSubmit = async (data: FormValues) => {
-    console.log(data);
+  const onSubmit = async (data: TestFormValues) => {
+    console.log('data is', data);
     setSubmitting(true);
     await delayms(1500);
     setSubmitting(false);
@@ -97,6 +112,11 @@ export const FormInputs = () => {
             <option value={50}>50+</option>
           </FormInput>
         </FormItem>
+        <FormItem container xs={12}>
+          <FormItem xs={4}>
+            <FormInput name="checked" label="checked" component={Checkbox} />
+          </FormItem>
+        </FormItem>
 
         <FormItem xs={12} sx={{ gap: 2, display: 'flex' }}>
           <LoadingButton type="submit" loading={submitting}>
@@ -113,11 +133,11 @@ export const FormInputs = () => {
 
 export const TranslateError = () => {
   const [submitting, setSubmitting] = useState(false);
-  const form = useForm<FormValues>({
+  const form = useForm<TestFormValues>({
     defaultValues: { name: '', password: '', description: '', date: '', age: '', country: '' },
     resolver: zodResolver(schema),
   });
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = async (data: TestFormValues) => {
     setSubmitting(true);
     await delayms(1500);
     console.log(data);
@@ -194,6 +214,7 @@ export const TranslateError = () => {
             name="age"
             label="age"
             select
+            type="number"
             SelectProps={{
               native: true,
             }}
@@ -204,6 +225,11 @@ export const TranslateError = () => {
             <option value={40}>40+</option>
             <option value={50}>50+</option>
           </FormInput>
+        </FormItem>
+        <FormItem container xs={12}>
+          <FormItem xs={4}>
+            <FormInput name="checked" label="checked" component={Checkbox} />
+          </FormItem>
         </FormItem>
         <FormItem xs={12} sx={{ gap: 2, display: 'flex' }}>
           <LoadingButton type="submit" loading={submitting}>
@@ -219,7 +245,7 @@ export const TranslateError = () => {
 };
 
 export const ReadOnly = () => {
-  const form = useForm<FormValues>({
+  const form = useForm<TestFormValues>({
     defaultValues: {
       name: 'testName',
       password: '*********',
@@ -232,7 +258,7 @@ export const ReadOnly = () => {
 
   return (
     <div style={{ padding: 10, flexGrow: 1 }}>
-      <Form form={form} readOnly columnSpacing={3} rowSpacing={8}>
+      <Form form={form} readOnly>
         <FormItem xs={6}>
           <FormInput type="text" name="name" label="name" />
         </FormItem>
@@ -276,6 +302,11 @@ export const ReadOnly = () => {
             <option value={40}>40+</option>
             <option value={50}>50+</option>
           </FormInput>
+        </FormItem>
+        <FormItem container xs={12}>
+          <FormItem xs={4}>
+            <FormInput name="checked" label="checked" component={Checkbox} />
+          </FormItem>
         </FormItem>
       </Form>
     </div>
@@ -331,6 +362,11 @@ export const Grids = () => {
             <option value={40}>40+</option>
             <option value={50}>50+</option>
           </TextField>
+        </Grid>
+        <Grid container xs={12}>
+          <Grid xs={4}>
+            <Checkbox name="checked" label="checked" defaultValue={true} />
+          </Grid>
         </Grid>
       </Grid>
     </div>

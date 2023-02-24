@@ -45,7 +45,7 @@ export const FormInput: OverridableComponent<FormInputTypeMap> = (props: FormInp
       if (value !== undefined) {
         onChange(value);
       } else {
-        onChange(ev);
+        onChange(ev.target.value);
       }
     },
     [onChange]
