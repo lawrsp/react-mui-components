@@ -1,12 +1,15 @@
 import { type SyntheticEvent, useMemo } from 'react';
-import { Box, Button, Paper, Popper, TextField, TextFieldProps } from '@mui/material';
+import { Box, Button, Paper, Popper } from '@mui/material';
+import { useControlled } from '@mui/material/utils';
+import { TextField, type TextFieldProps } from '../Inputs/TextField';
 import { usePopperProps } from '../PopperInput/usePopperProps';
 import Calendar from './Calendar';
 import dateUtils from '../utils/date';
 
 export type DatePickerProps = {
-  value: number | Date | string;
-  onChange: (ev: SyntheticEvent, value: Date | '') => void | Promise<void>;
+  value?: number | Date | string;
+  defaultValue?: number | Date | string;
+  onChange?: (ev: SyntheticEvent, value: Date | '') => void | Promise<void>;
   format?: string;
   readOnly?: boolean;
   closeOnSelected?: boolean;
@@ -18,15 +21,21 @@ export const DatePicker = (props: DatePickerProps) => {
   const {
     format = 'yyyy-MM-dd',
     closeOnSelected,
-    value,
+    value: valueProp,
     onChange,
     noOpenOnFocus,
     readOnly,
     showPopupIcon,
+    defaultValue,
     ...rest
   } = props;
 
-  /* const usePopperInput()  */
+  const [value, setValue] = useControlled<number | string | Date | ''>({
+    controlled: valueProp,
+    default: defaultValue,
+    name: 'DatePicker',
+  });
+
   const { textFieldProps, popperProps, close } = usePopperProps(rest, {
     showPopupIcon,
     noOpenOnFocus,
@@ -37,7 +46,10 @@ export const DatePicker = (props: DatePickerProps) => {
    * console.log('textFieldProps:', textFieldProps); */
 
   const handleOnChange = async (ev: SyntheticEvent, dv: Date | '') => {
-    await onChange(ev, dv);
+    setValue(dv);
+    if (onChange) {
+      await onChange(ev, dv);
+    }
     if (closeOnSelected) {
       close(ev);
     }
@@ -61,7 +73,7 @@ export const DatePicker = (props: DatePickerProps) => {
       <TextField value={visibleValue} {...textFieldProps} />
       <Popper {...popperProps} sx={{ zIndex: 'tooltip' }}>
         <Paper>
-          <Calendar value={value === '' ? undefined : value} onChange={handleOnChange} />
+          <Calendar value={value} onChange={handleOnChange} />
           <Box
             sx={{
               width: '100%',

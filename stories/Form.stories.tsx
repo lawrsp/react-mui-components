@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button, TextField } from '@mui/material';
+import { MenuItem } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,6 +20,8 @@ type FormValues = {
   password: string;
   description: string;
   date: Date | string | '';
+  country: string;
+  age: number | '';
 };
 
 const schema = z.object({
@@ -28,7 +31,7 @@ const schema = z.object({
 
 export const FormInputs = () => {
   const form = useForm<FormValues>({
-    defaultValues: { name: '', password: '', description: '', date: '' },
+    defaultValues: { name: '', password: '', description: '', date: '', country: '', age: '' },
     resolver: zodResolver(schema),
   });
   const [submitting, setSubmitting] = useState(false);
@@ -65,9 +68,36 @@ export const FormInputs = () => {
             variant="outlined"
           />
         </FormItem>
-        <FormItem xs={4}>
-          <FormInput name="date" label="date" component={DatePicker} showPopupIcon />
+        <FormItem container xs={12}>
+          <FormItem xs={12} md={4}>
+            <FormInput name="date" label="date" component={DatePicker} showPopupIcon />
+          </FormItem>
         </FormItem>
+        <FormItem xs={4}>
+          <FormInput name="country" label="country" select>
+            <MenuItem value="cn">cn</MenuItem>
+            <MenuItem value="us">us</MenuItem>
+            <MenuItem value="fr">fr</MenuItem>
+            <MenuItem value="uk">uk</MenuItem>
+          </FormInput>
+        </FormItem>
+        <FormItem xs={4}>
+          <FormInput
+            name="age"
+            label="age"
+            select
+            SelectProps={{
+              native: true,
+            }}
+          >
+            <option value={''}></option>
+            <option value={20}>20+</option>
+            <option value={30}>30+</option>
+            <option value={40}>40+</option>
+            <option value={50}>50+</option>
+          </FormInput>
+        </FormItem>
+
         <FormItem xs={12} sx={{ gap: 2, display: 'flex' }}>
           <LoadingButton type="submit" loading={submitting}>
             提交
@@ -84,7 +114,7 @@ export const FormInputs = () => {
 export const TranslateError = () => {
   const [submitting, setSubmitting] = useState(false);
   const form = useForm<FormValues>({
-    defaultValues: { name: '', password: '', description: '', date: '' },
+    defaultValues: { name: '', password: '', description: '', date: '', age: '', country: '' },
     resolver: zodResolver(schema),
   });
   const onSubmit = async (data: FormValues) => {
@@ -146,8 +176,34 @@ export const TranslateError = () => {
             variant="outlined"
           />
         </FormItem>
+        <FormItem container xs={12}>
+          <FormItem xs={12} md={4}>
+            <FormInput name="date" label="date" component={DatePicker} showPopupIcon />
+          </FormItem>
+        </FormItem>
         <FormItem xs={4}>
-          <FormInput name="date" label="日期" component={DatePicker} showPopupIcon />
+          <FormInput name="country" label="country" select>
+            <MenuItem value="cn">cn</MenuItem>
+            <MenuItem value="us">us</MenuItem>
+            <MenuItem value="fr">fr</MenuItem>
+            <MenuItem value="uk">uk</MenuItem>
+          </FormInput>
+        </FormItem>
+        <FormItem xs={4}>
+          <FormInput
+            name="age"
+            label="age"
+            select
+            SelectProps={{
+              native: true,
+            }}
+          >
+            <option value={''}></option>
+            <option value={20}>20+</option>
+            <option value={30}>30+</option>
+            <option value={40}>40+</option>
+            <option value={50}>50+</option>
+          </FormInput>
         </FormItem>
         <FormItem xs={12} sx={{ gap: 2, display: 'flex' }}>
           <LoadingButton type="submit" loading={submitting}>
@@ -169,6 +225,8 @@ export const ReadOnly = () => {
       password: '*********',
       description: 'fsdfsdfa\n4324234\nffffffffffff\n222',
       date: new Date(),
+      country: 'cn',
+      age: 20,
     },
   });
 
@@ -190,8 +248,34 @@ export const ReadOnly = () => {
             variant="outlined"
           />
         </FormItem>
-        <FormItem xs={5}>
-          <FormInput name="date" label="date" component={DatePicker} showPopupIcon />
+        <FormItem container xs={12}>
+          <FormItem xs={12} md={4}>
+            <FormInput name="date" label="date" component={DatePicker} showPopupIcon />
+          </FormItem>
+        </FormItem>
+        <FormItem xs={4}>
+          <FormInput name="country" label="country" select>
+            <MenuItem value="cn">cn</MenuItem>
+            <MenuItem value="us">us</MenuItem>
+            <MenuItem value="fr">fr</MenuItem>
+            <MenuItem value="uk">uk</MenuItem>
+          </FormInput>
+        </FormItem>
+        <FormItem xs={4}>
+          <FormInput
+            name="age"
+            label="age"
+            select
+            SelectProps={{
+              native: true,
+            }}
+          >
+            <option value={''}></option>
+            <option value={20}>20+</option>
+            <option value={30}>30+</option>
+            <option value={40}>40+</option>
+            <option value={50}>50+</option>
+          </FormInput>
         </FormItem>
       </Form>
     </div>
@@ -218,8 +302,35 @@ export const Grids = () => {
             variant="outlined"
           />
         </Grid>
-        <Grid xs={5}>
-          <TextField fullWidth name="date" label="date" />
+        <Grid container xs={12}>
+          <Grid xs={12} md={4}>
+            <DatePicker fullWidth name="date" label="date" showPopupIcon />
+          </Grid>
+        </Grid>
+        <Grid xs={4}>
+          <TextField fullWidth name="country" label="country" select>
+            <MenuItem value="cn">cn</MenuItem>
+            <MenuItem value="us">us</MenuItem>
+            <MenuItem value="fr">fr</MenuItem>
+            <MenuItem value="uk">uk</MenuItem>
+          </TextField>
+        </Grid>
+        <Grid xs={4}>
+          <TextField
+            fullWidth
+            name="age"
+            label="age"
+            select
+            SelectProps={{
+              native: true,
+            }}
+          >
+            <option value={''}></option>
+            <option value={20}>20+</option>
+            <option value={30}>30+</option>
+            <option value={40}>40+</option>
+            <option value={50}>50+</option>
+          </TextField>
         </Grid>
       </Grid>
     </div>

@@ -1,7 +1,8 @@
 import { useState, useRef, useImperativeHandle } from 'react';
 import type { SyntheticEvent } from 'react';
 import { ArrowDropDown as ArrowDropDownIcon } from '@mui/icons-material';
-import type { TextFieldProps, PopperProps } from '@mui/material';
+import type { PopperProps } from '@mui/material';
+import type { TextFieldProps } from '../Inputs/TextField';
 import { IconButton } from '@mui/material';
 
 export type PopperCloseReason = 'elementClose' | 'popperClose' | 'blur' | 'toggle';

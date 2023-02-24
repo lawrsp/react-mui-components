@@ -1,13 +1,12 @@
 import * as React from 'react';
-import { TextField, TextFieldProps } from '@mui/material';
 import { useController, useFormContext } from 'react-hook-form';
 import { OverridableComponent, OverrideProps } from '@mui/types';
 import { useExtraFormContext } from './ExtraFormContext';
+import { TextField, type TextFieldProps } from '../Inputs';
 
-interface FormInputTypeMap<P = {}, D extends React.ElementType = 'div'> {
+interface FormInputTypeMap<P = {}, D extends React.ElementType = 'input'> {
   props: P & {
     name: string;
-    readOnly?: boolean;
     /**
      * The component used for the root node.
      * Either a string to use a HTML element or a component.
@@ -23,20 +22,8 @@ export type FormInputProps<
   P = {}
 > = OverrideProps<FormInputTypeMap<P, D>, D>;
 
-/* export type FormInputProps = {
- *   name: string;
- *   readOnly?: boolean;
- * } & Omit<TextFieldProps, 'name'>;
- *  */
 export const FormInput: OverridableComponent<FormInputTypeMap> = (props: FormInputProps) => {
-  const {
-    name,
-    helperText,
-    readOnly: propsReadOnly,
-    InputProps,
-    component: Comp = TextField,
-    ...rest
-  } = props;
+  const { name, readOnly: propsReadOnly, component: Comp = TextField, helperText, ...rest } = props;
   const { control } = useFormContext();
   const {
     field,
@@ -53,13 +40,8 @@ export const FormInput: OverridableComponent<FormInputTypeMap> = (props: FormInp
 
   const readOnly = propsReadOnly || ctxReadOnly;
 
-  const inputProps: FormInputProps['InputProps'] = {
-    ...InputProps,
-    readOnly,
-  };
-
   const handleChange = React.useCallback(
-    (ev: any, value?: any) => {
+    (ev: any, value: any) => {
       if (value !== undefined) {
         onChange(value);
       } else {
@@ -81,7 +63,6 @@ export const FormInput: OverridableComponent<FormInputTypeMap> = (props: FormInp
       inputRef={ref} // send input ref, so we can focus on input when error appear
       error={!!error}
       helperText={!!error ? error.message : helperText}
-      InputProps={inputProps}
     />
   );
 };
