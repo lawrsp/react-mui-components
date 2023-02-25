@@ -5,8 +5,6 @@ import {
   CheckboxProps as MuiCheckboxProps,
 } from '@mui/material';
 
-import { useControlled } from '@mui/material/utils';
-
 /* const useStyles = makeStyles((theme) => ({
  *   root: {
  *     width: 36,

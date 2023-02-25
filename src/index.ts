@@ -4,6 +4,7 @@ export * from './Route';
 export * from './LoadingContainer';
 export * from './LoadingButton';
 export * from './OpButton';
+export * from './Inputs';
 export * from './NotFoundPage';
 export * from './LoadingPage';
 export * from './Dialog';
