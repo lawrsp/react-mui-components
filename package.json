@@ -17,7 +17,11 @@
     "type": "git",
     "url": "git+https://github.com/lawrsp/react-mui-components.git"
   },
-  "keywords": ["react", "mui", "typescript"],
+  "keywords": [
+    "react",
+    "mui",
+    "typescript"
+  ],
   "author": "lawrsp",
   "license": "MIT",
   "bugs": {
@@ -63,6 +67,7 @@
     "@mui/icons-material": "^5.10.9",
     "@mui/lab": "^5.0.0-alpha.103",
     "@mui/material": "^5.10.9",
+    "@react-spring/web": "^9.7.0",
     "@types/react": "^18.0.25",
     "@types/react-calendar": "^3.9.0",
     "@types/react-dom": "^18.0.9",
@@ -95,5 +100,7 @@
       "optional": true
     }
   },
-  "files": ["dist"]
+  "files": [
+    "dist"
+  ]
 }

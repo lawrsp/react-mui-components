@@ -1,9 +1,9 @@
-import { SyntheticEvent, Fragment, useState, useEffect } from 'react';
+import { SyntheticEvent, Fragment, useMemo } from 'react';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import ReactCalendar from 'react-calendar';
 
 export interface CalendarProps {
-  value: number | string | Date | undefined | null;
+  value?: Date | string | number | null;
   onChange?: (ev: SyntheticEvent, t: Date) => void;
 }
 
@@ -152,25 +152,23 @@ export const Calendar = ({ value, onChange }: CalendarProps) => {
       onChange(ev, val);
     }
   };
-  const [date, setDate] = useState<Date | undefined>(undefined);
-  useEffect(() => {
-    try {
-      const a = new Date(value || '');
-      if (isNaN(a.getTime())) {
-        setDate(undefined);
-      } else {
-        setDate(a);
-      }
-    } catch (err) {
-      setDate(undefined);
+  const dateValue = useMemo(() => {
+    if (!value) {
+      return null;
     }
+
+    const val = new Date(value);
+    if (isNaN(val.getTime())) {
+      return null;
+    }
+    return val;
   }, [value]);
 
   return (
     <Fragment>
       {calendarStyles}
       <ReactCalendar
-        value={date}
+        value={dateValue}
         showNavigation={true}
         showNeighboringMonth={false}
         formatDay={(_: string, date: string | Date) => `${new Date(date).getDate()}`}

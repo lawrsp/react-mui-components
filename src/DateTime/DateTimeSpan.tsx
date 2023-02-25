@@ -4,7 +4,7 @@ import { SxProps, Theme } from '@mui/material/styles';
 import dateUtils from '../utils/date';
 
 export interface DateTimeSpanProps {
-  value: string | Date | number;
+  value?: string | Date | number;
   format?: string;
   sx?: SxProps<Theme>;
   component?: BoxProps['component'];

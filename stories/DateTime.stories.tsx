@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { DateTimeSpan, Calendar, DatePicker } from '../src/DateTime';
+import { DateTimeSpan, Calendar, DatePicker, DateTimePicker } from '../src/DateTime';
+import TimeScroll from '../src/DateTime/TimeScroll';
 
 export default {
   title: 'Example/DateTime',
@@ -29,24 +30,18 @@ export const DateTimeSpans = () => {
 };
 
 export const Calendars = () => {
-  const [time, setTime] = React.useState<Date | string | number>('2022-06-29T00:00:00.000Z');
+  const [time, setTime] = React.useState<Date | number | string | null | undefined>(
+    new Date('2022-06-29T00:00:00.000Z')
+  );
   return (
     <div>
       <div>
         <button onClick={() => setTime(new Date())}>now </button>
-        <button onClick={() => setTime('2022-06-29T00:00:00.000Z')}>
-          2022-06-29T00:00:00.000Z
-        </button>
-        <button onClick={() => setTime('x.y.z')}>x.y.z</button>
-        <button onClick={() => setTime('')}>空字符串</button>
         <button onClick={() => setTime(null)}>null</button>
         <button onClick={() => setTime(undefined)}>undefined</button>
-        <button onClick={() => setTime('2022-08-32T12:29:20.000Z')}>
-          2022-08-32T12:29:20.000Z
-        </button>
-        <button onClick={() => setTime(1677180676674)}>
-          1677180676674(2023-02-23T19:31:16.674Z)
-        </button>
+        <button onClick={() => setTime('invalid string')}>invalid string</button>
+        <button onClick={() => setTime('')}>空字符串</button>
+        <button onClick={() => setTime(1677337141506)}>1677337141506 </button>
         <br />
         <span>time is: &nbsp;</span>
         <DateTimeSpan component="span" value={time} />
@@ -58,7 +53,7 @@ export const Calendars = () => {
 };
 
 export const DatePickers = () => {
-  const [time, setTime] = React.useState<Date | string | ''>('2022-06-29T00:00:00.000Z');
+  const [time, setTime] = React.useState<Date | string | ''>('some invalid value');
   return (
     <div>
       <div>
@@ -108,6 +103,17 @@ export const DatePickers = () => {
           sx={{ my: 4 }}
         />
       </div>
+    </div>
+  );
+};
+
+export const DateTimePickers = () => {
+  const [value, setValue] = React.useState<Date | string>('some invalid value');
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
+      <TimeScroll sx={{ height: 400 }} value={value} onChange={(ev, vl) => setValue(vl)} />
+      <DateTimePicker value={value} onChange={(ev, vl) => setValue(vl)} />
     </div>
   );
 };

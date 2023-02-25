@@ -215,3 +215,5 @@ export const usePopperProps = (props: Partial<TextFieldProps>, options: UsePoppe
     anchorWidth: (anchorRef?.current as HTMLElement | null)?.clientWidth,
   };
 };
+
+export default usePopperProps;

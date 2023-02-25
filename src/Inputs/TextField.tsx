@@ -34,3 +34,5 @@ export const TextField = (props: TextFieldProps) => {
     <MuiTextField InputProps={reInputProps} onChange={handleChange} select={isSelect} {...rest} />
   );
 };
+
+export default TextField;
