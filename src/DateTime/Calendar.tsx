@@ -173,7 +173,7 @@ export const Calendar = ({ value, onChange }: CalendarProps) => {
         value={date}
         showNavigation={true}
         showNeighboringMonth={false}
-        formatDay={(_: string, date: string | Date) => new Date(date).getDate()}
+        formatDay={(_: string, date: string | Date) => `${new Date(date).getDate()}`}
         onChange={handleOnChange}
       />
     </Fragment>
