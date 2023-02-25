@@ -134,7 +134,15 @@ export const FormInputs = () => {
 export const TranslateError = () => {
   const [submitting, setSubmitting] = useState(false);
   const form = useForm<TestFormValues>({
-    defaultValues: { name: '', password: '', description: '', date: '', age: '', country: '' },
+    defaultValues: {
+      name: '',
+      password: '',
+      description: '',
+      date: '',
+      age: '',
+      country: '',
+      checked: false,
+    },
     resolver: zodResolver(schema),
   });
   const onSubmit = async (data: TestFormValues) => {
@@ -253,6 +261,7 @@ export const ReadOnly = () => {
       date: new Date(),
       country: 'cn',
       age: 20,
+      checked: true,
     },
   });
 

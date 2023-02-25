@@ -49,7 +49,7 @@ export const Checkbox = (props: CheckboxProps) => {
 
   useEffect(() => {
     if (valueProp !== undefined) {
-      setValue(valueProp);
+      setValue(valueProp || false);
     }
   }, [valueProp]);
 
