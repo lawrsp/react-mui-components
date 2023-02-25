@@ -22,17 +22,6 @@ export const SearchForm = (props: SearchFormProps) => {
     [searchFields, searches]
   );
 
-  /* const defaultValues = useMemo<FieldValues>(
-   *   () =>
-   *     searchFields.reduce((all: FieldValues, it: SearchFieldType) => {
-   *       return {
-   *         ...all,
-   *         [it.field]: '',
-   *       };
-   *     }, {}),
-   *   [searchFields]
-   * );
-   */
   const form = useForm({ defaultValues: formValues });
 
   useEffect(() => {
@@ -97,7 +86,7 @@ export const SearchForm = (props: SearchFormProps) => {
         }}
       >
         {searchFields.map(({ field, label, type, key }, index) => (
-          <FormItem {...itemGrid} key={key || field || index} sx={{ pt: 0.5, pb: 0 }}>
+          <FormItem {...itemGrid} key={key || field || index}>
             <FormInput
               size="small"
               fullWidth
@@ -108,7 +97,7 @@ export const SearchForm = (props: SearchFormProps) => {
             />
           </FormItem>
         ))}
-        <FormItem {...itemGrid} sx={{ pt: 0.5, pb: 0 }}>
+        <FormItem {...itemGrid}>
           <Box
             sx={{
               flexGrow: 1,
