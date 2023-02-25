@@ -58,29 +58,39 @@ export const useFormSubmitHandler = <TFieldValues extends FieldValues, TContext 
 
   const { translateError = defaultErrorTranslator, noThrow = false, onInvalid } = options || {};
 
-  const handleSubmit = form.handleSubmit(async (data, ev) => {
-    ev?.preventDefault();
-    if (!onSubmit) {
-      return;
-    }
-    try {
-      return await onSubmit(data, ev);
-    } catch (err) {
-      /* console.error('submit error:', err); */
-      const submitError = translateError(err);
-      if (submitError?.fields?.length) {
-        // setfield errors
-        submitError.fields.forEach((fe) => {
-          const { field, message } = fe;
-          form.setError(field as Path<TFieldValues>, { type: 'custom', message });
-        });
+  const handleSubmit = form.handleSubmit(
+    async (data, ev) => {
+      ev?.preventDefault();
+      if (!onSubmit) {
+        return;
       }
+      try {
+        return await onSubmit(data, ev);
+      } catch (err) {
+        /* console.error('submit error:', err); */
+        const submitError = translateError(err);
+        if (submitError?.fields?.length) {
+          // setfield errors
+          submitError.fields.forEach((fe) => {
+            const { field, message } = fe;
+            form.setError(field as Path<TFieldValues>, { type: 'custom', message });
+          });
+        }
 
+        if (!noThrow) {
+          throw err;
+        }
+      }
+    },
+    (values, ev) => {
+      if (onInvalid) {
+        onInvalid(values, ev);
+      }
       if (!noThrow) {
-        throw err;
+        throw new Error('invalid inputs');
       }
     }
-  }, onInvalid);
+  );
 
   return handleSubmit;
 };
