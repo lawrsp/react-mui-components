@@ -111,7 +111,7 @@ export const Form = <
 >(
   props: FormProps<TFieldValues, TContext>
 ) => {
-  const { readOnly, onSubmit, form, children, columnSpacing = 3, rowSpacing = 3, sx } = props;
+  const { readOnly, onSubmit, form, children, columnSpacing = 3, rowSpacing = 1, sx } = props;
 
   return (
     <ExtraFormProvider readOnly={readOnly}>
