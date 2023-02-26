@@ -4,10 +4,11 @@ import { TextField as MuiTextField, type TextFieldProps as MuiTextFieldProps } f
 export type TextFieldProps = {
   readOnly?: boolean;
   onChange?: (ev: React.SyntheticEvent, value: unknown) => any | Promise<any>; // react-hook-form onChange */
+  noTrim?: boolean;
 } & Omit<MuiTextFieldProps, 'readOnly' | 'onChange'>;
 
 export const TextField = (props: TextFieldProps) => {
-  const { readOnly, InputProps, onChange, select, ...rest } = props;
+  const { readOnly, InputProps, onChange, select, noTrim, ...rest } = props;
   const reInputProps: TextFieldProps['InputProps'] = {
     ...InputProps,
     readOnly,
@@ -24,6 +25,10 @@ export const TextField = (props: TextFieldProps) => {
     return async (ev: React.SyntheticEvent, value?: unknown) => {
       if (select) {
         return await onChange(ev, (ev.target as any).value);
+      }
+
+      if (!noTrim && typeof value === 'string') {
+        return await onChange(ev, value.trim);
       }
 
       return await onChange(ev, value);
