@@ -56,8 +56,8 @@ export const useFormSubmitHandler = <TFieldValues extends FieldValues, TContext 
   }
 ) => {
   if (!onSubmit) {
-    return (ev: SyntheticEvent) => {
-      ev.preventDefault();
+    return (ev?: SyntheticEvent) => {
+      ev?.preventDefault();
     };
   }
 
@@ -100,7 +100,7 @@ export const useFormSubmitHandler = <TFieldValues extends FieldValues, TContext 
 
 export interface FormProps<TFieldValues extends FieldValues, TContext extends object> {
   readOnly?: boolean;
-  onSubmit?: (e?: SyntheticEvent) => void;
+  onSubmit?: (e?: SyntheticEvent) => void | Promise<void>;
   form: UseFormReturn<TFieldValues, TContext>;
   children: ReactNode;
   sx?: SxProps<Theme>;
