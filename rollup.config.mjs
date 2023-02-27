@@ -38,9 +38,8 @@ export default [
       typescript({
         noForceEmit: true, // only declaration
         compilerOptions: {
-          outDir: 'dist',
           declaration: true,
-          declarationDir: '.',
+          declarationDir: 'types',
           noEmit: false,
           emitDeclarationOnly: true,
         },
