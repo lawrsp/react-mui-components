@@ -135,6 +135,7 @@ export const EditWithForm = () => {
         onReset={handleReset}
         fullScreen="md"
         submitting={submitting}
+        disableReset={!form.formState.isDirty}
       >
         <Form form={form} readOnly={submitting}>
           <p>hello, this is a eidt dialog </p>
