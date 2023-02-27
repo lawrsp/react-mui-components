@@ -52,7 +52,7 @@ export const useFormSubmitHandler = <TFieldValues extends FieldValues, TContext 
       errors: FieldErrors<TFieldValues>,
       ev?: BaseSyntheticEvent
     ) => void | Promise<void>;
-    throwError?: boolean;
+    throwOnError?: boolean;
   }
 ) => {
   if (!onSubmit) {
@@ -61,7 +61,7 @@ export const useFormSubmitHandler = <TFieldValues extends FieldValues, TContext 
     };
   }
 
-  const { translateError = defaultErrorTranslator, onInvalid, throwError } = options || {};
+  const { translateError = defaultErrorTranslator, onInvalid, throwOnError } = options || {};
 
   const handleSubmit = form.handleSubmit(
     async (data, ev) => {
@@ -81,7 +81,7 @@ export const useFormSubmitHandler = <TFieldValues extends FieldValues, TContext 
             form.setError(field as Path<TFieldValues>, { type: 'custom', message });
           });
         }
-        if (throwError) {
+        if (throwOnError) {
           throw err;
         }
         return;
