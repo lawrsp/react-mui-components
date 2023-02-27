@@ -36,7 +36,7 @@ export type EditDialogProps = Omit<DialogProps, keyof EditDialogPropsC> & EditDi
 export function EditDialog(props: EditDialogProps) {
   const {
     open = false,
-    submitLabel = '提交',
+    submitLabel = '保存',
     resetLabel = '重置',
     title,
     onClose,
