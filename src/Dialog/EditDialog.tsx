@@ -22,6 +22,7 @@ type EditDialogPropsC = {
   loading?: boolean;
   submitting?: boolean;
   disableReset?: boolean;
+  disableSubmit?: boolean;
   onClose: (ev: SyntheticEvent) => void;
   onSubmit?: (ev: SyntheticEvent) => void | Promise<void>;
   onReset?: (ev: SyntheticEvent) => void | Promise<void>;
@@ -46,6 +47,7 @@ export function EditDialog(props: EditDialogProps) {
     loading = false,
     submitting = false,
     disableReset = false,
+    disableSubmit = false,
     children,
     contentSx,
     ...rest
@@ -122,7 +124,7 @@ export function EditDialog(props: EditDialogProps) {
             size="small"
             variant="contained"
             loading={submitting}
-            disabled={loading}
+            disabled={loading || disableSubmit}
           >
             {submitLabel}
           </LoadingButton>
