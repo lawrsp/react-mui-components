@@ -3,7 +3,7 @@ import { TextField as MuiTextField, type TextFieldProps as MuiTextFieldProps } f
 
 export type TextFieldProps = {
   readOnly?: boolean;
-  onChange?: (ev: React.SyntheticEvent, value: unknown) => any | Promise<any>; // react-hook-form onChange */
+  onChange?: (value: unknown, ev?: React.SyntheticEvent) => void;
   noTrim?: boolean;
 } & Omit<MuiTextFieldProps, 'readOnly' | 'onChange'>;
 
@@ -22,17 +22,19 @@ export const TextField = (props: TextFieldProps) => {
       return undefined;
     }
 
-    return async (ev: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    return (ev: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
       const value = ev.target.value;
       if (select) {
-        return await onChange(ev, value);
+        onChange(value, ev);
+        return;
       }
 
       if (!noTrim && typeof value === 'string') {
-        return await onChange(ev, value.trimStart());
+        onChange(value.trimStart(), ev);
+        return;
       }
 
-      return await onChange(ev, value);
+      onChange(value, ev);
     };
   }, [onChange, select, !noTrim]);
 
@@ -41,7 +43,7 @@ export const TextField = (props: TextFieldProps) => {
     if (!noTrim && typeof value === 'string') {
       ev.target.value = value.trim();
       if (onChange) {
-        onChange(ev, ev.target.value);
+        onChange(ev.target.value);
       }
     }
 

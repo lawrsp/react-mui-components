@@ -19,7 +19,7 @@ export type DialogActionConfigType = {
   disabled?: boolean | (() => boolean);
   label: string;
   loading?: boolean;
-  onClick: (ev: SyntheticEvent) => void | Promise<any>;
+  onClick: (ev: SyntheticEvent) => void | Promise<void>;
   props?: Omit<ButtonProps, 'onClick'>;
 };
 
@@ -28,7 +28,7 @@ export type MaxDialogProps = {
   open?: boolean;
   actions?: DialogActionConfigType[];
   loading?: boolean;
-  onClose: (ev: SyntheticEvent) => void | Promise<void>;
+  onClose: (ev: SyntheticEvent) => void;
   children?: ReactNode;
 };
 

@@ -21,10 +21,9 @@ type EditDialogPropsC = {
   resetLabel?: string;
   loading?: boolean;
   submitting?: boolean;
-  onClose: (ev: SyntheticEvent) => void | Promise<any>;
-  onSubmit?: (ev: SyntheticEvent) => void | Promise<any>;
-  onReset?: (ev: SyntheticEvent) => void | Promise<any>;
-  closeOnSuccess?: boolean;
+  onClose: (ev: SyntheticEvent) => void;
+  onSubmit?: (ev: SyntheticEvent) => void | Promise<void>;
+  onReset?: (ev: SyntheticEvent) => void | Promise<void>;
   children?: ReactNode;
   fullScreen?: Breakpoint;
   contentSx?: SxProps<Theme>;
@@ -41,7 +40,6 @@ export function EditDialog(props: EditDialogProps) {
     onClose,
     onSubmit,
     onReset,
-    closeOnSuccess,
     maxWidth = 'sm',
     fullScreen = 'sm',
     loading = false,
@@ -66,35 +64,6 @@ export function EditDialog(props: EditDialogProps) {
       clearTimeout(timer);
     };
   }, [open]);
-
-  // no throw error
-  const handleSubmit = async (ev: SyntheticEvent) => {
-    ev.preventDefault();
-    if (!onSubmit) {
-      return;
-    }
-    try {
-      await onSubmit(ev);
-      if (closeOnSuccess) {
-        await onClose(ev);
-      }
-    } catch (err) {
-      // console.log(err)
-    }
-  };
-
-  // no throw error
-  const handleReset = async (ev: SyntheticEvent) => {
-    ev.preventDefault();
-    if (!onReset) {
-      return;
-    }
-    try {
-      await onReset(ev);
-    } catch (err) {
-      // console.log(err)
-    }
-  };
 
   return (
     <Dialog open={open} fullWidth maxWidth={maxWidth} fullScreen={isFullScreen} {...rest}>
@@ -145,7 +114,7 @@ export function EditDialog(props: EditDialogProps) {
       >
         {!!onSubmit && (
           <LoadingButton
-            onClick={handleSubmit}
+            onClick={onSubmit}
             color="primary"
             type="submit"
             size="small"
@@ -159,7 +128,7 @@ export function EditDialog(props: EditDialogProps) {
         {!!onReset && (
           <Button
             disabled={submitting || loading}
-            onClick={handleReset}
+            onClick={onReset}
             variant="outlined"
             size="small"
           >

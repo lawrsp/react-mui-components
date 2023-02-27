@@ -41,12 +41,8 @@ export const FormInput: OverridableComponent<FormInputTypeMap> = (props: FormInp
   const readOnly = propsReadOnly || ctxReadOnly;
 
   const handleChange = React.useCallback(
-    (ev: any, value: any) => {
-      if (value !== undefined) {
-        onChange(value);
-      } else {
-        onChange(ev.target.value);
-      }
+    (value: any, ev?: React.SyntheticEvent) => {
+      onChange(value, ev);
     },
     [onChange]
   );

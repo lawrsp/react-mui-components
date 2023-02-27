@@ -19,7 +19,7 @@ export type ProTableTitleToolConfig =
   | string
   | {
       button: string;
-      onClick: (ev?: SyntheticEvent) => any | Promise<any>;
+      onClick: (ev?: SyntheticEvent) => void;
       variant?: ButtonProps['variant'];
       color?: ButtonProps['color'];
       startIcon?: ButtonProps['startIcon'];
@@ -27,16 +27,16 @@ export type ProTableTitleToolConfig =
     }
   | {
       icon: 'reload';
-      onClick: (ev?: SyntheticEvent) => any | Promise<any>;
+      onClick: (ev?: SyntheticEvent) => void;
     }
   | {
       icon: 'close';
-      onClick: (ev?: SyntheticEvent) => any | Promise<any>;
+      onClick: (ev?: SyntheticEvent) => void;
     }
   | ProTableTitleSearchToolConfig
   | {
       icon: ReactElement;
-      onClick: (ev?: SyntheticEvent) => any | Promise<any>;
+      onClick: (ev?: SyntheticEvent) => void;
     }
   | { render: () => ReactNode };
 
@@ -57,9 +57,9 @@ export interface ProTablePaginationType {
 }
 
 export interface ProTablePaginationActions {
-  setRowsPerPageOptions: (options: Array<number>) => void | Promise<void>;
-  setCurrentPage: (page: number) => void | Promise<void>;
-  setRowsPerPage: (size: number) => void | Promise<void>;
+  setRowsPerPageOptions: (options: Array<number>) => void;
+  setCurrentPage: (page: number) => void;
+  setRowsPerPage: (size: number) => void;
 }
 
 export interface SearchFieldType {
@@ -111,7 +111,7 @@ export interface TableActionProps<DataType> {
   title: string;
   color?: string;
   show?: boolean | ((data: DataType, index: number) => boolean);
-  onClick: (ev: SyntheticEvent, data: DataType, index: number) => void | Promise<void>;
+  onClick: (ev: SyntheticEvent, data: DataType, index: number) => void;
   render?: (rowData: DataType, index: number) => ReactNode;
   sx: SxProps<Theme>;
 }
@@ -153,8 +153,8 @@ export interface ProTableSearchState {
 }
 
 export interface ProTableSearchActions {
-  onSearch: (values: Record<string, any>) => void | Promise<void>;
-  onChangeVisible?: (ev: SyntheticEvent, visible: boolean) => void | Promise<void>;
+  onSearch: (values: Record<string, any>) => void;
+  onChangeVisible?: (ev: SyntheticEvent, visible: boolean) => void;
 }
 
 export interface ProTableAlertProps {
@@ -178,7 +178,7 @@ export interface ProTableOptionalProps<DataType> {
   headerSx: SxProps<Theme>;
   bodySx: SxProps<Theme>;
 
-  onChange: (params: ProTableChangeParams) => void | Promise<void>;
+  onChange: (params: ProTableChangeParams) => void;
 
   // row key
   getRowKey?: (rowData: DataType, rowIndex: number) => string;

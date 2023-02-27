@@ -25,7 +25,7 @@ export type CheckboxProps = {
   value?: boolean;
   defaultValue?: boolean;
   label?: string;
-  onChange?: (ev: SyntheticEvent, checked: boolean) => void | Promise<void>;
+  onChange?: (checked: boolean, ev?: SyntheticEvent) => void;
   helperText?: ReactNode;
   error?: boolean;
   fullWidth?: boolean;
@@ -53,13 +53,15 @@ export const Checkbox = (props: CheckboxProps) => {
     }
   }, [valueProp]);
 
-  const handleOnChange = async (event: SyntheticEvent, checked: boolean) => {
+  const handleOnChange = (ev: SyntheticEvent, checked: boolean) => {
+    ev.preventDefault();
     if (readOnly) {
       return;
     }
 
     setValue(checked);
-    return await onChange?.(event, checked);
+    onChange?.(checked, ev);
+    return;
   };
 
   const control = (

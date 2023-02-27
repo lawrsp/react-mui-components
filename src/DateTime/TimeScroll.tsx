@@ -47,7 +47,7 @@ const valueFormatter = (v: number) => `00${v}`.slice(-2);
 
 export interface TimeScrollProps {
   value?: Date | string | number | null;
-  onChange?: (ev: SyntheticEvent, val: Date) => void;
+  onChange?: (val: Date, ev: SyntheticEvent) => any;
   sx?: SxProps<Theme>;
 }
 
@@ -73,7 +73,10 @@ const TimeScroll = (props: TimeScrollProps) => {
     }
   }, [value]);
 
-  const handleSelectItem = (ev: SyntheticEvent, idx: 0 | 1 | 2, newVal: number) => {
+  const handleSelectItem = (
+    { newVal, idx }: { newVal: number; idx: 0 | 1 | 2 },
+    ev: SyntheticEvent
+  ) => {
     const nd = dateValue || new Date(0);
     if (idx === 0) {
       nd.setHours(newVal);
@@ -84,7 +87,7 @@ const TimeScroll = (props: TimeScrollProps) => {
     }
 
     if (onChange) {
-      return onChange(ev, nd);
+      return onChange(nd, ev);
     }
   };
 
@@ -94,6 +97,10 @@ const TimeScroll = (props: TimeScrollProps) => {
     }
     return [dateValue.getHours(), dateValue.getMinutes(), dateValue.getSeconds()];
   }, [dateValue]);
+
+  const handleSelectItemFn = (idx: 0 | 1 | 2) => (newVal: number, ev: SyntheticEvent) => {
+    return handleSelectItem({ newVal, idx }, ev);
+  };
 
   return (
     <Root sx={[{ width: 168 }, ...(Array.isArray(sx) ? sx : [sx])]}>
@@ -108,7 +115,7 @@ const TimeScroll = (props: TimeScrollProps) => {
             max={23}
             value={hours}
             valueFormatter={valueFormatter}
-            onClick={(ev, v) => handleSelectItem(ev, 0, v)}
+            onChange={handleSelectItemFn(0)}
           />
         </Column>
         <Column
@@ -121,7 +128,7 @@ const TimeScroll = (props: TimeScrollProps) => {
             max={59}
             value={minutes}
             valueFormatter={valueFormatter}
-            onClick={(ev, v) => handleSelectItem(ev, 1, v)}
+            onChange={handleSelectItemFn(1)}
           />
         </Column>
         <Column
@@ -134,7 +141,7 @@ const TimeScroll = (props: TimeScrollProps) => {
             max={59}
             value={seconds}
             valueFormatter={valueFormatter}
-            onClick={(ev, v) => handleSelectItem(ev, 2, v)}
+            onChange={handleSelectItemFn(2)}
           />
         </Column>
       </Container>

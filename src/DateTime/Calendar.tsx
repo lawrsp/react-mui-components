@@ -4,7 +4,7 @@ import ReactCalendar from 'react-calendar';
 
 export interface CalendarProps {
   value?: Date | string | number | null;
-  onChange?: (ev: SyntheticEvent, t: Date) => void;
+  onChange?: (t: Date, ev: SyntheticEvent) => any;
 }
 
 const calendarStyles = (
@@ -147,11 +147,6 @@ const calendarStyles = (
 );
 
 export const Calendar = ({ value, onChange }: CalendarProps) => {
-  const handleOnChange = (val: Date, ev: SyntheticEvent) => {
-    if (onChange) {
-      onChange(ev, val);
-    }
-  };
   const dateValue = useMemo(() => {
     if (!value) {
       return null;
@@ -172,7 +167,7 @@ export const Calendar = ({ value, onChange }: CalendarProps) => {
         showNavigation={true}
         showNeighboringMonth={false}
         formatDay={(_: string, date: string | Date) => `${new Date(date).getDate()}`}
-        onChange={handleOnChange}
+        onChange={onChange}
       />
     </Fragment>
   );

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, SyntheticEvent } from 'react';
 import { Button, TextField } from '@mui/material';
 import { MenuItem } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -62,11 +62,21 @@ export const FormInputs = () => {
     };
   };
 
-  const handleSubmit = useFormSubmitHandler(form, onSubmit, { noThrow: true });
+  const handleSubmit = useFormSubmitHandler(form, onSubmit, {});
+
+  const testHandleSubmit = async (ev: SyntheticEvent) => {
+    ev.preventDefault();
+    try {
+      const submitResult = await handleSubmit(ev);
+      console.log('result is ====', submitResult);
+    } catch (err) {
+      console.log('======================', err);
+    }
+  };
 
   return (
     <div style={{ padding: 10 }}>
-      <Form form={form} onSubmit={handleSubmit} readOnly={submitting}>
+      <Form form={form} onSubmit={testHandleSubmit} readOnly={submitting}>
         <FormItem xs={6}>
           <FormInput type="text" name="name" label="name" />
         </FormItem>
@@ -122,7 +132,7 @@ export const FormInputs = () => {
           <LoadingButton type="submit" loading={submitting}>
             提交
           </LoadingButton>
-          <Button type="reset" onClick={() => form.reset()}>
+          <Button type="reset" disabled={submitting} onClick={() => form.reset()}>
             重置
           </Button>
         </FormItem>

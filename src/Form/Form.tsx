@@ -1,10 +1,10 @@
-import { ReactNode, BaseSyntheticEvent } from 'react';
+import { ReactNode, BaseSyntheticEvent, SyntheticEvent } from 'react';
 import {
   FormProvider,
   type FieldValues,
+  type FieldErrors,
   type UseFormReturn,
   type Path,
-  type SubmitErrorHandler,
 } from 'react-hook-form';
 import Grid, { Grid2Props } from '@mui/material/Unstable_Grid2';
 import { SxProps, Theme } from '@mui/material/styles';
@@ -45,18 +45,23 @@ const defaultErrorTranslator = (err: any) => {
 
 export const useFormSubmitHandler = <TFieldValues extends FieldValues, TContext extends object>(
   form: UseFormReturn<TFieldValues, TContext>,
-  onSubmit?: (data: TFieldValues, ev?: React.BaseSyntheticEvent) => void | Promise<any>,
+  onSubmit?: (data: TFieldValues, ev?: BaseSyntheticEvent) => void | Promise<void>,
   options?: {
     translateError?: (err: any) => SubmitError | null;
-    onInvalid?: SubmitErrorHandler<TFieldValues>;
-    noThrow?: boolean;
+    onInvalid?: (
+      errors: FieldErrors<TFieldValues>,
+      ev?: BaseSyntheticEvent
+    ) => void | Promise<void>;
+    throwError?: boolean;
   }
 ) => {
   if (!onSubmit) {
-    return undefined;
+    return (ev: SyntheticEvent) => {
+      ev.preventDefault();
+    };
   }
 
-  const { translateError = defaultErrorTranslator, noThrow = false, onInvalid } = options || {};
+  const { translateError = defaultErrorTranslator, onInvalid, throwError } = options || {};
 
   const handleSubmit = form.handleSubmit(
     async (data, ev) => {
@@ -65,7 +70,7 @@ export const useFormSubmitHandler = <TFieldValues extends FieldValues, TContext 
         return;
       }
       try {
-        return await onSubmit(data, ev);
+        await onSubmit(data, ev);
       } catch (err) {
         /* console.error('submit error:', err); */
         const submitError = translateError(err);
@@ -76,18 +81,16 @@ export const useFormSubmitHandler = <TFieldValues extends FieldValues, TContext 
             form.setError(field as Path<TFieldValues>, { type: 'custom', message });
           });
         }
-
-        if (!noThrow) {
+        if (throwError) {
           throw err;
         }
+        return;
       }
     },
-    (values, ev) => {
+    async (values, ev) => {
+      ev?.preventDefault();
       if (onInvalid) {
-        onInvalid(values, ev);
-      }
-      if (!noThrow) {
-        throw new Error('invalid inputs');
+        await onInvalid(values, ev);
       }
     }
   );
@@ -97,7 +100,7 @@ export const useFormSubmitHandler = <TFieldValues extends FieldValues, TContext 
 
 export interface FormProps<TFieldValues extends FieldValues, TContext extends object> {
   readOnly?: boolean;
-  onSubmit?: (e?: BaseSyntheticEvent) => void | Promise<void>;
+  onSubmit?: (e?: SyntheticEvent) => void;
   form: UseFormReturn<TFieldValues, TContext>;
   children: ReactNode;
   sx?: SxProps<Theme>;

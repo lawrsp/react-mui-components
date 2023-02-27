@@ -9,7 +9,7 @@ import dateUtils from '../utils/date';
 export type DatePickerProps = {
   value?: number | Date | string;
   defaultValue?: number | Date | string;
-  onChange?: (ev: SyntheticEvent, value: Date | '') => void | Promise<void>;
+  onChange?: (value: Date | '') => void;
   format?: string;
   readOnly?: boolean;
   closeOnSelected?: boolean;
@@ -46,10 +46,10 @@ export const DatePicker = (props: DatePickerProps) => {
    * console.log('rest:', rest);
    * console.log('textFieldProps:', textFieldProps); */
 
-  const handleOnChange = async (ev: SyntheticEvent, dv: Date | '') => {
+  const handleOnChange = (dv: Date | '', ev: SyntheticEvent) => {
     setValue(dv);
     if (onChange) {
-      await onChange(ev, dv);
+      onChange(dv);
     }
     if (closeOnSelected) {
       close(ev);
@@ -90,7 +90,7 @@ export const DatePicker = (props: DatePickerProps) => {
               size="small"
               color="primary"
               variant="text"
-              onClick={(ev) => handleOnChange(ev, new Date())}
+              onClick={(ev) => handleOnChange(new Date(), ev)}
             >
               今天
             </Button>
@@ -98,7 +98,7 @@ export const DatePicker = (props: DatePickerProps) => {
               size="small"
               color="warning"
               variant="text"
-              onClick={(ev) => handleOnChange(ev, '')}
+              onClick={(ev) => handleOnChange('', ev)}
             >
               清空
             </Button>

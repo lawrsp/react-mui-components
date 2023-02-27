@@ -47,7 +47,7 @@ export interface NumberColumnProps {
   step?: number;
   max: number;
   value?: number;
-  onClick?: (ev: SyntheticEvent, val: number) => void;
+  onChange?: (val: number, ev: SyntheticEvent) => any;
   valueFormatter?: (val: number) => string;
   sx?: SxProps<Theme>;
 }
@@ -64,7 +64,7 @@ const NumberColumn = (props: NumberColumnProps) => {
     step = 1,
     min = 0,
     sx,
-    onClick,
+    onChange,
     value,
     valueFormatter = defaultValueFormatter,
   } = props;
@@ -114,8 +114,8 @@ const NumberColumn = (props: NumberColumnProps) => {
   /* console.log('sprints.scrollTop', springs.scrollTop); */
 
   const handleClick = (ev: SyntheticEvent<HTMLDivElement>, val: number) => {
-    if (onClick) {
-      onClick(ev, val);
+    if (onChange) {
+      onChange(val, ev);
     }
   };
 

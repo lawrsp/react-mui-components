@@ -9,7 +9,7 @@ import TimeScroll from './TimeScroll';
 export type DateTimePickerProps = {
   value?: number | Date | string;
   defaultValue?: number | Date | string;
-  onChange?: (ev: SyntheticEvent, value: Date | '') => void | Promise<void>;
+  onChange?: (value: Date | '') => void;
   format?: string;
   readOnly?: boolean;
   showPopupIcon?: boolean;
@@ -48,13 +48,14 @@ export const DateTimePicker = (props: DateTimePickerProps) => {
     readOnly,
   });
 
-  const handleOnChange = async (ev: SyntheticEvent, dv: Date | '') => {
+  const handleOnChange = async (dv: Date | '', ev: SyntheticEvent) => {
+    ev.preventDefault();
     if (onChange) {
-      await onChange(ev, dv);
+      onChange(dv);
     }
   };
 
-  const handleOnChangeDate = (ev: SyntheticEvent, val: Date) => {
+  const handleOnChangeDate = (val: Date, ev: SyntheticEvent) => {
     let newVal = new Date(value || new Date());
     if (isNaN(newVal.getTime())) {
       newVal = val;
@@ -62,9 +63,9 @@ export const DateTimePicker = (props: DateTimePickerProps) => {
       newVal.setDate(val.getDate());
     }
 
-    handleOnChange(ev, newVal);
+    handleOnChange(newVal, ev);
   };
-  const handleOnChangeTime = (ev: SyntheticEvent, val: Date) => {
+  const handleOnChangeTime = (val: Date, ev: SyntheticEvent) => {
     let newVal = new Date(value || new Date());
     if (isNaN(newVal.getTime())) {
       newVal = val;
@@ -74,7 +75,7 @@ export const DateTimePicker = (props: DateTimePickerProps) => {
       newVal.setSeconds(val.getSeconds());
     }
 
-    handleOnChange(ev, newVal);
+    handleOnChange(newVal, ev);
   };
 
   const visibleValue = useMemo(() => {
@@ -112,7 +113,7 @@ export const DateTimePicker = (props: DateTimePickerProps) => {
               size="small"
               color="primary"
               variant="text"
-              onClick={(ev) => handleOnChange(ev, new Date())}
+              onClick={(ev) => handleOnChange(new Date(), ev)}
             >
               现在
             </Button>
@@ -120,7 +121,7 @@ export const DateTimePicker = (props: DateTimePickerProps) => {
               size="small"
               color="warning"
               variant="text"
-              onClick={(ev) => handleOnChange(ev, '')}
+              onClick={(ev) => handleOnChange('', ev)}
             >
               清空
             </Button>

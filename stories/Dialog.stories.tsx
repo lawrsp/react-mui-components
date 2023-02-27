@@ -119,6 +119,7 @@ export const EditWithForm = () => {
         ],
       };
     }
+    handleClose();
   });
   const handleReset = () => form.reset();
 
@@ -134,7 +135,6 @@ export const EditWithForm = () => {
         onReset={handleReset}
         fullScreen="md"
         submitting={submitting}
-        closeOnSuccess
       >
         <Form form={form} readOnly={submitting}>
           <p>hello, this is a eidt dialog </p>
