@@ -8,7 +8,7 @@ export function OpButton(props: OpButtonProps) {
   const { visible, sx, size = 'small', ...rest } = props;
 
   let vis = true;
-  if (visible) {
+  if (visible !== undefined) {
     if (typeof visible === 'function') {
       vis = visible();
     } else {
