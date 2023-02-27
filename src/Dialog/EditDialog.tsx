@@ -21,6 +21,7 @@ type EditDialogPropsC = {
   resetLabel?: string;
   loading?: boolean;
   submitting?: boolean;
+  disableReset?: boolean;
   onClose: (ev: SyntheticEvent) => void;
   onSubmit?: (ev: SyntheticEvent) => void | Promise<void>;
   onReset?: (ev: SyntheticEvent) => void | Promise<void>;
@@ -44,6 +45,7 @@ export function EditDialog(props: EditDialogProps) {
     fullScreen = 'sm',
     loading = false,
     submitting = false,
+    disableReset = false,
     children,
     contentSx,
     ...rest
@@ -127,7 +129,7 @@ export function EditDialog(props: EditDialogProps) {
         )}
         {!!onReset && (
           <Button
-            disabled={submitting || loading}
+            disabled={submitting || loading || disableReset}
             onClick={onReset}
             variant="outlined"
             size="small"
