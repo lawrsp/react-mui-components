@@ -153,8 +153,8 @@ export interface ProTableSearchState {
 }
 
 export interface ProTableSearchActions {
-  onSearch: (values: Record<string, any>) => void;
-  onChangeVisible?: (ev: SyntheticEvent, visible: boolean) => void;
+  onSearch: (values: Record<string, any>) => void | Promise<void>;
+  onChangeVisible?: (visible: boolean, ev?: SyntheticEvent) => void;
 }
 
 export interface ProTableAlertProps {
@@ -220,7 +220,7 @@ export type SearchFormProps = ProTableSearchState & {
 
 export interface SearchTitleProps {
   open: boolean;
-  onChangeOpen?: (ev: SyntheticEvent, v: boolean) => void;
+  onChangeOpen?: (v: boolean, ev: SyntheticEvent) => void;
   fields: SearchFieldType[];
   values: Record<string, any>;
 }

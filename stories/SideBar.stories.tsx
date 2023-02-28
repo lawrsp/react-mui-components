@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { RouteConfig } from '../src/Route';

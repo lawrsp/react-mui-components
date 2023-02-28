@@ -47,7 +47,7 @@ export const Calendars = () => {
         <DateTimeSpan component="span" value={time} />
       </div>
       <div style={{ height: 10 }} />
-      <Calendar value={time} onChange={(_, t) => setTime(t)} />
+      <Calendar value={time} onChange={(t) => setTime(t)} />
     </div>
   );
 };
@@ -59,7 +59,7 @@ export const DatePickers = () => {
       <div>
         <DatePicker
           value={time}
-          onChange={(ev, date) => setTime(date)}
+          onChange={(date) => setTime(date)}
           variant="standard"
           label="日期选择"
           closeOnSelected
@@ -68,7 +68,7 @@ export const DatePickers = () => {
         />
         <DatePicker
           value={time}
-          onChange={(ev, date) => setTime(date)}
+          onChange={(date) => setTime(date)}
           variant="standard"
           label="日期选择"
           closeOnSelected
@@ -79,7 +79,7 @@ export const DatePickers = () => {
         />
         <DatePicker
           value={time}
-          onChange={(ev, date) => setTime(date)}
+          onChange={(date) => setTime(date)}
           variant="standard"
           label="日期选择"
           helperText="不自动关闭"
@@ -89,7 +89,7 @@ export const DatePickers = () => {
       <div>
         <DatePicker
           value={time}
-          onChange={(ev, date) => setTime(date)}
+          onChange={(date) => setTime(date)}
           label="日期选择"
           closeOnSelected
           showPopupIcon
@@ -97,7 +97,7 @@ export const DatePickers = () => {
         />
         <DatePicker
           value={time}
-          onChange={(ev, date) => setTime(date)}
+          onChange={(date) => setTime(date)}
           label="日期选择"
           helperText="不自动关闭"
           sx={{ my: 4 }}
@@ -112,8 +112,8 @@ export const DateTimePickers = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
-      <TimeScroll sx={{ height: 400 }} value={value} onChange={(ev, vl) => setValue(vl)} />
-      <DateTimePicker value={value} onChange={(ev, vl) => setValue(vl)} />
+      <TimeScroll sx={{ height: 400 }} value={value} onChange={(vl) => setValue(vl)} />
+      <DateTimePicker value={value} onChange={(vl) => setValue(vl)} />
     </div>
   );
 };

@@ -47,14 +47,14 @@ export const SearchForm = (props: SearchFormProps) => {
       if (isEmpty(searches)) {
         return;
       }
-      return await onSearch({});
+      await onSearch({});
     } finally {
     }
   };
 
   const handleClose = onChangeVisible
     ? (ev: SyntheticEvent) => {
-        onChangeVisible(ev, false);
+        onChangeVisible(false, ev);
       }
     : undefined;
 

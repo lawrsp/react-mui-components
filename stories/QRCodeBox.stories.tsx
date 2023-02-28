@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import QRCodeBox from '../src/QRCodeBox/QRCodeBox';
 
@@ -53,6 +53,6 @@ export const Adpative = () => (
       justifyContent: 'center',
     }}
   >
-    <QRCodeBox />
+    <QRCodeBox value="hello world" />
   </div>
 );

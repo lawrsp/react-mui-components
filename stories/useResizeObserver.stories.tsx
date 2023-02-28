@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import useResizeObserver, { useBreakpoints } from '../src/utils/useResizeObserver';
 
 export default {

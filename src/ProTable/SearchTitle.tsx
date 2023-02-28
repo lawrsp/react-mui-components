@@ -67,7 +67,7 @@ export const SearchTitle = (props: SearchTitleProps) => {
         sx={{ mr: 0.5 }}
         size="small"
         color={color}
-        onClick={(ev) => onChangeOpen?.(ev, !open)}
+        onClick={(ev) => onChangeOpen?.(!open, ev)}
       >
         <SearchIcon />
       </IconButton>

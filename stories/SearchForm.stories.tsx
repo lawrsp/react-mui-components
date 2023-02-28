@@ -95,7 +95,7 @@ export const WithHideButton = () => {
     onSearch: async (values) => {
       await handleSearch(values);
     },
-    onChangeVisible: (_, val) => {
+    onChangeVisible: (val) => {
       console.log('=--------set invisible:', val);
       setOpen(val);
     },

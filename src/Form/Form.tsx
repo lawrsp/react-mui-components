@@ -1,4 +1,4 @@
-import { ReactNode, BaseSyntheticEvent, SyntheticEvent } from 'react';
+import { ReactNode, SyntheticEvent } from 'react';
 import {
   FormProvider,
   type FieldValues,
@@ -43,22 +43,21 @@ const defaultErrorTranslator = (err: any) => {
   return result;
 };
 
+export type FormSubmitHandler = (ev?: SyntheticEvent) => void | Promise<void>;
+
 export const useFormSubmitHandler = <TFieldValues extends FieldValues, TContext extends object>(
   form: UseFormReturn<TFieldValues, TContext>,
-  onSubmit?: (data: TFieldValues, ev?: BaseSyntheticEvent) => void | Promise<void>,
+  onSubmit?: (data: TFieldValues, ev?: SyntheticEvent) => void | Promise<void>,
   options?: {
     translateError?: (err: any) => SubmitError | null;
-    onInvalid?: (
-      errors: FieldErrors<TFieldValues>,
-      ev?: BaseSyntheticEvent
-    ) => void | Promise<void>;
+    onInvalid?: (errors: FieldErrors<TFieldValues>, ev?: SyntheticEvent) => void | Promise<void>;
     throwOnError?: boolean;
   }
 ) => {
   if (!onSubmit) {
-    return (ev?: SyntheticEvent) => {
+    return ((ev?: SyntheticEvent) => {
       ev?.preventDefault();
-    };
+    }) as FormSubmitHandler;
   }
 
   const { translateError = defaultErrorTranslator, onInvalid, throwOnError } = options || {};
@@ -70,7 +69,7 @@ export const useFormSubmitHandler = <TFieldValues extends FieldValues, TContext 
         return;
       }
       try {
-        await onSubmit(data, ev);
+        await onSubmit(data, ev as SyntheticEvent);
       } catch (err) {
         /* console.error('submit error:', err); */
         const submitError = translateError(err);
@@ -90,12 +89,12 @@ export const useFormSubmitHandler = <TFieldValues extends FieldValues, TContext 
     async (values, ev) => {
       ev?.preventDefault();
       if (onInvalid) {
-        await onInvalid(values, ev);
+        await onInvalid(values, ev as SyntheticEvent);
       }
     }
   );
 
-  return handleSubmit;
+  return handleSubmit as FormSubmitHandler;
 };
 
 export interface FormProps<TFieldValues extends FieldValues, TContext extends object> {

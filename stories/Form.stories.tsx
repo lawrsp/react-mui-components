@@ -193,7 +193,7 @@ export const TranslateError = () => {
       }),
     };
   };
-  const handleSubmit = useFormSubmitHandler(form, onSubmit, { translateError, noThrow: true });
+  const handleSubmit = useFormSubmitHandler(form, onSubmit, { translateError });
 
   return (
     <div style={{ padding: 10 }}>

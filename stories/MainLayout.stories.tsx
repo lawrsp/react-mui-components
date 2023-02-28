@@ -2,10 +2,11 @@ import * as React from 'react';
 import { ComponentMeta } from '@storybook/react';
 import { useLocation, useMatch, useNavigate, Outlet } from 'react-router-dom';
 import { MainLayout, RoutedMainLayout } from '../src/MainLayout';
-import type { MenuConfig } from '../src/Menu/types';
-import type { AccessType, RouteConfig } from '../src/Route/types';
+import type { NavMenuConfig } from '../src/Menu/types';
+import type { RouteConfig } from '../src/Route/types';
 import { RouteProvider } from '../src/Route/RouteProvider';
-import logo from './logo.svg';
+
+const logo = '/stories/logo.svg';
 
 export default {
   title: 'Example/MainLayout',
@@ -13,7 +14,7 @@ export default {
 } as ComponentMeta<typeof MainLayout>;
 
 export const Simple = () => {
-  const menus: MenuConfig = [
+  const menus: NavMenuConfig = [
     {
       path: '/user',
       title: 'user',
@@ -104,13 +105,13 @@ export const WithRouter = () => {
             {
               title: 'list',
               index: true,
-              id: 'list-entities',
+              path: 'list-entities',
               element: <ElementTest name="test index" />,
             },
           ],
         },
         {
-          id: 'hellow',
+          key: 'hellow',
           path: '*',
           noMenu: true,
           title: 'not found',
@@ -245,7 +246,7 @@ export const WithRouterAndAccess = () => {
     },
   ];
 
-  const checkAccess = React.useCallback((access?: AccessType) => {
+  const checkAccess = React.useCallback((access?: string) => {
     if (!access) {
       return true;
     }

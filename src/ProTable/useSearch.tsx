@@ -49,8 +49,8 @@ export const useSearchProps: (props: {
     };
 
     const onChangeVisible = !noHide
-      ? (ev: SyntheticEvent, v: boolean) => {
-          ev.preventDefault();
+      ? (v: boolean, ev?: SyntheticEvent) => {
+          ev?.preventDefault();
           setVisibile(v);
         }
       : undefined;
