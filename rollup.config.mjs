@@ -27,8 +27,7 @@ export default [
   // an array for the `output` option, where we can specify
   // `file` and `format` for each target)
   {
-    // input: 'src/index.ts',
-    input: 'src/utils/index.ts',
+    input: 'src/index.ts',
     external: EXTERNALS,
     plugins: [
       // nodeResolve 可以查找更多的依赖， 需要extensions来支持 ts, tsx
@@ -41,8 +40,6 @@ export default [
         // babel.config.json
         babelHelpers: 'runtime',
         extensions,
-        exclude: ['dist'],
-        include: ['src/**/*', 'node_modules/data-fns/**/*'],
       }),
       strip({
         include: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx'],
