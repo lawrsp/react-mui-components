@@ -2,7 +2,7 @@ import { useEffect, SyntheticEvent, useMemo } from 'react';
 import { Box, Button, Paper } from '@mui/material';
 import { ExpandLess as ExpandLessIcon } from '@mui/icons-material';
 import { FieldValues } from 'react-hook-form';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import Form, { useForm, FormItem, FormInput } from '../Form';
 import { SearchFieldType, SearchFormProps } from './types';
 

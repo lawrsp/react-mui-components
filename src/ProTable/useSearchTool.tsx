@@ -1,5 +1,5 @@
 import { SyntheticEvent, useMemo } from 'react';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { SearchFormProps, ProTableTitleSearchToolConfig } from './types';
 
 export const useSearchTool: (props: SearchFormProps) => ProTableTitleSearchToolConfig = ({
@@ -12,7 +12,7 @@ export const useSearchTool: (props: SearchFormProps) => ProTableTitleSearchToolC
 
   const tool = useMemo<ProTableTitleSearchToolConfig>(() => {
     const onClick = (ev: SyntheticEvent) =>
-      onChangeVisible ? onChangeVisible(ev, !visible) : () => {};
+      onChangeVisible ? onChangeVisible(!visible, ev) : () => {};
 
     return {
       icon: 'search',

@@ -1,5 +1,5 @@
 import { SyntheticEvent, useMemo, useState } from 'react';
-import { isEqual } from 'lodash';
+import { isEqual } from 'lodash-es';
 import { SearchFieldType, SearchFormProps } from './types';
 
 const getSearchValues = (values: Record<string, any>) => {

@@ -17,7 +17,11 @@
     "type": "git",
     "url": "git+https://github.com/lawrsp/react-mui-components.git"
   },
-  "keywords": ["react", "mui", "typescript"],
+  "keywords": [
+    "react",
+    "mui",
+    "typescript"
+  ],
   "author": "lawrsp",
   "license": "MIT",
   "bugs": {
@@ -41,6 +45,7 @@
     "@storybook/builder-vite": "^0.4.2",
     "@storybook/react": "^6.5.13",
     "@storybook/testing-library": "^0.0.13",
+    "@types/lodash-es": "^4.17.6",
     "@vitejs/plugin-react": "^3.1.0",
     "babel-plugin-import": "^1.13.5",
     "babel-plugin-named-exports-order": "0.0.2",
@@ -68,7 +73,7 @@
     "@types/react-calendar": "^3.9.0",
     "@types/react-dom": "^18.0.9",
     "date-fns": "^2.29.3",
-    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
     "notistack": "^2.0.8",
     "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
@@ -96,5 +101,7 @@
       "optional": true
     }
   },
-  "files": ["dist"]
+  "files": [
+    "dist"
+  ]
 }
