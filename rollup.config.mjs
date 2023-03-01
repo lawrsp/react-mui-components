@@ -27,7 +27,8 @@ export default [
   // an array for the `output` option, where we can specify
   // `file` and `format` for each target)
   {
-    input: 'src/index.ts',
+    // input: 'src/index.ts',
+    input: 'src/utils/index.ts',
     external: EXTERNALS,
     plugins: [
       // nodeResolve 可以查找更多的依赖， 需要extensions来支持 ts, tsx
@@ -40,15 +41,23 @@ export default [
         // babel.config.json
         babelHelpers: 'runtime',
         extensions,
-        exclude: ['node_modules/**', 'dist'],
-        include: ['src/**/*'],
+        exclude: ['dist'],
+        include: ['src/**/*', 'node_modules/data-fns/**/*'],
       }),
       strip({
         include: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx'],
       }),
       sizes(),
     ],
-    output: [{ dir: 'dist/node', format: 'cjs', exports: 'named', preserveModules: true }],
+    output: [
+      {
+        dir: 'dist/cjs',
+        format: 'cjs',
+        exports: 'named',
+        preserveModules: true,
+        preserveModulesRoot: 'src',
+      },
+    ],
   },
   {
     input: 'src/index.ts',
@@ -73,6 +82,14 @@ export default [
       }),
       sizes(),
     ],
-    output: [{ dir: 'dist', format: 'es', exports: 'named', preserveModules: true }],
+    output: [
+      {
+        dir: 'dist',
+        format: 'es',
+        exports: 'named',
+        preserveModules: true,
+        preserveModulesRoot: 'src',
+      },
+    ],
   },
 ];
