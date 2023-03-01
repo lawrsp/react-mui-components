@@ -4,7 +4,7 @@ import { Theme } from '@mui/material';
 import { TextField, type TextFieldProps } from '../Inputs/TextField';
 import { usePopperProps } from '../PopperInput/usePopperProps';
 import Calendar from './Calendar';
-import dateUtils from '../utils/date';
+import { isValidDate, formatDate } from '../utils/date';
 
 export type DatePickerProps = {
   value?: number | Date | string;
@@ -60,13 +60,12 @@ export const DatePicker = (props: DatePickerProps) => {
     if (!value) {
       return '';
     }
-    try {
-      const date = dateUtils.date(value);
-      const text = dateUtils.formatByString(date, format);
-      return text;
-    } catch (err) {
+    const date = new Date(value);
+    if (!isValidDate(date)) {
       return JSON.stringify(value);
     }
+    const text = formatDate(date, format);
+    return text;
   }, [value, format]);
 
   return (

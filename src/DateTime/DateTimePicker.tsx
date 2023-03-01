@@ -2,7 +2,7 @@ import { type SyntheticEvent, useMemo, useState, useEffect } from 'react';
 import { Box, Button, Paper, Popper } from '@mui/material';
 import TextField, { TextFieldProps } from '../Inputs/TextField';
 import usePopperProps from '../PopperInput/usePopperProps';
-import dateUtils from '../utils/date';
+import { isValidDate, formatDate } from '../utils/date';
 import Calendar from './Calendar';
 import TimeScroll from './TimeScroll';
 
@@ -82,13 +82,12 @@ export const DateTimePicker = (props: DateTimePickerProps) => {
     if (!value) {
       return '';
     }
-    try {
-      const date = dateUtils.date(value);
-      const text = dateUtils.formatByString(date, format);
-      return text;
-    } catch (err) {
+    const date = new Date(value);
+    if (!isValidDate(date)) {
       return JSON.stringify(value);
     }
+    const text = formatDate(date, format);
+    return text;
   }, [value, format]);
 
   return (

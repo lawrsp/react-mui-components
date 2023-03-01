@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Box, BoxProps } from '@mui/material';
 import { SxProps, Theme } from '@mui/material/styles';
-import dateUtils from '../utils/date';
+import { formatDate, isValidDate } from '../utils/date';
 
 export interface DateTimeSpanProps {
   value?: string | Date | number;
@@ -17,13 +17,13 @@ export const DateTimeSpan = (props: DateTimeSpanProps) => {
     if (!value) {
       return { visibleValue: '' };
     }
-    try {
-      const date = dateUtils.date(value);
-      const text = dateUtils.formatByString(date, format);
-      return { visibleValue: text };
-    } catch (err) {
+
+    const date = new Date(value);
+    if (!isValidDate(date)) {
       return { visibleValue: JSON.stringify(value), error: true };
     }
+    const text = formatDate(date, format);
+    return { visibleValue: text };
   }, [value, format]);
 
   return (
