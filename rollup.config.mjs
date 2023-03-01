@@ -4,6 +4,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { babel } from '@rollup/plugin-babel';
 import sizes from 'rollup-plugin-sizes';
 import commonjs from '@rollup/plugin-commonjs';
+import strip from '@rollup/plugin-strip';
 
 const require = createRequire(import.meta.url);
 const pkg = require('./package.json');
@@ -35,17 +36,6 @@ export default [
       }),
       // 依赖中有非esm包，就要用commonjs插件
       commonjs(),
-      typescript({
-        noForceEmit: true, // only declaration
-        compilerOptions: {
-          declaration: true,
-          declarationDir: 'types',
-          noEmit: false,
-          emitDeclarationOnly: true,
-        },
-        // tsconfig.json
-      }),
-
       babel({
         // babel.config.json
         babelHelpers: 'runtime',
@@ -53,11 +43,36 @@ export default [
         exclude: ['node_modules/**', 'dist'],
         include: ['src/**/*'],
       }),
+      strip({
+        include: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx'],
+      }),
       sizes(),
     ],
-    output: [
-      { file: pkg.main, format: 'cjs', sourcemap: true },
-      { file: pkg.module, format: 'es', sourcemap: true },
+    output: [{ dir: 'dist/node', format: 'cjs', exports: 'named', preserveModules: true }],
+  },
+  {
+    input: 'src/index.ts',
+    external: EXTERNALS,
+    plugins: [
+      // nodeResolve 可以查找更多的依赖， 需要extensions来支持 ts, tsx
+      nodeResolve({
+        extensions,
+      }),
+      // 依赖中有非esm包，就要用commonjs插件
+      commonjs(),
+      typescript({
+        compilerOptions: {
+          declaration: true,
+          declarationDir: 'dist',
+          noEmit: false,
+        },
+        // tsconfig.json
+      }),
+      strip({
+        include: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx'],
+      }),
+      sizes(),
     ],
+    output: [{ dir: 'dist', format: 'es', exports: 'named', preserveModules: true }],
   },
 ];
