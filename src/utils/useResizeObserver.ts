@@ -1,10 +1,13 @@
 import { Ref } from 'react';
 import { ResizeObserver } from '@juggle/resize-observer';
-import useResizeObserver from 'use-resize-observer';
+import libUseResizeObserver from 'use-resize-observer';
 
-if (!window.ResizeObserver) {
-  window.ResizeObserver = ResizeObserver;
-}
+const useResizeObserver: typeof libUseResizeObserver = (opt) => {
+  if (!window.ResizeObserver) {
+    window.ResizeObserver = ResizeObserver;
+  }
+  return libUseResizeObserver(opt);
+};
 
 export default useResizeObserver;
 
