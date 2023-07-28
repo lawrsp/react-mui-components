@@ -1,6 +1,6 @@
 {
   "name": "react-mui-components",
-  "version": "0.0.82",
+  "version": "0.0.83",
   "description": "some components based on react mui",
   "main": "dist/cjs/index.js",
   "module": "dist/index.js",

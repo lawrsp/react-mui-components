@@ -6,6 +6,7 @@ import type { RouteConfig, RouteNodeConfig } from './types';
 export type RouterType = 'hash' | 'browser' | 'memory';
 
 export interface RouteConfigProviderProps {
+  basename?: string;
   routes: RouteConfig;
   routerType?: RouterType;
   children?: React.ReactNode;
@@ -105,7 +106,7 @@ const routerComponent = {
 };
 
 export const RouteProvider = (props: RouteConfigProviderProps) => {
-  const { routes, routerType = 'browser', checkAccess, children } = props;
+  const { basename, routes, routerType = 'browser', checkAccess, children } = props;
 
   const nRoutes = React.useMemo(() => {
     return normalizeRoutes(routes, '/', checkAccess);
@@ -115,7 +116,7 @@ export const RouteProvider = (props: RouteConfigProviderProps) => {
 
   return (
     <RouteConfigContext.Provider value={nRoutes}>
-      <Router>
+      <Router basename={basename}>
         <Routes>{renderFullRoutes(nRoutes)}</Routes>
       </Router>
       {children}
