@@ -1,6 +1,6 @@
 {
   "name": "react-mui-components",
-  "version": "0.0.83",
+  "version": "0.0.84",
   "description": "some components based on react mui",
   "main": "dist/cjs/index.js",
   "module": "dist/index.js",
@@ -60,6 +60,8 @@
     "rollup": "^3.2.5",
     "rollup-plugin-sizes": "^1.0.4",
     "typescript": "^4.8.4",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
     "vite": "^4.1.4"
   },
   "dependencies": {
